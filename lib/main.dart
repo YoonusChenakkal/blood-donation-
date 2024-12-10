@@ -1,8 +1,10 @@
-import 'package:blood_donation/Proiders/authProvider.dart';
+import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/Screens/certificateDetails.dart';
+import 'package:blood_donation/Screens/chat.dart';
 import 'package:blood_donation/Screens/home.dart';
 import 'package:blood_donation/Screens/login.dart';
 import 'package:blood_donation/Screens/register.dart';
+import 'package:blood_donation/Screens/userChat.dart';
 import 'package:blood_donation/Screens/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +30,12 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/home',
       routes: {
-        '/home': (context) => const HomePage(),
         '/welcomePage': (context) => const WelcomePage(),
         '/register': (context) => const Register(),
         '/login': (context) => const Login(),
+        '/home': (context) => const HomePage(),
+        '/chats': (context) => const ChatsPage(),
+        '/userChat': (context) => const UserChat(),
         '/certificateDetails': (context) => const CertificateDetails(),
       },
     );

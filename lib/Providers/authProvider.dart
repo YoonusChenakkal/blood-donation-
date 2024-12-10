@@ -46,6 +46,17 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  demo() async {
+    _isLoading = true;
+    notifyListeners();
+    print(_isLoading);
+
+    await Future.delayed(Duration(seconds: 10));
+    _isLoading = false;
+    notifyListeners();
+    print(_isLoading);
+  }
+
   // Request OTP for Register
   register(
       String name, String email, String bloodGroup, BuildContext ctx) async {

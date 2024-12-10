@@ -1,4 +1,5 @@
 import 'package:blood_donation/widgets/customBanner.dart';
+import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCard.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
               height: 7.h,
               width: 7.h,
               padding: const EdgeInsets.all(2),
-              margin: EdgeInsets.symmetric(horizontal: 2.w),
+              margin: EdgeInsets.symmetric(horizontal: 4.w),
               decoration: const BoxDecoration(
                 color: Colors.red,
                 shape: BoxShape.circle,
@@ -60,7 +61,13 @@ class HomePage extends StatelessWidget {
           width: 100.w,
           child: Column(
             children: [
-              CustomBanner(),
+              CustomBanner(
+                  title1: 'Donate If You Can\nSave One Life',
+                  title2: 'Make them happy',
+                  textColor: Colors.white,
+                  buttonText: 'View More',
+                  imageUrl:
+                      'https://c0.wallpaperflare.com/preview/478/173/152/healthcare-hospital-lamp-light.jpg'),
               SizedBox(
                 height: 2.5.h,
               ),
@@ -83,19 +90,72 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              CustomBanner(),
+              CustomBanner(
+                title1: 'Marry Hospital',
+                title2:
+                    'Your Donation Date has Sheduled We will inform you soon',
+                buttonText: 'Download',
+                textColor: Colors.black,
+              ),
               Padding(
                 padding: const EdgeInsets.all(13.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'New Message',
+                    'Certificate',
                     style:
                         TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              CustomBanner(),
+              CustomBanner(
+                title1: 'Your Certificate is raedy!',
+                title2:
+                    'Your Preious donation Certificate is ready to Download Get it now and do somethis  and someithonf',
+                buttonText: 'Download',
+                textColor: Colors.black,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Update Your Shedule',
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                width: 90.w,
+                height: 7.h,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 243, 243, 243),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                        width: 60.w,
+                        child: Text(
+                          'You can update the donation month , date and year',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14.5.sp, fontWeight: FontWeight.w500),
+                        )),
+                    CustomButton(
+                        height: 3,
+                        width: 20,
+                        text: 'Update',
+                        buttonType: ButtonType.Ovelshaped,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/chats');
+                        })
+                  ],
+                ),
+              )
             ],
           ),
         ));

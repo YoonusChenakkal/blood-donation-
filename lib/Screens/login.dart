@@ -1,4 +1,4 @@
-import 'package:blood_donation/Proiders/authProvider.dart';
+import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';

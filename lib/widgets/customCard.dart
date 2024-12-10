@@ -1,4 +1,3 @@
-import 'package:blood_donation/main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -9,8 +8,8 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 12.h,
-      height: 12.h,
+      width: 11.h,
+      height: 11.h,
       decoration: BoxDecoration(
         color: Colors.red[50],
         borderRadius: BorderRadius.circular(8),
@@ -24,12 +23,12 @@ class CustomCard extends StatelessWidget {
               'Total',
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 15.sp,
+                  fontSize: 14.5.sp,
                   color: Colors.black),
             ),
             Text(
               'Donations',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.5.sp),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -37,11 +36,12 @@ class CustomCard extends StatelessWidget {
                 Text(
                   '4',
                   style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 24.sp),
+                      TextStyle(fontWeight: FontWeight.w900, fontSize: 22.sp),
                 ),
                 Icon(
                   FontAwesomeIcons.hospital,
                   color: Colors.blueAccent,
+                  size: 18.sp,
                 )
               ],
             )

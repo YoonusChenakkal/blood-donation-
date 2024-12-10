@@ -1,70 +1,86 @@
+import 'dart:ui';
+
+import 'package:blood_donation/Providers/authProvider.dart';
+import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomBanner extends StatelessWidget {
-  const CustomBanner({super.key});
+  CustomBanner({
+    super.key,
+    required this.title1,
+    required this.title2,
+    this.buttonText = '',
+    this.imageUrl = '',
+    this.bannerColor = const Color.fromARGB(255, 243, 243, 243),
+    required this.textColor,
+  });
+
+  String imageUrl;
+  String title1;
+  String title2;
+  String buttonText;
+  Color bannerColor;
+  Color textColor;
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Container(
-      width: 88.w,
-      height: 18.h,
+      width: 92.w,
+      height: 16.h,
       decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(8),
-          image: const DecorationImage(
-              fit: BoxFit.cover,
-              opacity: 0.9,
-              image: NetworkImage(
-                  'https://c0.wallpaperflare.com/preview/478/173/152/healthcare-hospital-lamp-light.jpg'))),
+        color: bannerColor,
+        borderRadius: BorderRadius.circular(8),
+        image: imageUrl.isEmpty
+            ? null
+            : DecorationImage(
+                fit: BoxFit.cover,
+                opacity: 0.9,
+                image: NetworkImage(imageUrl),
+              ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Donate If You Can',
-              style: TextStyle(
-                  fontSize: 17.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Save One Life',
-              style: TextStyle(
-                  fontSize: 17.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
             SizedBox(
-              height: .4.h,
-            ),
-            Text(
-              'Make them happy',
-              style: TextStyle(
-                  fontSize: 14.5.sp,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300),
-            ),
-            SizedBox(
-              height: .4.h,
-            ),
-            SizedBox(
-                height: 3.h,
-                width: 20.w,
-                child: ElevatedButton(
-                  onPressed: () {}, // Disable button when loading
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 236, 26, 11),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+              width: 50.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: imageUrl.isEmpty ? 15.sp : 16.3.sp,
+                          color: imageUrl.isEmpty ? Colors.black : Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(height: .5.h),
+                  Text(
+                    title2,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 14.5.sp,
+                        color: imageUrl.isEmpty ? Colors.black : Colors.white,
+                        fontWeight: FontWeight.w400),
                   ),
-                  child: Text(
-                    'More',
-                    style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                  ),
-                ))
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 1.h,
+            ),
+            CustomButton(
+                height: 3,
+                width: 21.1,
+                text: buttonText,
+                buttonType: ButtonType.Ovelshaped,
+                onPressed: () {
+                  authProvider.demo();
+                })
           ],
         ),
       ),
