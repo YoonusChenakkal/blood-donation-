@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class UserProfile extends StatelessWidget {
+  const UserProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class Login extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Login',
+                  'User Profile',
                   style: TextStyle(
                     fontSize: 23.sp,
                     color: Colors.white,
@@ -59,24 +59,37 @@ class Login extends StatelessWidget {
 
               CustomTextfield(
                 enabled: authProvider.showOtpField ? false : true,
-                hintText: 'Enter Your Email',
-                icon: Icons.email,
+                hintText: 'Name',
+                icon: Icons.person_2_outlined,
                 onChanged: (value) {
                   authProvider.email = value;
                 },
               ), // Email Textfield
-              if (authProvider.showOtpField) ...[
-                SizedBox(
-                  height: 2.h,
-                ),
-                CustomTextfield(
-                  hintText: 'Enter OTP',
-                  icon: Icons.lock,
-                  onChanged: (data) {
-                    authProvider.otp = data;
-                  },
-                ),
-              ],
+              SizedBox(
+                height: 1.3.h,
+              ),
+              CustomTextfield(
+                hintText: 'Address',
+                icon: Icons.lock,
+                onChanged: (data) {
+                  authProvider.otp = data;
+                },
+              ),
+              SizedBox(
+                height: 1.3.h,
+              ),
+              CustomTextfield(
+                enabled: authProvider.showOtpField ? false : true,
+                hintText: 'Phone',
+                icon: Icons.phone_in_talk_outlined,
+                onChanged: (value) {
+                  authProvider.email = value;
+                },
+              ), // Email Textfield
+              SizedBox(
+                height: 1.3.h,
+              ),
+
               SizedBox(
                 height: 4.5.h,
               ),

@@ -21,7 +21,8 @@ class ChatsPage extends StatelessWidget {
         body: SizedBox(
           height: 100.h,
           width: 100.w,
-          child: Column(
+          child: ListView(
+            padding: EdgeInsets.all(12),
             children: [
               SizedBox(
                 width: 92.w,
@@ -101,7 +102,7 @@ class ChatsPage extends StatelessWidget {
                     // color: Colors.grey,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ));

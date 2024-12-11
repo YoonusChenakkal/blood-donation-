@@ -122,18 +122,18 @@ class UserChat extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                           backgroundImage: NetworkImage(
                               'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg')),
                       Container(
                         constraints:
                             BoxConstraints(maxWidth: 75.w, minWidth: 13.w),
-                        margin: EdgeInsets.all(4),
-                        padding: EdgeInsets.all(9),
+                        margin: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(9),
                         decoration: BoxDecoration(
                             color: Colors.red[50],
                             borderRadius: BorderRadius.circular(22)),
-                        child: Text('hello Your donation date is sheduled'),
+                        child: const Text('hello Your donation date is sheduled'),
                       )
                     ],
                   ),

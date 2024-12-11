@@ -1,21 +1,17 @@
-import 'dart:ui';
-
-import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomBanner extends StatelessWidget {
-  CustomBanner({
-    super.key,
-    required this.title1,
-    required this.title2,
-    this.buttonText = '',
-    this.imageUrl = '',
-    this.bannerColor = const Color.fromARGB(255, 243, 243, 243),
-    required this.textColor,
-  });
+  CustomBanner(
+      {super.key,
+      required this.title1,
+      required this.title2,
+      this.buttonText = '',
+      this.imageUrl = '',
+      this.bannerColor = const Color.fromARGB(255, 243, 243, 243),
+      required this.textColor,
+      required this.onPressed});
 
   String imageUrl;
   String title1;
@@ -23,13 +19,13 @@ class CustomBanner extends StatelessWidget {
   String buttonText;
   Color bannerColor;
   Color textColor;
+  VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     return Container(
       width: 92.w,
-      height: 16.h,
+      height: 14.5.h,
       decoration: BoxDecoration(
         color: bannerColor,
         borderRadius: BorderRadius.circular(8),
@@ -42,7 +38,7 @@ class CustomBanner extends StatelessWidget {
               ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 15.0, top: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,16 +50,15 @@ class CustomBanner extends StatelessWidget {
                   Text(title1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: imageUrl.isEmpty ? 15.sp : 16.3.sp,
+                          fontSize: imageUrl.isEmpty ? 13.6.sp : 15.sp,
                           color: imageUrl.isEmpty ? Colors.black : Colors.white,
                           fontWeight: FontWeight.bold)),
-                  SizedBox(height: .5.h),
                   Text(
                     title2,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 14.5.sp,
+                        fontSize: 13.sp,
                         color: imageUrl.isEmpty ? Colors.black : Colors.white,
                         fontWeight: FontWeight.w400),
                   ),
@@ -78,9 +73,7 @@ class CustomBanner extends StatelessWidget {
                 width: 21.1,
                 text: buttonText,
                 buttonType: ButtonType.Ovelshaped,
-                onPressed: () {
-                  authProvider.demo();
-                })
+                onPressed: onPressed)
           ],
         ),
       ),

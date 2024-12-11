@@ -33,12 +33,12 @@ class HomePage extends StatelessWidget {
             ],
           ),
           backgroundColor: Colors.white,
-          toolbarHeight: 10.h,
+          toolbarHeight: 8.h,
           actions: [
             Container(
-              height: 7.h,
-              width: 7.h,
-              padding: const EdgeInsets.all(2),
+              width: 5.3.h,
+              height: 5.3.h,
+              padding: const EdgeInsets.all(1.8),
               margin: EdgeInsets.symmetric(horizontal: 4.w),
               decoration: const BoxDecoration(
                 color: Colors.red,
@@ -47,8 +47,7 @@ class HomePage extends StatelessWidget {
               child: ClipOval(
                 child: Image.network(
                   'https://c4.wallpaperflare.com/wallpaper/499/693/150/candice-swanepoel-women-blonde-face-wallpaper-preview.jpg',
-                  width: 6.h,
-                  height: 6.h,
+
                   fit: BoxFit
                       .cover, // Ensure the image fills the avatar appropriately
                 ),
@@ -66,10 +65,11 @@ class HomePage extends StatelessWidget {
                   title2: 'Make them happy',
                   textColor: Colors.white,
                   buttonText: 'View More',
+                  onPressed: () => Navigator.pushNamed(context, '/profile'),
                   imageUrl:
                       'https://c0.wallpaperflare.com/preview/478/173/152/healthcare-hospital-lamp-light.jpg'),
               SizedBox(
-                height: 2.5.h,
+                height: 2.h,
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -80,13 +80,17 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(13.0),
+                padding: EdgeInsets.only(
+                  top: .6.h,
+                  left: 2.8.w,
+                  bottom: .8.h,
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'New Message',
-                    style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 13.4.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -96,9 +100,14 @@ class HomePage extends StatelessWidget {
                     'Your Donation Date has Sheduled We will inform you soon',
                 buttonText: 'Download',
                 textColor: Colors.black,
+                onPressed: () {},
               ),
               Padding(
-                padding: const EdgeInsets.all(13.0),
+                padding: EdgeInsets.only(
+                  top: .6.h,
+                  left: 2.8.w,
+                  bottom: 1.4.h,
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -114,9 +123,14 @@ class HomePage extends StatelessWidget {
                     'Your Preious donation Certificate is ready to Download Get it now and do somethis  and someithonf',
                 buttonText: 'Download',
                 textColor: Colors.black,
+                onPressed: () {},
               ),
               Padding(
-                padding: const EdgeInsets.all(13.0),
+                padding: const EdgeInsets.only(
+                  top: 13.0,
+                  left: 13,
+                  bottom: 7,
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
