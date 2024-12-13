@@ -46,16 +46,12 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  demo() async {
-    _isLoading = true;
+  set isLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
-    print(_isLoading);
-
-    await Future.delayed(Duration(seconds: 10));
-    _isLoading = false;
-    notifyListeners();
-    print(_isLoading);
   }
+
+ 
 
   // Request OTP for Register
   register(
@@ -80,36 +76,38 @@ class AuthProvider with ChangeNotifier {
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
-
         final message = data['message'];
         _uniqueId = data['unique_id'];
-
-        // Show OTP field after successful registration
         _showOtpField = true;
-        ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-          content: Text('OTP Sent to your Email Successfully'),
-          duration: Duration(seconds: 2),
+
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+          content: Text(message),
+          duration: const Duration(seconds: 2),
         ));
 
         // Save uniqueId to SharedPreferences
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('uniqueId', _uniqueId!);
-
-        print(uniqueId); ////////////// uniqueId////////////
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
-        final errorMessage =
-            data['email']?.first ?? 'Failed, use another Email';
-
+        String errorMessage = data['email']?.first ?? data['username']?.first;
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(errorMessage),
           duration: const Duration(seconds: 2),
         ));
       } else {
-        print('Error: ${response.statusCode}');
+        // Handling unknown error codes (e.g., 500 server error)
+        final errorMessage = 'Unexpected error occurred. Please try again.';
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+          content: Text(errorMessage),
+          duration: const Duration(seconds: 2),
+        ));
       }
     } catch (e) {
-      throw Exception(e);
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Network error: Unable to connect to the server.'),
+        duration: const Duration(seconds: 2),
+      ));
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -123,43 +121,48 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     final url =
         Uri.parse('https://lifeproject.pythonanywhere.com/donor/verify-otp/');
+
     try {
-      final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'email': email, 'otp': otp}));
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email, 'otp': otp}),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-
         final message = data['message'];
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(message),
           duration: const Duration(seconds: 2),
         ));
-        Navigator.pushNamedAndRemoveUntil(
-          ctx,
-          '/home',
-          (route) => false,
-        );
-      } else {
+        Navigator.pushReplacementNamed(ctx, '/userProfile');
+      } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
         final errorMessage =
-            data['non_field_errors']?.first ?? 'Failed to verify email';
-
+            data['non_field_errors']?.first ?? 'Failed to verify OTP';
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+          content: Text(errorMessage),
+          duration: const Duration(seconds: 2),
+        ));
+      } else {
+        final errorMessage = 'Unexpected error occurred. Please try again.';
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(errorMessage),
           duration: const Duration(seconds: 2),
         ));
       }
     } catch (e) {
-      throw Exception(e);
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Network error: Unable to connect to the server.'),
+        duration: const Duration(seconds: 2),
+      ));
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  // Request OTP for Login
   loginOtpRequest(String email, BuildContext ctx) async {
     _isLoading = true;
     notifyListeners();
@@ -177,10 +180,8 @@ class AuthProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-
         final message = data['message'];
 
-        // Show OTP field after successful registration
         _showOtpField = true;
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(message),
@@ -190,23 +191,30 @@ class AuthProvider with ChangeNotifier {
         final data = jsonDecode(response.body);
         final errorMessage =
             data['email']?.first ?? 'Failed, use another Email';
-
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(errorMessage),
           duration: const Duration(seconds: 2),
         ));
       } else {
-        print('Error: ${response.statusCode}');
+        // Handling other errors like server errors
+        final errorMessage = 'Unexpected error occurred. Please try again.';
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+          content: Text(errorMessage),
+          duration: const Duration(seconds: 2),
+        ));
       }
     } catch (e) {
-      throw Exception(e);
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Network error: Unable to connect to the server.'),
+        duration: const Duration(seconds: 2),
+      ));
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
-  // verify Otp of Login
 
+  // verify Otp of Login
   verifyLoginOtp(String email, String otp, BuildContext ctx) async {
     _isLoading = true;
     notifyListeners();
@@ -219,9 +227,9 @@ class AuthProvider with ChangeNotifier {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'otp': otp}),
       );
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-
         final message = data['message'];
 
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
@@ -236,18 +244,24 @@ class AuthProvider with ChangeNotifier {
         );
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
-        final errorMessage =
-            data['non_field_errors']?.first ?? 'Enter correct OTP';
-
+        final errorMessage = data['non_field_errors']?.first ??
+            'Incorrect OTP. Please try again.';
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(errorMessage),
           duration: const Duration(seconds: 2),
         ));
       } else {
-        print('Error: ${response.statusCode}');
+        final errorMessage = 'Unexpected error occurred. Please try again.';
+        ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+          content: Text(errorMessage),
+          duration: const Duration(seconds: 2),
+        ));
       }
     } catch (e) {
-      throw Exception(e);
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text('Network error: Unable to connect to the server.'),
+        duration: const Duration(seconds: 2),
+      ));
     } finally {
       _isLoading = false;
       notifyListeners();

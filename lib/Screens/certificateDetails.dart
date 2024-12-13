@@ -1,3 +1,4 @@
+import 'package:blood_donation/widgets/customIdProof.dart';
 import 'package:flutter/material.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCheckBox.dart';
@@ -75,23 +76,28 @@ class _CertificateDetailsState extends State<CertificateDetails> {
                   SizedBox(height: 3.h),
                   CustomTextfield(
                       hintText: 'Name',
+                      keyboardType: TextInputType.name,
                       onChanged: (a) {},
                       //  tc: _tcName,
                       icon: Icons.person_2_outlined),
                   SizedBox(height: 3.h),
                   CustomTextfield(
                       hintText: 'Mobile Number',
+                      keyboardType: TextInputType.number,
                       onChanged: (a) {},
                       //  tc: _tcPhone,
                       icon: Icons.phone_in_talk_outlined),
                   SizedBox(height: 3.h),
                   CustomTextfield(
                       hintText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
                       onChanged: (a) {},
                       //   tc: _tcEmail,
                       icon: Icons.email_outlined),
                   SizedBox(height: 3.h),
-                  Customdropdown(),
+                  Customdropdown(
+                    hintText: 'Blood Group',
+                  ),
                   SizedBox(height: 3.h),
                   SizedBox(
                     width: 75.w,
@@ -104,46 +110,7 @@ class _CertificateDetailsState extends State<CertificateDetails> {
                     ),
                   ),
                   SizedBox(height: 1.h),
-                  Container(
-                    height: 6.h,
-                    width: 75.w,
-                    decoration: ShapeDecoration(
-                      color: const Color.fromARGB(255, 231, 231, 231),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 2.w),
-                          child: Icon(
-                            Icons.upload_file_outlined,
-                            color: const Color.fromARGB(255, 102, 102, 102),
-                            size: 20.sp,
-                          ),
-                        ),
-                        Text(
-                          'Drag & drop files or',
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: const Color.fromARGB(255, 102, 102, 102)),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          style: const ButtonStyle(
-                            padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                          ),
-                          child: Text(
-                            'Browse',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  CustomIdProof(),
                   SizedBox(height: 1.h),
                   CustomCheckbox(
                       title: 'Iam ready to donate my organs',

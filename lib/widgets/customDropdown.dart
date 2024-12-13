@@ -5,7 +5,8 @@ import 'package:sizer/sizer.dart';
 
 class Customdropdown extends StatelessWidget {
   bool enabled;
-  Customdropdown({super.key, this.enabled = true});
+  String hintText;
+  Customdropdown({super.key, this.enabled = true, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class Customdropdown extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 4.w),
             child: Icon(
-              Icons.bloodtype,
+              Icons.bloodtype_outlined,
               color: const Color.fromARGB(255, 102, 102, 102),
               size: 20.sp,
             ),
@@ -33,7 +34,7 @@ class Customdropdown extends StatelessWidget {
             child: DropdownButton<String>(
               value: authProvider.bloodGroup,
               hint: Text(
-                'Blood Group',
+                hintText,
                 style: TextStyle(
                     fontSize: 15.sp,
                     color: const Color.fromARGB(255, 102, 102, 102)),

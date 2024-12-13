@@ -1,5 +1,9 @@
+import 'package:blood_donation/Providers/authProvider.dart';
+import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -94,10 +98,32 @@ class ProfilePage extends StatelessWidget {
                 width: 32,
                 text: 'Log Out',
                 buttonType: ButtonType.Outlined,
-                onPressed: () {})
+                onPressed: () => logout(context))
           ],
         ),
       ),
+    );
+  }
+
+  logout(BuildContext context) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final userProfileProvider =
+        Provider.of<UserProfileProvider>(context, listen: false);
+    authProvider.name = null;
+    authProvider.email = null;
+    authProvider.otp = null;
+    authProvider.bloodGroup = null;
+    userProfileProvider.address = null;
+    userProfileProvider.idProofImage = null;
+    userProfileProvider.phone = null;
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('uniqueId');
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/welcomePage',
+      (route) => false,
     );
   }
 }

@@ -30,6 +30,7 @@ class Login extends StatelessWidget {
             top: 4.h,
             child: IconButton(
               onPressed: () {
+                authProvider.showOtpField = false;
                 Navigator.pop(context);
               },
               icon: Icon(
@@ -60,6 +61,7 @@ class Login extends StatelessWidget {
               CustomTextfield(
                 enabled: authProvider.showOtpField ? false : true,
                 hintText: 'Enter Your Email',
+                keyboardType: TextInputType.emailAddress,
                 icon: Icons.email,
                 onChanged: (value) {
                   authProvider.email = value;
@@ -71,6 +73,7 @@ class Login extends StatelessWidget {
                 ),
                 CustomTextfield(
                   hintText: 'Enter OTP',
+                  keyboardType: TextInputType.number,
                   icon: Icons.lock,
                   onChanged: (data) {
                     authProvider.otp = data;

@@ -7,10 +7,12 @@ class CustomTextfield extends StatelessWidget {
       this.hintText = '',
       this.enabled = true,
       required this.icon,
-      required this.onChanged});
+      required this.onChanged,
+      required this.keyboardType});
   bool enabled;
   String hintText;
   IconData icon;
+  TextInputType keyboardType;
   Function(String) onChanged;
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CustomTextfield extends StatelessWidget {
       ),
       child: TextField(
         enabled: enabled,
+        keyboardType: keyboardType,
         // controller: tc,
         onChanged: onChanged,
         style: TextStyle(fontSize: 17.sp),
