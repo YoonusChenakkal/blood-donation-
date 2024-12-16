@@ -13,8 +13,9 @@ class UserProfileProvider extends ChangeNotifier {
   String? _address;
   String? _phone;
   String? _bloodGroup;
-  File? _idProofImage;
   String? _imageName;
+  bool _isChecked = false;
+  File? _idProofImage;
 
   // Getters
   String? get name => _name;
@@ -22,6 +23,7 @@ class UserProfileProvider extends ChangeNotifier {
   String? get phone => _phone;
   String? get bloodGroup => _bloodGroup;
   String? get imageName => _imageName;
+  bool get isChecked => _isChecked;
   File? get idProofImage => _idProofImage;
 
   // Setters
@@ -50,6 +52,11 @@ class UserProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set isChecked(bool value) {
+    _isChecked = value;
+    notifyListeners();
+  }
+
   registerUserPofile(BuildContext ctx, String? address, String? phone,
       File? idProofImage) async {
     final authProvider = Provider.of<AuthProvider>(ctx, listen: false);
@@ -68,7 +75,7 @@ class UserProfileProvider extends ChangeNotifier {
       request.fields['contact_number'] = phone ?? '';
       request.fields['address'] = address ?? '';
       request.fields['blood_group'] = authProvider.bloodGroup ?? '';
-      request.fields['willing_to_donate_organ'] = 'true';
+      request.fields['willing_to_donate_organ'] = _isChecked ? 'Yes' : 'No';
 
       // If there is an image, add it to the request
       if (idProofImage != null) {
@@ -125,7 +132,6 @@ class UserProfileProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print('Error: $e');
       ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
         content: Text('An error occurred while uploading the profile!'),
         duration: Duration(seconds: 2),

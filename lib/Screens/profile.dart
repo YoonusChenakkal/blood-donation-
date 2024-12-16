@@ -120,6 +120,8 @@ class ProfilePage extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('uniqueId');
 
+    authProvider.showOtpField = false;
+
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/welcomePage',

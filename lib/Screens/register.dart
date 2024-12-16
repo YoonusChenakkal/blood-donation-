@@ -1,4 +1,5 @@
 import 'package:blood_donation/Providers/authProvider.dart';
+import 'package:blood_donation/Services/authService.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
@@ -12,9 +13,18 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final authService = Provider.of<AuthService>(context, listen: false);
 
-    return WillPopScope(
-      onWillPop: () => Future.value(false),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        authProvider.name = null;
+        authProvider.email = null;
+        authProvider.otp = null;
+        authProvider.bloodGroup = null;
+        authProvider.showOtpField = false;
+ 
+      },
       child: Scaffold(
         backgroundColor: Colors.black,
         body: Container(
@@ -97,7 +107,7 @@ class Register extends StatelessWidget {
                     // Show OTP field only if the response code was 201
                     if (authProvider.showOtpField) ...[
                       SizedBox(
-                        height: 1.3.h,
+                        height: 3.h,
                       ),
                       CustomTextfield(
                         hintText: 'Enter OTP',
@@ -123,8 +133,11 @@ class Register extends StatelessWidget {
                                       content: Text('Please Enter OTP')),
                                 );
                               } else {
-                                authProvider.verifyRegisterOtp(
-                                    authProvider.otp!, context);
+                                authService.verifyRegisterOtp(
+                                    authProvider.email!,
+                                    authProvider.otp!,
+                                    context,
+                                    authProvider);
                               }
                             }
                           : () {
@@ -142,12 +155,12 @@ class Register extends StatelessWidget {
                                 );
                               } else {
                                 // Proceed with registration
-                                authProvider.register(
-                                  authProvider.name!,
-                                  authProvider.email!,
-                                  authProvider.bloodGroup!,
-                                  context,
-                                );
+                                authService.registerUser(
+                                    authProvider.name!,
+                                    authProvider.email!,
+                                    authProvider.bloodGroup!,
+                                    context,
+                                    authProvider);
                               }
                             },
                       buttonType: ButtonType.Outlined,

@@ -13,6 +13,8 @@ dependencies:
   http: ^1.2.2
   image_picker: ^1.1.2
   path: ^1.9.0
+  pdf: any
+  printing: any
   
   provider: ^6.1.2
   shared_preferences: ^2.3.3
@@ -24,3 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

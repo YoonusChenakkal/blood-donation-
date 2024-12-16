@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class CustomCheckbox extends StatefulWidget {
-  final bool isChecked;
-  final ValueChanged<bool?> onChanged; // Callback to notify changes
-  final title;
-  const CustomCheckbox({
+class CustomCheckbox extends StatelessWidget {
+  bool isChecked;
+  ValueChanged<bool?> onChanged; // Callback to notify changes
+  String title;
+
+  CustomCheckbox({
     Key? key,
     this.title = '',
     required this.isChecked,
@@ -13,24 +14,28 @@ class CustomCheckbox extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 5.h,
-      width: 75.w,
-      child: CheckboxListTile(
-        title: Text(
-          widget.title,
-          style: TextStyle(fontSize: 14.sp, color: Colors.white),
-        ),
-        controlAffinity: ListTileControlAffinity.leading,
-        value: widget.isChecked,
-        onChanged: widget.onChanged,
-        activeColor: Colors.amber,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 1.5.h,
+        left: 18.w,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Checkbox(
+            value: isChecked,
+            onChanged: onChanged,
+            activeColor: Colors.amber,
+          ),
+          SizedBox(
+            width: 2.w,
+          ),
+          Text(
+            title,
+            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+          ),
+        ],
       ),
     );
   }

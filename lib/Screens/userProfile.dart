@@ -1,6 +1,7 @@
 import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
+import 'package:blood_donation/widgets/customCheckbox.dart';
 import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customIdProof.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
@@ -16,10 +17,10 @@ class UserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
-    return WillPopScope(
-      onWillPop: ()  async {
+    return PopScope(
+      onPopInvoked: (did) async {
         // Prevent back navigation
-     return   await _showExitDialog(context) ?? false;
+        await _showExitDialog(context);
       },
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -95,8 +96,17 @@ class UserProfile extends StatelessWidget {
                 height: 1.3.h,
               ),
               CustomIdProof(),
+              CustomCheckbox(
+                  title: 'Willing Donate Organ',
+                  isChecked: userProfileProvider.isChecked,
+                  onChanged: (value) {
+                    userProfileProvider.isChecked = value!;
+                  }),
               SizedBox(
-                height: 4.5.h,
+                height: 1.3.h,
+              ),
+              SizedBox(
+                height: 3.h,
               ),
               // Submit Button
               CustomButton(
@@ -153,15 +163,15 @@ class UserProfile extends StatelessWidget {
             child: const Text(
               'Cancel',
               style: TextStyle(
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 211, 211, 211),
                   fontSize: 15,
                   fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(
             onPressed: () {
-              Navigator.popUntil(context, (route) => false);
-              SystemNavigator.pop();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/welcomPage', (route) => false);
             },
             child: const Text(
               'Exit',

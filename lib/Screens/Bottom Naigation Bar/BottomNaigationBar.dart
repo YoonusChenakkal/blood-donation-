@@ -1,4 +1,5 @@
 import 'package:blood_donation/Providers/tabIndexNotifier.dart';
+import 'package:blood_donation/Screens/certificatePage.dart';
 import 'package:blood_donation/Screens/chat.dart';
 import 'package:blood_donation/Screens/home.dart';
 import 'package:blood_donation/Screens/profile.dart';
@@ -13,10 +14,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Handle back button press and show exit confirmation
-        return await _showExitDialog(context) ?? false;
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (did) {
+        return _showExitDialog(context);
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -25,6 +26,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             final screens = [
               const HomePage(),
               const ChatsPage(),
+              const CertificatePage(),
               const ProfilePage(),
             ];
 
@@ -90,7 +92,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 
   _showExitDialog(BuildContext context) async {
-    return showDialog<bool>(
+    return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Confirm Exit'),
