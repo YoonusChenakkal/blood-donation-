@@ -12,30 +12,21 @@ class CertificatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          height: 100.h,
-          width: 100.w,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Certificate',
-                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 3.h,
-              ),
-              SizedBox(
-                height: 70.h,
-                width: 100.w,
-                child: PdfPreview(
-                  loadingWidget: const CupertinoActivityIndicator(),
-                  build: (context) async => await createPDF(),
-                ),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text(
+          'Certificate',
+          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
+        ),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        toolbarHeight: 9.h,
+      ),
+      body: SizedBox(
+        height: 100.h,
+        width: 100.w,
+        child: PdfPreview(
+          loadingWidget: const CupertinoActivityIndicator(),
+          build: (context) async => await createPDF(),
         ),
       ),
     );
@@ -61,15 +52,15 @@ class CertificatePage extends StatelessWidget {
                       'I pledge here your document is needed right,iot is',
                       style: const dc.TextStyle(fontSize: 27))),
               dc.Positioned(
-                  bottom: 130,
+                  bottom: 120,
                   left: 220,
                   child: dc.Text('14/07/22',
                       style: const dc.TextStyle(fontSize: 27))),
               dc.Positioned(
-                  bottom: 130,
+                  bottom: 120,
                   right: 250,
                   child:
-                      dc.Text('sihn', style: const dc.TextStyle(fontSize: 27)))
+                      dc.Text('Sign', style: const dc.TextStyle(fontSize: 27)))
             ])));
     return pdf.save();
   }

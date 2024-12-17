@@ -37,8 +37,6 @@ class AuthService {
         final message = data['message'];
 
         // Save uniqueId to SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('uniqueId', data['unique_id']);
 
         authProvider.uniqueId = data['unique_id']; // Update unique ID
         authProvider.showOtpField = true; // Show OTP field
@@ -77,7 +75,6 @@ class AuthService {
     final url = Uri.parse('${baseUrl}verify-otp/');
 
     authProvider.isLoading = true; // Start loading state
-
     try {
       final response = await http.post(
         url,
@@ -88,10 +85,15 @@ class AuthService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final message = data['message'];
+
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('uniqueId', authProvider.uniqueId!);
+
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(message),
           duration: const Duration(seconds: 2),
         ));
+
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/userProfile',
@@ -188,6 +190,9 @@ class AuthService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final message = data['message'];
+
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('uniqueId', 'LogedIn');
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(message),

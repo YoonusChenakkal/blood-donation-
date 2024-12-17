@@ -50,7 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   elevation: 0,
                   backgroundColor: Colors.red,
                   selectedItemColor: Colors.white,
-                  unselectedItemColor: const Color.fromARGB(255, 240, 240, 240),
+                  unselectedItemColor: const Color.fromARGB(255, 255, 184, 184),
                   type: BottomNavigationBarType.fixed,
                   items: [
                     BottomNavigationBarItem(
@@ -105,7 +105,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: const Text(
               'Cancel',
               style: TextStyle(
-                  color: Colors.green,
+                  color: Colors.blue,
                   fontSize: 15,
                   fontWeight: FontWeight.w600),
             ),
