@@ -60,7 +60,7 @@ class UserProfile extends StatelessWidget {
                 keyboardType: TextInputType.name,
                 icon: Icons.person_2_outlined,
                 onChanged: (value) {
-                  userProfileProvider.name = value;
+                  userProfileProvider.name = value.trim();
                 },
               ),
               SizedBox(
@@ -70,8 +70,8 @@ class UserProfile extends StatelessWidget {
                 hintText: 'Address',
                 keyboardType: TextInputType.streetAddress,
                 icon: Icons.place_outlined,
-                onChanged: (data) {
-                  userProfileProvider.address = data;
+                onChanged: (value) {
+                  userProfileProvider.address = value.trim();
                 },
               ),
               SizedBox(
@@ -82,7 +82,7 @@ class UserProfile extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 icon: Icons.phone_in_talk_outlined,
                 onChanged: (value) {
-                  userProfileProvider.phone = value;
+                  userProfileProvider.phone = value.trim();
                 },
               ),
               SizedBox(

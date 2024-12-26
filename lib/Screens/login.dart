@@ -11,6 +11,8 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      String responseMessage;
+
     final authProvider = Provider.of<AuthProvider>(context);
     final authService = Provider.of<AuthService>(context);
 
@@ -81,8 +83,7 @@ class Login extends StatelessWidget {
                         authProvider.email = value;
                       },
                     ),
-                    if (authProvider.showOtpField) ...[ 
-                      
+                    if (authProvider.showOtpField) ...[
                       SizedBox(
                         height: 2.h,
                       ),
@@ -98,7 +99,7 @@ class Login extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           if (authProvider.isResendEnabled) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content: Text("OTP resent successfully!"),
                             ));
                             authProvider.startTimer();
@@ -136,10 +137,17 @@ class Login extends StatelessWidget {
                           );
                         } else {
                           authProvider.showOtpField
-                              ? authService.verifyLoginOtp(authProvider.email!,
-                                  authProvider.otp!, context, authProvider)
-                              : authService.requestLoginOtp(
+                              ? responseMessage = authService.verifyLoginOtp(
+                                  authProvider.email!,
+                                  authProvider.otp!,
+                                  context,
+                                  authProvider)
+                              : responseMessage = authService.requestLoginOtp(
                                   authProvider.email!, context, authProvider);
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(content: Text(responseMessage)),
+                          );
                         }
                       },
                       buttonType: ButtonType.Outlined,

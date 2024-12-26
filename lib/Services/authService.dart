@@ -12,7 +12,6 @@ class AuthService {
     String name,
     String email,
     String bloodGroup,
-    BuildContext context,
     AuthProvider authProvider,
   ) async {
     final url = Uri.parse('${baseUrl}register/');
@@ -41,25 +40,17 @@ class AuthService {
         authProvider.uniqueId = data['unique_id']; // Update unique ID
         authProvider.showOtpField = true; // Show OTP field
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        return message;
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
         String errorMessage = data['email']?.first ?? data['username']?.first;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-          duration: const Duration(seconds: 2),
-        ));
+        return errorMessage;
       } else {
-        _handleErrorResponse(response, context, authProvider);
+        return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {
       authProvider.isLoading = false; // Stop loading state
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Network error: Unable to connect to the server.')),
-      );
+      return 'Network error: Unable to connect to the server';
     } finally {
       authProvider.isLoading = false;
     }
@@ -89,33 +80,24 @@ class AuthService {
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('uniqueId', authProvider.uniqueId!);
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(message),
-          duration: const Duration(seconds: 2),
-        ));
-
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/userProfile',
           (route) => false,
         );
+        return message;
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
         final errorMessage =
             data['non_field_errors']?.first ?? 'Failed to verify OTP';
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-          duration: const Duration(seconds: 2),
-        ));
+        return errorMessage;
       } else {
-        _handleErrorResponse(response, context, authProvider);
+        return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {
       authProvider.isLoading = false; // Stop loading state
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Network error: Unable to connect to the server.')),
-      );
+
+      return 'Network error: Unable to connect to the server';
     } finally {
       authProvider.isLoading = false;
     }
@@ -143,27 +125,18 @@ class AuthService {
         final message = data['message'];
 
         authProvider.showOtpField = true;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(message),
-          duration: const Duration(seconds: 2),
-        ));
+        return message;
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
         final errorMessage =
             data['email']?.first ?? 'Failed, use another Email';
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-          duration: const Duration(seconds: 2),
-        ));
+        return errorMessage;
       } else {
-        _handleErrorResponse(response, context, authProvider);
+        return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {
       authProvider.isLoading = false; // Stop loading state
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Network error: Unable to connect to the server.')),
-      );
+      return 'Network error: Unable to connect to the server';
     } finally {
       authProvider.isLoading = false;
     }
@@ -189,49 +162,32 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+        final username = data['user'];
+
         final message = data['message'];
 
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString('uniqueId', 'LogedIn');
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(message),
-          duration: const Duration(seconds: 2),
-        ));
+        prefs.setString('username', username);
 
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/bottomNavigationBar',
           (route) => false,
         );
+        return message;
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
         final errorMessage = data['non_field_errors']?.first ??
             'Incorrect OTP. Please try again.';
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(errorMessage),
-          duration: const Duration(seconds: 2),
-        ));
+        return errorMessage;
       } else {
-        _handleErrorResponse(response, context, authProvider);
+        return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {
       authProvider.isLoading = false; // Stop loading state
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Network error: Unable to connect to the server.')),
-      );
+      return 'Network error: Unable to connect to the server';
     } finally {
       authProvider.isLoading = false;
     }
-  }
-
-  // Handle error response and update UI state
-  void _handleErrorResponse(
-      http.Response response, BuildContext context, AuthProvider authProvider) {
-    const errorMessage = 'Unexpected error occurred. Please try again.';
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text(errorMessage)),
-    );
   }
 }

@@ -74,24 +74,15 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              'Coconut Basket company',
+              'Address',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
-                  height: .2.h),
-            ),
-            Text(
-              'company address',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-                height: .2.h,
-              ),
+                  height: .3.h),
             ),
             SizedBox(
-              height: 3.2.h,
+              height: 2.h,
             ),
             CustomButton(
                 height: 4.2,
@@ -118,7 +109,7 @@ class ProfilePage extends StatelessWidget {
     userProfileProvider.phone = null;
 
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('uniqueId');
+    prefs.remove('username');
 
     authProvider.showOtpField = false;
 

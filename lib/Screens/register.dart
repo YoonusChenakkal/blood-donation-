@@ -12,6 +12,7 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String responseMessage;
     final authProvider = Provider.of<AuthProvider>(context);
     final authService = Provider.of<AuthService>(context, listen: false);
 
@@ -23,7 +24,6 @@ class Register extends StatelessWidget {
         authProvider.otp = null;
         authProvider.bloodGroup = null;
         authProvider.showOtpField = false;
- 
       },
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -80,7 +80,7 @@ class Register extends StatelessWidget {
                       keyboardType: TextInputType.name,
                       icon: Icons.person,
                       onChanged: (value) {
-                        authProvider.name = value;
+                        authProvider.name = value.trim();
                       },
                       enabled: authProvider.showOtpField ? false : true,
                     ), // Name Textfield
@@ -93,7 +93,7 @@ class Register extends StatelessWidget {
                       icon: Icons.email,
                       enabled: authProvider.showOtpField ? false : true,
                       onChanged: (value) {
-                        authProvider.email = value;
+                        authProvider.email = value.trim();
                       },
                     ), // Email Textfield
                     SizedBox(
@@ -113,8 +113,8 @@ class Register extends StatelessWidget {
                         hintText: 'Enter OTP',
                         keyboardType: TextInputType.number,
                         icon: Icons.lock,
-                        onChanged: (data) {
-                          authProvider.otp = data;
+                        onChanged: (value) {
+                          authProvider.otp = value.trim();
                         },
                       ),
                     ],
@@ -133,11 +133,14 @@ class Register extends StatelessWidget {
                                       content: Text('Please Enter OTP')),
                                 );
                               } else {
-                                authService.verifyRegisterOtp(
+                                responseMessage = authService.verifyRegisterOtp(
                                     authProvider.email!,
                                     authProvider.otp!,
                                     context,
                                     authProvider);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(responseMessage)),
+                                );
                               }
                             }
                           : () {
@@ -155,12 +158,14 @@ class Register extends StatelessWidget {
                                 );
                               } else {
                                 // Proceed with registration
-                                authService.registerUser(
+                                responseMessage = authService.registerUser(
                                     authProvider.name!,
                                     authProvider.email!,
                                     authProvider.bloodGroup!,
-                                    context,
                                     authProvider);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(responseMessage)),
+                                );
                               }
                             },
                       buttonType: ButtonType.Outlined,

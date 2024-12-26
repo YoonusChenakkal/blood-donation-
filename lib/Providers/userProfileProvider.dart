@@ -7,6 +7,7 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfileProvider extends ChangeNotifier {
   String? _name;
@@ -89,6 +90,8 @@ class UserProfileProvider extends ChangeNotifier {
       final responseString = await response.stream.bytesToString();
       // Check if the request was successful
       if (response.statusCode == 201) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', authProvider.name!);
         ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
           content: Text('Profile updated successfully!'),
           duration: Duration(seconds: 2),
@@ -99,7 +102,7 @@ class UserProfileProvider extends ChangeNotifier {
           (route) => false,
         );
       } else {
-        print(response.statusCode);
+       
         // Handle different status codes
         final Map<String, dynamic> data = jsonDecode(responseString);
 

@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as dc;
-import 'package:printing/printing.dart';
+import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:blood_donation/widgets/certificatePreview.dart';
+import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CertificatePage extends StatelessWidget {
@@ -11,8 +10,13 @@ class CertificatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final certificateProvider =
+        Provider.of<CertificateProvider>(context, listen: false);
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Certificate',
           style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
@@ -24,66 +28,92 @@ class CertificatePage extends StatelessWidget {
       body: SizedBox(
         height: 100.h,
         width: 100.w,
-        child: PdfPreview(
-          loadingWidget: const CupertinoActivityIndicator(),
-          build: (context) async => await createPDF(),
+        child: Column(
+          children: [
+            const CertificatePreview(),
+            CustomButton(
+              text: 'Generate',
+              buttonType: ButtonType.Elevated,
+              onPressed: () async {
+                await certificateProvider.generatePdf();
+                final message = await certificateProvider.postPdf();
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(message),
+                  duration: const Duration(seconds: 2),
+                ));
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'History',
+                    style: TextStyle(
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w600,
+                        color: const Color.fromARGB(255, 132, 132, 132)),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: certificateProvider.fetchCertificates(),
+                builder: (context, snapshot) {
+                  if (certificateProvider.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final certificates = certificateProvider.certificates;
+                  if (certificates.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "No certificates found.",
+                            style: TextStyle(fontSize: 17.sp),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          CustomButton(
+                              width: 40,
+                              text: 'Refresh',
+                              buttonType: ButtonType.Outlined,
+                              onPressed: () =>
+                                  certificateProvider.fetchCertificates())
+                        ],
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: certificates.length,
+                    itemBuilder: (context, index) {
+                      final certificate = certificates[index];
+                      return ListTile(
+                        title: Text(certificate.username),
+                        subtitle: Text(certificate.certificate),
+                        trailing: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.download,
+                            color: Colors.red,
+                            size: 22.sp,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  Future<Uint8List> createPDF() async {
-    final pdf = dc.Document(title: 'Blood Donation Certificate');
-
-    // final logoImage = dc.MemoryImage(
-    //     (await rootBundle.load('assets/tec-1.png')).buffer.asUint8List());
-    final pageTheme = await _myPageTheme();
-    pdf.addPage(dc.Page(
-        pageTheme: pageTheme,
-        build: (context) => dc.Stack(children: [
-              dc.Center(
-                child:
-                    dc.Text('Yoonus', style: const dc.TextStyle(fontSize: 50)),
-              ),
-              dc.Positioned(
-                  bottom: 200,
-                  left: 170,
-                  child: dc.Text(
-                      'I pledge here your document is needed right,iot is',
-                      style: const dc.TextStyle(fontSize: 27))),
-              dc.Positioned(
-                  bottom: 120,
-                  left: 220,
-                  child: dc.Text('14/07/22',
-                      style: const dc.TextStyle(fontSize: 27))),
-              dc.Positioned(
-                  bottom: 120,
-                  right: 250,
-                  child:
-                      dc.Text('Sign', style: const dc.TextStyle(fontSize: 27)))
-            ])));
-    return pdf.save();
-  }
-
-  _myPageTheme() async {
-    final certificateTemplate = dc.MemoryImage(
-        (await rootBundle.load('assets/certificate.png')).buffer.asUint8List());
-    return dc.PageTheme(
-      // Set the page size to 8.5 x 11 inches (standard certificate size)
-      pageFormat: const PdfPageFormat(
-          11.9 * PdfPageFormat.inch, 8.5 * PdfPageFormat.inch),
-
-      textDirection: dc.TextDirection.ltr,
-      orientation: dc.PageOrientation.landscape, // Landscape orientation
-      buildBackground: (context) => dc.FullPage(
-          ignoreMargins: true,
-          child: dc.Watermark(
-              child: dc.Opacity(
-                  opacity: 1,
-                  child: dc.Image(
-                      alignment: dc.Alignment.center,
-                      certificateTemplate,
-                      fit: dc.BoxFit.contain)))),
     );
   }
 }

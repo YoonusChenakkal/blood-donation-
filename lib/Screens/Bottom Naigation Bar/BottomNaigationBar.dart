@@ -3,6 +3,7 @@ import 'package:blood_donation/Screens/certificatePage.dart';
 import 'package:blood_donation/Screens/chat.dart';
 import 'package:blood_donation/Screens/home.dart';
 import 'package:blood_donation/Screens/profile.dart';
+import 'package:blood_donation/Screens/sheduledCamps.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             final screens = [
               const HomePage(),
               const ChatsPage(),
+              const Sheduledcamps(),
               const CertificatePage(),
               const ProfilePage(),
             ];
@@ -66,6 +68,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         size: 20.sp,
                       ),
                       label: 'Chat',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.campaign_outlined,
+                        size: 20.sp,
+                      ),
+                      label: 'Camps',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(

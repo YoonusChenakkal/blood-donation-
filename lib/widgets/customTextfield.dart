@@ -2,23 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextfield extends StatelessWidget {
-  CustomTextfield(
-      {super.key,
-      this.hintText = '',
-      this.enabled = true,
-      required this.icon,
-      required this.onChanged,
-      required this.keyboardType});
+  double height;
+  double width;
   bool enabled;
   String hintText;
   IconData icon;
   TextInputType keyboardType;
   Function(String) onChanged;
+  CustomTextfield(
+      {super.key,
+      this.height = 6,
+      this.width = 75,
+      this.hintText = '',
+      this.enabled = true,
+      required this.icon,
+      required this.onChanged,
+      required this.keyboardType});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 6.h,
-      width: 75.w,
+      height: height.h,
+      width: width.w,
       decoration: ShapeDecoration(
         color: const Color.fromARGB(255, 231, 231, 231),
         shape: RoundedRectangleBorder(
