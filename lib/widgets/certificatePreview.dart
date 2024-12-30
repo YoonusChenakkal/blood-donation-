@@ -1,5 +1,7 @@
+import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CertificatePreview extends StatelessWidget {
@@ -7,6 +9,10 @@ class CertificatePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final certificateProvider = Provider.of<CertificateProvider>(
+      context,
+    );
+
     return Container(
       height: 31.h,
       width: 90.w,
@@ -35,8 +41,11 @@ class CertificatePreview extends StatelessWidget {
                   style: TextStyle(fontSize: 13.sp))),
           Positioned(
               bottom: 6.h,
-              right: 26.w,
-              child: Text('Sign', style: TextStyle(fontSize: 14.sp)))
+              right: 25.w,
+              child: certificateProvider.signatureBytes != null
+                  ? Image.memory(certificateProvider.signatureBytes!,
+                      height: 4.h, width: 10.w)
+                  : Text('Sign', style: TextStyle(fontSize: 14.sp)))
         ],
       ),
     );

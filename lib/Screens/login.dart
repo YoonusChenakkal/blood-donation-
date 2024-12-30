@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      String responseMessage;
+    String responseMessage;
 
     final authProvider = Provider.of<AuthProvider>(context);
     final authService = Provider.of<AuthService>(context);
@@ -99,7 +99,8 @@ class Login extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           if (authProvider.isResendEnabled) {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
                               content: Text("OTP resent successfully!"),
                             ));
                             authProvider.startTimer();
@@ -122,7 +123,7 @@ class Login extends StatelessWidget {
                     ),
                     CustomButton(
                       text: authProvider.showOtpField ? 'Login' : 'Submit',
-                      onPressed: () {
+                      onPressed: () async {
                         if (authProvider.email == null ||
                             authProvider.email!.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -136,17 +137,21 @@ class Login extends StatelessWidget {
                             const SnackBar(content: Text('Please enter OTP.')),
                           );
                         } else {
-                          authProvider.showOtpField
-                              ? responseMessage = authService.verifyLoginOtp(
-                                  authProvider.email!,
-                                  authProvider.otp!,
-                                  context,
-                                  authProvider)
-                              : responseMessage = authService.requestLoginOtp(
-                                  authProvider.email!, context, authProvider);
+                            authProvider.showOtpField
+                              ? responseMessage =
+                                  await authService.verifyLoginOtp(
+                                      authProvider.email!,
+                                      authProvider.otp!,
+                                      context,
+                                      authProvider)
+                              : responseMessage =
+                                  await authService.requestLoginOtp(
+                                      authProvider.email!,
+                                      context,
+                                      authProvider);
 
                           ScaffoldMessenger.of(context).showSnackBar(
-                             SnackBar(content: Text(responseMessage)),
+                            SnackBar(content: Text(responseMessage)),
                           );
                         }
                       },

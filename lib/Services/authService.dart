@@ -37,7 +37,7 @@ class AuthService {
 
         // Save uniqueId to SharedPreferences
 
-        authProvider.uniqueId = data['unique_id']; // Update unique ID
+        //  authProvider.uniqueId = data['unique_id']; // Update unique ID
         authProvider.showOtpField = true; // Show OTP field
 
         return message;
@@ -78,7 +78,7 @@ class AuthService {
         final message = data['message'];
 
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString('uniqueId', authProvider.uniqueId!);
+        prefs.setString('username', authProvider.name!);
 
         Navigator.pushNamedAndRemoveUntil(
           context,

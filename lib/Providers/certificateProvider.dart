@@ -8,21 +8,32 @@ import 'package:intl/intl.dart' as intl;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:signature/signature.dart';
+import 'package:sizer/sizer.dart';
 
 class CertificateProvider with ChangeNotifier {
   Uint8List? pdfDocument;
-  List<CertificateModel> certificates = [];
+  SignatureController _signatureController = SignatureController();
+  Uint8List? _signatureBytes;
 
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
+  Uint8List? get signatureBytes => _signatureBytes;
+
+  SignatureController get signatureController => _signatureController;
+
+  set signatureController(value) {
+    _signatureController = value;
+    notifyListeners();
+  }
+
+  set signatureBytes(value) {
+    _signatureBytes = value;
+    notifyListeners();
+  }
 
   Future<void> generatePdf() async {
-    certificates.add(CertificateModel(
-        username: 'yoonsu',
-        certificate: 'jdjsnjlajds',
-        CertificateModelDate: 'qeffef',
-        isCertificateModelGiven: false));
     pdfDocument = await createPDF();
     notifyListeners();
   }
@@ -50,12 +61,14 @@ class CertificateProvider with ChangeNotifier {
         pdfDocument!,
         filename: 'certificate.pdf',
       ));
-      request.fields['user'] = username!;
+      request.fields['user'] = username;
 
       // Send the request
       final response = await request.send();
       if (response.statusCode == 201) {
         return 'Successfully Uploaded';
+      } else if (response.statusCode == 400) {
+        return 'User Already Have Certitificate';
       } else {
         print(response.statusCode);
       }
@@ -67,20 +80,24 @@ class CertificateProvider with ChangeNotifier {
     }
   }
 
-  fetchCertificates() async {
+  showPdf() async {
+    print('Show Pdf  ntejnlgjluguor');
     _isLoading = true;
+
     notifyListeners();
-    final url =
-        Uri.parse('https://lifeproject.pythonanywhere.com/donor/consent/');
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final url = Uri.parse(
+        'https://lifeproject.pythonanywhere.com/donor/consents/${username}/');
     try {
       final response = await http.get(url);
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
-        //certificates.clear();
-        final List<dynamic> jsonList = json.decode(response.body);
-        certificates =
-            jsonList.map((json) => CertificateModel.fromJson(json)).toList();
         notifyListeners();
+
+        final data = jsonDecode(response.body);
+        print(data);
       } else {
         throw Exception(
             'Failed to load certificates. Status code: ${response.statusCode}');
@@ -117,10 +134,16 @@ class CertificateProvider with ChangeNotifier {
                   child: Text(
                       intl.DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       style: const TextStyle(fontSize: 27))),
-              Positioned(
-                  bottom: 120,
-                  right: 250,
-                  child: Text('Sign', style: const TextStyle(fontSize: 27)))
+              _signatureBytes != null
+                  ? Positioned(
+                      bottom: 120,
+                      right: 250,
+                      child: Image(MemoryImage(_signatureBytes!),
+                          height: 10.h, width: 20.w))
+                  : Positioned(
+                      bottom: 120,
+                      right: 250,
+                      child: Text('Sign', style: const TextStyle(fontSize: 27)))
             ])));
     return pdf.save();
   }

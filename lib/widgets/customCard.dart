@@ -1,5 +1,7 @@
+import 'package:blood_donation/Providers/donorCountProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomCard extends StatelessWidget {
@@ -7,6 +9,8 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final donorCountProvider = Provider.of<DonorCountProvider>(context);
+
     return Container(
       width: 10.5.h,
       height: 10.5.h,
@@ -34,7 +38,7 @@ class CustomCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  '4',
+                  donorCountProvider.donorCount?? '0',
                   style:
                       TextStyle(fontWeight: FontWeight.w900, fontSize: 19.sp),
                 ),

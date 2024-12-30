@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:blood_donation/Providers/donorCountProvider.dart';
+import 'package:blood_donation/Providers/hospitalProvider.dart';
 import 'package:blood_donation/Providers/tabIndexNotifier.dart';
 import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:blood_donation/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
@@ -32,6 +34,9 @@ void main() {
             ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
             ChangeNotifierProvider(create: (_) => UserProfileProvider()),
             ChangeNotifierProvider(create: (_) => CertificateProvider()),
+            ChangeNotifierProvider(create: (_) => HospitalProvider()),
+            ChangeNotifierProvider(
+                create: (_) => DonorCountProvider()..loadDonorCount()),
             ChangeNotifierProvider(
                 create: (_) => Campsprovider()..fetchCamps(context)),
             Provider(create: (_) => AuthService()),
@@ -53,7 +58,7 @@ class MainApp extends StatelessWidget {
     // If uniqueId exists, return '/home' (i.e., Bottom Navigation Bar), otherwise '/welcomePage'
     return user != null && user.isNotEmpty
         ? '/bottomNavigationBar'
-        : '/bottomNavigationBar';
+        : '/welcomePage';
   }
 
   @override
@@ -72,7 +77,7 @@ class MainApp extends StatelessWidget {
         '/bottomNavigationBar': (context) => const CustomBottomNavigationBar(),
         '/certificateDetails': (context) => const CertificateDetails(),
         '/userProfile': (context) => const UserProfile(),
-        '/certificatePage': (context) => const CertificatePage(),
+        '/certificatePage': (context) => CertificatePage(),
         '/campDetails': (context) => const CampDetails()
       },
       // Use FutureBuilder to asynchronously set initial route based on uniqueId presence
@@ -99,7 +104,7 @@ class MainApp extends StatelessWidget {
                   '/certificateDetails': (context) =>
                       const CertificateDetails(),
                   '/userProfile': (context) => const UserProfile(),
-                  '/certificatePage': (context) => const CertificatePage(),
+                  '/certificatePage': (context) => CertificatePage(),
                   '/campDetails': (context) => const CampDetails()
                 },
               );

@@ -28,7 +28,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               const HomePage(),
               const ChatsPage(),
               const Sheduledcamps(),
-              const CertificatePage(),
+              CertificatePage(),
               const ProfilePage(),
             ];
 

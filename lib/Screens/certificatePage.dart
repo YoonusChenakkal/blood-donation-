@@ -1,6 +1,8 @@
 import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:blood_donation/widgets/certificatePreview.dart';
 import 'package:blood_donation/widgets/customButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:signature/signature.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -10,8 +12,8 @@ class CertificatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final certificateProvider =
-        Provider.of<CertificateProvider>(context, listen: false);
+   
+    final certificateProvider = Provider.of<CertificateProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -32,88 +34,92 @@ class CertificatePage extends StatelessWidget {
           children: [
             const CertificatePreview(),
             CustomButton(
-              text: 'Generate',
-              buttonType: ButtonType.Elevated,
-              onPressed: () async {
-                await certificateProvider.generatePdf();
-                final message = await certificateProvider.postPdf();
-
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(message),
-                  duration: const Duration(seconds: 2),
-                ));
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'History',
-                    style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromARGB(255, 132, 132, 132)),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: FutureBuilder(
-                future: certificateProvider.fetchCertificates(),
-                builder: (context, snapshot) {
-                  if (certificateProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  final certificates = certificateProvider.certificates;
-                  if (certificates.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "No certificates found.",
-                            style: TextStyle(fontSize: 17.sp),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          CustomButton(
-                              width: 40,
-                              text: 'Refresh',
-                              buttonType: ButtonType.Outlined,
-                              onPressed: () =>
-                                  certificateProvider.fetchCertificates())
-                        ],
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: certificates.length,
-                    itemBuilder: (context, index) {
-                      final certificate = certificates[index];
-                      return ListTile(
-                        title: Text(certificate.username),
-                        subtitle: Text(certificate.certificate),
-                        trailing: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.download,
-                            color: Colors.red,
-                            size: 22.sp,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                text: certificateProvider.signatureBytes == null
+                    ? 'e-Sign'
+                    : 'Download',
+                buttonType: ButtonType.Elevated,
+                onPressed: () async {
+                  showSignatureDialogue(context, certificateProvider);
+                }),
           ],
         ),
       ),
+    );
+  }
+
+  void showSignatureDialogue(
+      BuildContext context, CertificateProvider certificateProvider) {
+    showDialog(
+      context: context,
+      builder: (c) {
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Signature(
+                  controller: certificateProvider.signatureController,
+                  height: 30.h,
+                  width: 70.w,
+                  backgroundColor:
+                      const Color.fromARGB(255, 255, 115, 105).withOpacity(0.2),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        certificateProvider.signatureController.clear();
+                      },
+                      child: const Text(
+                        'clear',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        final exportController = SignatureController(
+                          penStrokeWidth: 2,
+                          penColor: Colors.black,
+                          exportBackgroundColor: Colors.white,
+                          points:
+                              certificateProvider.signatureController.points,
+                        );
+
+                        final bytes = await exportController.toPngBytes();
+
+                        if (bytes != null) {
+                          Navigator.pop(context);
+                          certificateProvider.signatureBytes = bytes;
+                          await certificateProvider.generatePdf();
+                          final message = await certificateProvider.postPdf();
+
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(message),
+                            duration: const Duration(seconds: 2),
+                          ));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please sign before confirming.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        'confirm',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

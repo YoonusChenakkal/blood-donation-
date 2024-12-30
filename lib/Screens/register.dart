@@ -125,7 +125,7 @@ class Register extends StatelessWidget {
                     CustomButton(
                       text: authProvider.showOtpField ? 'Register' : 'Submit',
                       onPressed: authProvider.showOtpField
-                          ? () {
+                          ? () async {
                               if (authProvider.otp!.isEmpty ||
                                   authProvider.otp == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -133,7 +133,7 @@ class Register extends StatelessWidget {
                                       content: Text('Please Enter OTP')),
                                 );
                               } else {
-                                responseMessage = authService.verifyRegisterOtp(
+                                responseMessage = await authService.verifyRegisterOtp(
                                     authProvider.email!,
                                     authProvider.otp!,
                                     context,
@@ -143,7 +143,7 @@ class Register extends StatelessWidget {
                                 );
                               }
                             }
-                          : () {
+                          : () async {
                               // Check if all required fields are filled
                               if (authProvider.name == null ||
                                   authProvider.name!.isEmpty ||
@@ -158,11 +158,12 @@ class Register extends StatelessWidget {
                                 );
                               } else {
                                 // Proceed with registration
-                                responseMessage = authService.registerUser(
-                                    authProvider.name!,
-                                    authProvider.email!,
-                                    authProvider.bloodGroup!,
-                                    authProvider);
+                                responseMessage =
+                                    await authService.registerUser(
+                                        authProvider.name!,
+                                        authProvider.email!,
+                                        authProvider.bloodGroup!,
+                                        authProvider);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(responseMessage)),
                                 );

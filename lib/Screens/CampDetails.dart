@@ -2,7 +2,6 @@ import 'package:blood_donation/Models/campsModel.dart';
 import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
-import 'package:blood_donation/widgets/textDetailRow.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
