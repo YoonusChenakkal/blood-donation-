@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:blood_donation/Models/certificateModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 import 'package:sizer/sizer.dart';
 
-class CertificateProvider with ChangeNotifier {
+class CertificateProvider extends ChangeNotifier {
+  String? consentDate;
+  String? certificateUrl;
+  String? signImageUrl;
+  String? fetchedUsername;
   Uint8List? pdfDocument;
   SignatureController _signatureController = SignatureController();
   Uint8List? _signatureBytes;
@@ -38,12 +40,12 @@ class CertificateProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  postPdf() async {
+  uploadCertificate() async {
     _isLoading = true;
     notifyListeners();
 
-    if (pdfDocument == null) {
-      return 'No Pdf Found Try Again';
+    if (pdfDocument == null || _signatureBytes == null) {
+      return 'No Pdf or Sign Found Try Again';
     }
 
     final prefs = await SharedPreferences.getInstance();
@@ -61,11 +63,20 @@ class CertificateProvider with ChangeNotifier {
         pdfDocument!,
         filename: 'certificate.pdf',
       ));
+
+      final signImage = http.MultipartFile.fromBytes(
+        'signimage',
+        _signatureBytes!,
+        filename: "donor_signature.png",
+      );
+
+      request.files.add(signImage);
       request.fields['user'] = username;
 
       // Send the request
       final response = await request.send();
       if (response.statusCode == 201) {
+        fetchCertificate();
         return 'Successfully Uploaded';
       } else if (response.statusCode == 400) {
         return 'User Already Have Certitificate';
@@ -80,30 +91,37 @@ class CertificateProvider with ChangeNotifier {
     }
   }
 
-  showPdf() async {
-    print('Show Pdf  ntejnlgjluguor');
+  fetchCertificate() async {
     _isLoading = true;
-
     notifyListeners();
+
     final prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final url = Uri.parse(
         'https://lifeproject.pythonanywhere.com/donor/consents/${username}/');
+
     try {
       final response = await http.get(url);
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
-        notifyListeners();
-
         final data = jsonDecode(response.body);
-        print(data);
+        consentDate = data['consent_date'];
+        certificateUrl = data['certificate'];
+        signImageUrl = data['signimage'];
+        fetchedUsername = data['username'];
+        notifyListeners();
+      } else if (response.statusCode == 404) {
+        consentDate = null;
+        certificateUrl = null;
+        signImageUrl = null;
+        fetchedUsername = null;
+        notifyListeners();
       } else {
         throw Exception(
-            'Failed to load certificates. Status code: ${response.statusCode}');
+            'Failed to load certificate. Status: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching certificates: $e');
+      print('Error fetching certificate: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -146,6 +164,15 @@ class CertificateProvider with ChangeNotifier {
                       child: Text('Sign', style: const TextStyle(fontSize: 27)))
             ])));
     return pdf.save();
+  }
+
+  reset() {
+    consentDate = null;
+    certificateUrl = null;
+    fetchedUsername = null;
+    signImageUrl = null;
+    _signatureBytes = null;
+    notifyListeners();
   }
 }
 

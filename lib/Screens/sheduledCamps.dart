@@ -21,12 +21,12 @@ class Sheduledcamps extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
-      body: SizedBox(
-        height: double.infinity,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20),
         child: Consumer<Campsprovider>(
           builder: (context, campsProvider, child) {
             if (campsProvider.isLoading) {
-              return const Center(child: CircularProgressIndicator());  
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (campsProvider.errorMessage != null) {
@@ -72,12 +72,15 @@ class Sheduledcamps extends StatelessWidget {
               );
             }
 
-            return ListView.builder(
-              itemCount: campsProvider.camp.length,
-              itemBuilder: (context, index) {
-                final camp = campsProvider.camp[index];
-                return Campcard(camp: camp);
-              },
+            return RefreshIndicator(
+              onRefresh: () => campsProvider.fetchCamps(context),
+              child: ListView.builder(
+                itemCount: campsProvider.camp.length,
+                itemBuilder: (context, index) {
+                  final camp = campsProvider.camp[index];
+                  return Campcard(camp: camp);
+                },
+              ),
             );
           },
         ),

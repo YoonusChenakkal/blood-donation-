@@ -1,18 +1,17 @@
 import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:blood_donation/widgets/certificatePreview.dart';
 import 'package:blood_donation/widgets/customButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CertificatePage extends StatelessWidget {
   const CertificatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-   
     final certificateProvider = Provider.of<CertificateProvider>(context);
 
     return Scaffold(
@@ -34,13 +33,22 @@ class CertificatePage extends StatelessWidget {
           children: [
             const CertificatePreview(),
             CustomButton(
-                text: certificateProvider.signatureBytes == null
-                    ? 'e-Sign'
-                    : 'Download',
-                buttonType: ButtonType.Elevated,
-                onPressed: () async {
+              text: certificateProvider.consentDate == null
+                  ? 'e-Sign'
+                  : 'Download',
+              buttonType: ButtonType.Elevated,
+              onPressed: () async {
+                if (certificateProvider.consentDate == null) {
                   showSignatureDialogue(context, certificateProvider);
-                }),
+                } else {
+                  final certificateUrl = certificateProvider.certificateUrl;
+                  if (certificateUrl != null) {
+                    // Implement download logic or open URL
+                    await launchUrl(Uri.parse(certificateUrl));
+                  }
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -93,7 +101,8 @@ class CertificatePage extends StatelessWidget {
                           Navigator.pop(context);
                           certificateProvider.signatureBytes = bytes;
                           await certificateProvider.generatePdf();
-                          final message = await certificateProvider.postPdf();
+                          final message =
+                              await certificateProvider.uploadCertificate();
 
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(message),

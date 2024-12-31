@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:blood_donation/Providers/chatsProvider.dart';
 import 'package:blood_donation/Providers/donorCountProvider.dart';
 import 'package:blood_donation/Providers/hospitalProvider.dart';
 import 'package:blood_donation/Providers/tabIndexNotifier.dart';
@@ -33,7 +34,9 @@ void main() {
             ChangeNotifierProvider(create: (_) => AuthProvider()),
             ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
             ChangeNotifierProvider(create: (_) => UserProfileProvider()),
-            ChangeNotifierProvider(create: (_) => CertificateProvider()),
+            ChangeNotifierProvider(create: (_) => ChatsProvider()),
+            ChangeNotifierProvider(
+                create: (_) => CertificateProvider()..fetchCertificate()),
             ChangeNotifierProvider(create: (_) => HospitalProvider()),
             ChangeNotifierProvider(
                 create: (_) => DonorCountProvider()..loadDonorCount()),

@@ -97,11 +97,12 @@ class Login extends StatelessWidget {
                       ),
                       SizedBox(height: 2.h),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (authProvider.isResendEnabled) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("OTP resent successfully!"),
+                            responseMessage = await authService.requestLoginOtp(
+                                authProvider.email!, context, authProvider);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(responseMessage),
                             ));
                             authProvider.startTimer();
                           }
@@ -137,7 +138,7 @@ class Login extends StatelessWidget {
                             const SnackBar(content: Text('Please enter OTP.')),
                           );
                         } else {
-                            authProvider.showOtpField
+                          authProvider.showOtpField
                               ? responseMessage =
                                   await authService.verifyLoginOtp(
                                       authProvider.email!,

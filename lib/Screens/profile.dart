@@ -1,4 +1,7 @@
 import 'package:blood_donation/Providers/authProvider.dart';
+import 'package:blood_donation/Providers/campsProvider.dart';
+import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:blood_donation/Providers/tabIndexNotifier.dart';
 import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
@@ -97,21 +100,15 @@ class ProfilePage extends StatelessWidget {
   }
 
   logout(BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final userProfileProvider =
-        Provider.of<UserProfileProvider>(context, listen: false);
-    authProvider.name = null;
-    authProvider.email = null;
-    authProvider.otp = null;
-    authProvider.bloodGroup = null;
-    userProfileProvider.address = null;
-    userProfileProvider.idProofImage = null;
-    userProfileProvider.phone = null;
+    Provider.of<AuthProvider>(context, listen: false).reset();
+
+    Provider.of<UserProfileProvider>(context, listen: false).reset();
+    Provider.of<Campsprovider>(context, listen: false).camp.clear();
+    Provider.of<CertificateProvider>(context, listen: false).reset();
+    Provider.of<TabIndexNotifier>(context, listen: false).reset();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('username');
-
-    authProvider.showOtpField = false;
 
     Navigator.pushNamedAndRemoveUntil(
       context,

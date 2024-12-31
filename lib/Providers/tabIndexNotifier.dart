@@ -9,4 +9,8 @@ class TabIndexNotifier extends ChangeNotifier {
     _currentIndex = index;
     notifyListeners();
   }
+
+  reset() {
+    _currentIndex = 0;
+  }
 }

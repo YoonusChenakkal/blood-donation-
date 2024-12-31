@@ -102,7 +102,6 @@ class UserProfileProvider extends ChangeNotifier {
           (route) => false,
         );
       } else {
-       
         // Handle different status codes
         final Map<String, dynamic> data = jsonDecode(responseString);
 
@@ -154,5 +153,11 @@ class UserProfileProvider extends ChangeNotifier {
       _imageName = basename(pickedFile.path);
       notifyListeners();
     }
+  }
+
+  reset() {
+    address = null;
+    idProofImage = null;
+    phone = null;
   }
 }

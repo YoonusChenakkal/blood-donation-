@@ -1,3 +1,4 @@
+import 'package:blood_donation/Providers/chatsProvider.dart';
 import 'package:blood_donation/Providers/hospitalProvider.dart';
 import 'package:blood_donation/Screens/login.dart';
 import 'package:blood_donation/widgets/customButton.dart';
@@ -73,7 +74,7 @@ class ChatsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'No Donors Available',
+                          'No Chat Available',
                           style: TextStyle(fontSize: 17.sp),
                         ),
                         SizedBox(
@@ -94,7 +95,7 @@ class ChatsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "No donors match your search or filter.",
+                          "No chat match your search.",
                           style: TextStyle(fontSize: 17.sp),
                         ),
                         SizedBox(
@@ -140,8 +141,10 @@ class ChatsPage extends StatelessWidget {
                                   fontSize: 15.sp, fontWeight: FontWeight.w500),
                             ),
                             onTap: () {
+                              Provider.of<ChatsProvider>(context, listen: false)
+                                  .fetchChats(hospital.id);
                               Navigator.pushNamed(context, '/userChat',
-                              arguments: hospital);
+                                  arguments: hospital);
                             },
                           ),
                         );
@@ -157,28 +160,3 @@ class ChatsPage extends StatelessWidget {
     );
   }
 }
-  // SizedBox(
-  //               width: 92.w,
-  //               child: ListTile(
-  //                 tileColor: const Color.fromARGB(255, 248, 248, 248),
-  //                 leading: CircleAvatar(
-  //                   backgroundImage: NetworkImage(
-  //                       'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg'),
-  //                 ),
-  //                 title: Text(
-  //                   'Marry Hospital',
-  //                   style:
-  //                       TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
-  //                 ),
-  //                 subtitle: Text(
-  //                   '3 Messages ~15m',
-  //                   style:
-  //                       TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
-  //                 ),
-  //                 trailing: const Icon(
-  //                   Icons.camera_alt_outlined,
-  //                   // color: Colors.grey,
-  //                 ),
-  //                 onTap: () => Navigator.pushNamed(context, '/userChat'),
-  //               ),
-  //             ),

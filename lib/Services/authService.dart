@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'package:blood_donation/Providers/authProvider.dart';
+import 'package:blood_donation/Providers/campsProvider.dart';
+import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:blood_donation/Providers/donorCountProvider.dart';
+import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +84,9 @@ class AuthService {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', authProvider.name!);
+        Provider.of<CertificateProvider>(context).fetchCertificate();
+        Provider.of<Campsprovider>(context).fetchCamps(context);
+        Provider.of<DonorCountProvider>(context).loadDonorCount();
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -168,6 +176,11 @@ class AuthService {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', username);
+        Provider.of<CertificateProvider>(context, listen: false)
+            .fetchCertificate();
+        Provider.of<Campsprovider>(context, listen: false).fetchCamps(context);
+        Provider.of<DonorCountProvider>(context, listen: false)
+            .loadDonorCount();
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -184,6 +197,7 @@ class AuthService {
         return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {
+      print(e);
       authProvider.isLoading = false; // Stop loading state
       return 'Network error: Unable to connect to the server';
     } finally {

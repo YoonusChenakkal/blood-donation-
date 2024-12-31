@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class AuthProvider with ChangeNotifier {
-  String? _uniqueId;
+class AuthProvider extends ChangeNotifier {
   String? _name;
   String? _email;
   String? _bloodGroup;
@@ -14,7 +13,6 @@ class AuthProvider with ChangeNotifier {
   Timer? _timer;
 
   // Getters and Setters
-  String? get uniqueId => _uniqueId;
   String? get name => _name;
   String? get email => _email;
   String? get bloodGroup => _bloodGroup;
@@ -49,11 +47,6 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set uniqueId(String? value) {
-    _uniqueId = value;
-    notifyListeners();
-  }
-
   set showOtpField(bool value) {
     _showOtpField = value;
     if (_showOtpField) {
@@ -71,11 +64,18 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  reset() {
+  setBoolToFalse() {
     _showOtpField = false;
     _isLoading = false;
-    _uniqueId = null;
     notifyListeners();
+  }
+
+  reset() {
+    setBoolToFalse();
+    name = null;
+    email = null;
+    otp = null;
+    bloodGroup = null;
   }
 
   startTimer() {
