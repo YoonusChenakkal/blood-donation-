@@ -2,7 +2,7 @@ class ChatModel {
   final int id;
   final String senderType;
   final String senderName;
-  final int hospital;
+  final String hospitalName;
   final String content;
   final DateTime timestamp;
   final bool isRead;
@@ -11,34 +11,36 @@ class ChatModel {
     required this.id,
     required this.senderType,
     required this.senderName,
-    required this.hospital,
+    required this.hospitalName,
     required this.content,
     required this.timestamp,
     required this.isRead,
   });
 
-  // Factory method to create a ChatModel from JSON
+  // Factory constructor for creating a ChatModel from JSON
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
-      id: json['id'],
-      senderType: json['sender_type'],
-      senderName: json['sender_name'],
-      hospital: json['hospital'],
-      content: json['content'],
-      timestamp: DateTime.parse(json['timestamp']),
-      isRead: json['is_read'],
+      id: json['id'], // Directly maps to id in JSON
+      senderType: json['sender_type'], // Maps sender_type
+      senderName: json['sender_name'], // Maps sender_name
+      hospitalName: json['hospital_name'], // Maps hospital_name
+      content: json['content'], // Maps content
+      timestamp: DateTime.parse(
+          json['timestamp']), // Converts timestamp string to DateTime
+      isRead: json['is_read'], // Maps is_read
     );
   }
 
-  // Method to convert a ChatModel object to JSON
+  // Converts a ChatModel instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'sender_type': senderType,
       'sender_name': senderName,
-      'hospital': hospital,
+      'hospital_name': hospitalName,
       'content': content,
-      'timestamp': timestamp.toIso8601String(),
+      'timestamp':
+          timestamp.toIso8601String(), // Converts DateTime to ISO 8601 string
       'is_read': isRead,
     };
   }

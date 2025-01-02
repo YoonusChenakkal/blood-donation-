@@ -1,6 +1,5 @@
 import 'package:blood_donation/Providers/chatsProvider.dart';
 import 'package:blood_donation/Providers/hospitalProvider.dart';
-import 'package:blood_donation/Screens/login.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -41,18 +40,18 @@ class ChatsPage extends StatelessWidget {
           ),
           Expanded(
             child: Consumer<HospitalProvider>(
-              builder: (context, donorProvider, _) {
-                if (donorProvider.isLoading) {
+              builder: (context, hospitalProvider, _) {
+                if (hospitalProvider.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (donorProvider.errorMessage != null) {
+                if (hospitalProvider.errorMessage != null) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          donorProvider.errorMessage!,
+                          hospitalProvider.errorMessage!,
                           style: TextStyle(color: Colors.red, fontSize: 16.sp),
                           textAlign: TextAlign.center,
                         ),
@@ -62,13 +61,14 @@ class ChatsPage extends StatelessWidget {
                         CustomButton(
                             text: 'Refresh',
                             buttonType: ButtonType.Outlined,
-                            onPressed: () => donorProvider.fetchHospitals())
+                            isLoading: hospitalProvider.isLoading,
+                            onPressed: () => hospitalProvider.fetchHospitals())
                       ],
                     ),
                   );
                 }
 
-                if (donorProvider.hospitals.isEmpty) {
+                if (hospitalProvider.hospitals.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -83,13 +83,14 @@ class ChatsPage extends StatelessWidget {
                         CustomButton(
                             text: 'Refresh',
                             buttonType: ButtonType.Outlined,
-                            onPressed: () => donorProvider.fetchHospitals())
+                            isLoading: hospitalProvider.isLoading,
+                            onPressed: () => hospitalProvider.fetchHospitals())
                       ],
                     ),
                   );
                 }
 
-                if (donorProvider.filteredhospitals.isEmpty) {
+                if (hospitalProvider.filteredhospitals.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +105,8 @@ class ChatsPage extends StatelessWidget {
                         CustomButton(
                             text: 'Refresh',
                             buttonType: ButtonType.Outlined,
-                            onPressed: () => donorProvider.fetchHospitals())
+                            isLoading: hospitalProvider.isLoading,
+                            onPressed: () => hospitalProvider.fetchHospitals())
                       ],
                     ),
                   );
@@ -112,14 +114,15 @@ class ChatsPage extends StatelessWidget {
 
                 return RefreshIndicator(
                   onRefresh: () async {
-                    await donorProvider.fetchHospitals();
+                    await hospitalProvider.fetchHospitals();
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 15),
                     child: ListView.builder(
-                      itemCount: donorProvider.filteredhospitals.length,
+                      itemCount: hospitalProvider.filteredhospitals.length,
                       itemBuilder: (context, index) {
-                        final hospital = donorProvider.filteredhospitals[index];
+                        final hospital =
+                            hospitalProvider.filteredhospitals[index];
                         return Padding(
                           padding: const EdgeInsets.only(
                               bottom: 3, left: 8, right: 8),

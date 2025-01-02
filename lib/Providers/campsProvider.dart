@@ -54,11 +54,11 @@ class Campsprovider extends ChangeNotifier {
   }
 
   Future<String?> registerInCamp(
-      String user, int campId, AuthProvider authProvider) async {
+      String user, int campId) async {
     final url = Uri.parse(
         'https://lifeproject.pythonanywhere.com/donor/register-camp/');
 
-    authProvider.isLoading = true;
+   _isLoading = true;
     notifyListeners();
 
     try {
@@ -82,7 +82,7 @@ class Campsprovider extends ChangeNotifier {
     } catch (e) {
       return 'Failed to Register: ${e.toString()}';
     } finally {
-      authProvider.isLoading = false;
+    _isLoading = false;
       notifyListeners();
     }
   }

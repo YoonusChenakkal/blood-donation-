@@ -102,10 +102,10 @@ class ProfilePage extends StatelessWidget {
   logout(BuildContext context) async {
     Provider.of<AuthProvider>(context, listen: false).reset();
 
-    Provider.of<UserProfileProvider>(context, listen: false).reset();
+    await Provider.of<UserProfileProvider>(context, listen: false).reset();
     Provider.of<Campsprovider>(context, listen: false).camp.clear();
-    Provider.of<CertificateProvider>(context, listen: false).reset();
-    Provider.of<TabIndexNotifier>(context, listen: false).reset();
+    await Provider.of<CertificateProvider>(context, listen: false).reset();
+    await Provider.of<TabIndexNotifier>(context, listen: false).reset();
 
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('username');

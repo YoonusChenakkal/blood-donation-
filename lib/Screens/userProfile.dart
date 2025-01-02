@@ -6,7 +6,6 @@ import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customIdProof.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -111,6 +110,7 @@ class UserProfile extends StatelessWidget {
               // Submit Button
               CustomButton(
                 text: 'Submit',
+                isLoading:userProfileProvider.isLoading ,
                 onPressed: () {
                   if (userProfileProvider.address == null ||
                       userProfileProvider.address!.isEmpty) {

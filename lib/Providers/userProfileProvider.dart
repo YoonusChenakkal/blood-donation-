@@ -16,6 +16,7 @@ class UserProfileProvider extends ChangeNotifier {
   String? _bloodGroup;
   String? _imageName;
   bool _isChecked = false;
+  bool isLoading= false;
   File? _idProofImage;
 
   // Getters
@@ -64,7 +65,7 @@ class UserProfileProvider extends ChangeNotifier {
     final url =
         Uri.parse('https://lifeproject.pythonanywhere.com/donor/user-profile/');
 
-    authProvider.isLoading = true;
+    isLoading = true;
     notifyListeners();
 
     try {
@@ -139,7 +140,7 @@ class UserProfileProvider extends ChangeNotifier {
         duration: Duration(seconds: 2),
       ));
     } finally {
-      authProvider.isLoading = false;
+      isLoading = false;
       notifyListeners();
     }
   }

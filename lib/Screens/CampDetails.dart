@@ -200,6 +200,7 @@ class CampDetails extends StatelessWidget {
               : CustomButton(
                   text: 'Register',
                   height: 6,
+                  isLoading: campProvider.isLoading,
                   buttonType: ButtonType.Elevated,
                   onPressed: () => _showExitDialog(camp, context),
                 ),
@@ -229,14 +230,15 @@ class CampDetails extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context); // Dismiss dialog
-              final authProvider =
-                  Provider.of<AuthProvider>(parentContext, listen: false);
-              authProvider.isLoading = true;
+              Navigator.pop(context); 
+
+           
               final campsProvider =
                   Provider.of<Campsprovider>(parentContext, listen: false);
+
               final prefs = await SharedPreferences.getInstance();
               String? username = prefs.getString('username');
+
               if (username == null) {
                 ScaffoldMessenger.of(parentContext).showSnackBar(
                   SnackBar(content: Text('Please login first.')),
@@ -247,7 +249,6 @@ class CampDetails extends StatelessWidget {
               final message = await campsProvider.registerInCamp(
                 username,
                 camp.id!,
-                authProvider,
               );
 
               if (message != null) {

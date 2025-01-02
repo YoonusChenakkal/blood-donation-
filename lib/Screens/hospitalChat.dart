@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class UserChat extends StatelessWidget {
-  const UserChat({super.key});
+class HospitalChat extends StatelessWidget {
+  const HospitalChat({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +175,7 @@ class UserChat extends StatelessWidget {
                     IconButton(
                       onPressed: () async {
                         final message = await chatProvider.sendMessage(
-                            hospital.id, tcContent.text);
+                            hospital.id, hospital.name, tcContent.text);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(message),
                           duration: const Duration(seconds: 2),

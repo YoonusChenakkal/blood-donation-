@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class Sheduledcamps extends StatelessWidget {
-  const Sheduledcamps({super.key});
+class Scheduledcamps extends StatelessWidget {
+  const Scheduledcamps({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class Sheduledcamps extends StatelessWidget {
                     CustomButton(
                         text: 'Retry',
                         buttonType: ButtonType.Outlined,
+                        isLoading: campsProvider.isLoading,
                         onPressed: () => campsProvider.fetchCamps(context))
                   ],
                 ),
@@ -65,7 +66,8 @@ class Sheduledcamps extends StatelessWidget {
                     ),
                     CustomButton(
                         text: 'Refresh',
-                        buttonType: ButtonType.Outlined,
+                        buttonType: ButtonType.Outlined,                        isLoading: campsProvider.isLoading,
+
                         onPressed: () => campsProvider.fetchCamps(context))
                   ],
                 ),

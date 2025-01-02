@@ -124,6 +124,7 @@ class Login extends StatelessWidget {
                     ),
                     CustomButton(
                       text: authProvider.showOtpField ? 'Login' : 'Submit',
+                      isLoading: authProvider.isLoading,
                       onPressed: () async {
                         if (authProvider.email == null ||
                             authProvider.email!.isEmpty) {

@@ -37,7 +37,7 @@ class ChatsProvider extends ChangeNotifier {
     }
   }
 
-  sendMessage(int? id, String? content) async {
+  sendMessage(int?id,String? hospitalName, String? content) async {
     errorMessage = null;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
@@ -52,7 +52,7 @@ class ChatsProvider extends ChangeNotifier {
         body: jsonEncode({
           'sender_name': username,
           'sender_type': 'donor',
-          'hospital': id,
+          'hospital': hospitalName,
           'content': content,
         }),
       );

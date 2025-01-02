@@ -118,13 +118,11 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               CustomBanner(
-                title1: 'Your Certificate is raedy!',
-                title2:
-                    'Your Preious donation Certificate is ready to Download Get it now and do somethis  and someithonf',
-                buttonText: 'Download',
-                textColor: Colors.black,
-                onPressed: () {},
-              ),
+                  title1: 'Sheduled Donations',
+                  title2: '',
+                  buttonText: 'View',
+                  textColor: Colors.black,
+                  onPressed: () {}),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 13.0,

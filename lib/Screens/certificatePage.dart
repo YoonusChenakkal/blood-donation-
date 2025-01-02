@@ -37,6 +37,7 @@ class CertificatePage extends StatelessWidget {
                   ? 'e-Sign'
                   : 'Download',
               buttonType: ButtonType.Elevated,
+              isLoading: certificateProvider.isLoading,
               onPressed: () async {
                 if (certificateProvider.consentDate == null) {
                   showSignatureDialogue(context, certificateProvider);

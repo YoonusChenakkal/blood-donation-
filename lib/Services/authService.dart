@@ -84,9 +84,10 @@ class AuthService {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', authProvider.name!);
-        Provider.of<CertificateProvider>(context).fetchCertificate();
-        Provider.of<Campsprovider>(context).fetchCamps(context);
-        Provider.of<DonorCountProvider>(context).loadDonorCount();
+        Provider.of<CertificateProvider>(context,listen: false).fetchCertificate();
+        Provider.of<DonorCountProvider>(context,listen: false).loadDonorCount();
+       Provider.of<Campsprovider>(context, listen: false).fetchCamps(context);
+
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -104,7 +105,7 @@ class AuthService {
       }
     } catch (e) {
       authProvider.isLoading = false; // Stop loading state
-
+      print(e);
       return 'Network error: Unable to connect to the server';
     } finally {
       authProvider.isLoading = false;
@@ -167,7 +168,7 @@ class AuthService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'otp': otp}),
       );
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final username = data['user'];
@@ -194,6 +195,7 @@ class AuthService {
             'Incorrect OTP. Please try again.';
         return errorMessage;
       } else {
+        print(response.body);
         return 'Unexpected error occurred. Please try again.';
       }
     } catch (e) {

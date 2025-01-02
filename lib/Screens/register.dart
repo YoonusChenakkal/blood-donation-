@@ -124,6 +124,7 @@ class Register extends StatelessWidget {
                     // Submit Button
                     CustomButton(
                       text: authProvider.showOtpField ? 'Register' : 'Submit',
+                      isLoading: authProvider.isLoading,
                       onPressed: authProvider.showOtpField
                           ? () async {
                               if (authProvider.otp!.isEmpty ||
