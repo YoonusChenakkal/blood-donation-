@@ -1,6 +1,7 @@
 import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:blood_donation/widgets/certificatePreview.dart';
 import 'package:blood_donation/widgets/customButton.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:signature/signature.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +18,13 @@ class CertificatePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 8.h,
         backgroundColor: Colors.white,
-        title: Text(
-          'Certificate',
-          style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
-        ),
+        title: Text('Certificate',
+            style: GoogleFonts.aBeeZee(
+                fontSize: 23.sp, fontWeight: FontWeight.w600)),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        toolbarHeight: 9.h,
       ),
       body: SizedBox(
         height: 100.h,

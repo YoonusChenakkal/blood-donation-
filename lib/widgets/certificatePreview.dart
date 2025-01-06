@@ -1,5 +1,6 @@
 import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -24,9 +25,8 @@ class CertificatePreview extends StatelessWidget {
       child: Stack(
         children: [
           Center(
-            child: Text(
-                certificateProvider.fetchedUsername ?? 'Example',
-                style: TextStyle(fontSize: 20.sp)),
+            child: Text(certificateProvider.fetchedUsername ?? 'Example',
+                style: GoogleFonts.baskervville(fontSize: 20.sp)),
           ),
           Positioned(
               bottom: 11.h,
@@ -41,7 +41,7 @@ class CertificatePreview extends StatelessWidget {
                       ? 'Consent Date'
                       : DateFormat('dd-MM-yyyy').format(
                           DateTime.parse(certificateProvider.consentDate!)),
-                  style: TextStyle(fontSize: 13.sp))),
+                  style: GoogleFonts.afacad(fontSize: 14.sp))),
           Positioned(
               bottom: 6.h,
               right: 25.w,

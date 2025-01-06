@@ -14,7 +14,7 @@ class Customdropdown extends StatelessWidget {
 
     return Container(
       height: 6.h,
-      width: 75.w,
+      width: 85.w,
       padding: EdgeInsets.symmetric(horizontal: 2.w),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 231, 231, 231),

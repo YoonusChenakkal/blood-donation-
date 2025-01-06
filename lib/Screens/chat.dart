@@ -2,6 +2,7 @@ import 'package:blood_donation/Providers/chatsProvider.dart';
 import 'package:blood_donation/Providers/hospitalProvider.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -15,23 +16,26 @@ class ChatsPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 8.h,
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           'Chats',
-          style: TextStyle(fontSize: 23.sp, fontWeight: FontWeight.w600),
+          style:
+              GoogleFonts.aBeeZee(fontSize: 23.sp, fontWeight: FontWeight.w600),
         ),
       ),
       body: Column(
         children: [
           SizedBox(
             height: 5.h,
-            width: 80.w,
+            width: 90.w,
             child: SearchBar(
               onChanged: (query) =>
                   Provider.of<HospitalProvider>(context, listen: false)
                       .searchhospitals(query),
-              backgroundColor: WidgetStatePropertyAll(Colors.red[50]),
+              backgroundColor: WidgetStatePropertyAll(
+                  const Color.fromARGB(255, 243, 243, 243)),
               leading: const Icon(Icons.search),
               hintText: 'Search',
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -116,43 +120,48 @@ class ChatsPage extends StatelessWidget {
                   onRefresh: () async {
                     await hospitalProvider.fetchHospitals();
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: ListView.builder(
-                      itemCount: hospitalProvider.filteredhospitals.length,
-                      itemBuilder: (context, index) {
-                        final hospital =
-                            hospitalProvider.filteredhospitals[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 3, left: 8, right: 8),
-                          child: ListTile(
-                            tileColor: const Color.fromARGB(255, 248, 248, 248),
-                            leading: const CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg'),
-                            ),
-                            title: Text(
-                              hospital.name,
-                              style: TextStyle(
-                                  fontSize: 17.sp, fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Text(
-                              DateFormat('dd-MM-yyyy')
-                                  .format(hospital.createdAt),
-                              style: TextStyle(
-                                  fontSize: 15.sp, fontWeight: FontWeight.w500),
-                            ),
-                            onTap: () {
-                              Provider.of<ChatsProvider>(context, listen: false)
-                                  .fetchChats(hospital.id);
-                              Navigator.pushNamed(context, '/userChat',
-                                  arguments: hospital);
-                            },
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(top: 2.h),
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        indent: 21.w,
+                        color: const Color.fromARGB(255, 179, 179, 179),
+                        thickness: .4,
+                        height: 0,
+                      );
+                    },
+                    itemCount: hospitalProvider.filteredhospitals.length,
+                    itemBuilder: (context, index) {
+                      final hospital =
+                          hospitalProvider.filteredhospitals[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: ListTile(
+                          tileColor: const Color.fromARGB(255, 255, 255, 255),
+                          leading: CircleAvatar(
+                            radius: 25,
+                            backgroundImage: NetworkImage(
+                                'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg'),
                           ),
-                        );
-                      },
-                    ),
+                          title: Text(
+                            hospital.name,
+                            style: GoogleFonts.actor(
+                                fontSize: 17.sp, fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                            DateFormat('dd-MM-yyyy').format(hospital.createdAt),
+                            style: TextStyle(
+                                fontSize: 15.sp, fontWeight: FontWeight.w400),
+                          ),
+                          onTap: () {
+                            Provider.of<ChatsProvider>(context, listen: false)
+                                .fetchChats(hospital.id);
+                            Navigator.pushNamed(context, '/hospitalChat',
+                                arguments: hospital);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 );
               },

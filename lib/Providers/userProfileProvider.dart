@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:blood_donation/Providers/authProvider.dart';
@@ -16,8 +17,9 @@ class UserProfileProvider extends ChangeNotifier {
   String? _bloodGroup;
   String? _imageName;
   bool _isChecked = false;
-  bool isLoading= false;
+  bool isLoading = false;
   File? _idProofImage;
+  Map<String, dynamic> profileData = {};
 
   // Getters
   String? get name => _name;
@@ -59,6 +61,56 @@ class UserProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  fetchUserProfile() async {
+    isLoading = true;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    print("Username: $username");
+
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'https://lifeproject.pythonanywhere.com/donor/profiles/?user=${username}'),
+      );
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data =
+            jsonDecode(response.body); // Decode as a List
+        print("Response Data: $data");
+
+        // Access the first element in the list since the response is an array
+        profileData = {
+          'id': data[0]['id'] ?? 0, // Ensure id is an integer
+          'unique_id': data[0]['unique_id'] ?? '',
+          'name': data[0]['user'] ?? '',
+          'email': data[0]['email'] ?? '',
+          'address': data[0]['address'] ?? '',
+          'phone':
+              data[0]['contact_number']?.toString() ?? '', // Convert to string
+          'bloodGroup': data[0]['blood_group'] ?? '',
+          'donateOrgan':
+              data[0]['willing_to_donate_organ'] ?? false, // Keep as bool
+          'donateBlood':
+              data[0]['willing_to_donate_blood'] ?? false, // Keep as bool
+        };
+
+        notifyListeners();
+      } else {
+        throw Exception(
+            'Failed to load profile. Server returned ${response.statusCode}');
+      }
+    } catch (error) {
+      print("Error: $error");
+      throw Exception('Failed to fetch profile: ${error.toString()}');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   registerUserPofile(BuildContext ctx, String? address, String? phone,
       File? idProofImage) async {
     final authProvider = Provider.of<AuthProvider>(ctx, listen: false);
@@ -77,7 +129,7 @@ class UserProfileProvider extends ChangeNotifier {
       request.fields['contact_number'] = phone ?? '';
       request.fields['address'] = address ?? '';
       request.fields['blood_group'] = authProvider.bloodGroup ?? '';
-      request.fields['willing_to_donate_organ'] = _isChecked ? 'Yes' : 'No';
+      request.fields['willing_to_donate_organ'] = _isChecked ? 'true' : 'false';
 
       // If there is an image, add it to the request
       if (idProofImage != null) {

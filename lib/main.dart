@@ -33,11 +33,13 @@ void main() {
           providers: [
             ChangeNotifierProvider(create: (_) => AuthProvider()),
             ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
-            ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+            ChangeNotifierProvider(
+                create: (_) => UserProfileProvider()..fetchUserProfile()),
             ChangeNotifierProvider(create: (_) => ChatsProvider()),
             ChangeNotifierProvider(
                 create: (_) => CertificateProvider()..fetchCertificate()),
-            ChangeNotifierProvider(create: (_) => HospitalProvider()),
+            ChangeNotifierProvider(
+                create: (_) => HospitalProvider()..fetchHospitals()),
             ChangeNotifierProvider(
                 create: (_) => DonorCountProvider()..loadDonorCount()),
             ChangeNotifierProvider(
@@ -75,7 +77,7 @@ class MainApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/home': (context) => const HomePage(),
         '/chats': (context) => const ChatsPage(),
-        '/userChat': (context) => const HospitalChat(),
+        '/hospitalChat': (context) => const HospitalChat(),
         '/profile': (context) => const ProfilePage(),
         '/bottomNavigationBar': (context) => const CustomBottomNavigationBar(),
         '/certificateDetails': (context) => const CertificateDetails(),
@@ -100,8 +102,8 @@ class MainApp extends StatelessWidget {
                   '/login': (context) => const Login(),
                   '/home': (context) => const HomePage(),
                   '/chats': (context) => const ChatsPage(),
-                  '/userChat': (context) => const HospitalChat(),
-                  '/profile': (context) =>  const ProfilePage(),
+                  '/hospitalChat': (context) => const HospitalChat(),
+                  '/profile': (context) => const ProfilePage(),
                   '/bottomNavigationBar': (context) =>
                       const CustomBottomNavigationBar(),
                   '/certificateDetails': (context) =>

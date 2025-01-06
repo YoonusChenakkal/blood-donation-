@@ -1,5 +1,6 @@
 import 'package:blood_donation/Services/authService.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:blood_donation/Providers/authProvider.dart';
@@ -67,7 +68,7 @@ class Login extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Login',
-                        style: TextStyle(
+                        style: GoogleFonts.nunito(
                           fontSize: 23.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -75,6 +76,7 @@ class Login extends StatelessWidget {
                       ),
                     ),
                     CustomTextfield(
+                      width: 85,
                       enabled: !authProvider.showOtpField,
                       hintText: 'Enter Your Email',
                       keyboardType: TextInputType.emailAddress,
@@ -85,9 +87,10 @@ class Login extends StatelessWidget {
                     ),
                     if (authProvider.showOtpField) ...[
                       SizedBox(
-                        height: 2.h,
+                        height: 1.5.h,
                       ),
                       CustomTextfield(
+                        width: 85,
                         hintText: 'Enter OTP',
                         keyboardType: TextInputType.number,
                         icon: Icons.lock,
@@ -123,6 +126,7 @@ class Login extends StatelessWidget {
                       height: 4.5.h,
                     ),
                     CustomButton(
+                      width: 60,
                       text: authProvider.showOtpField ? 'Login' : 'Submit',
                       isLoading: authProvider.isLoading,
                       onPressed: () async {

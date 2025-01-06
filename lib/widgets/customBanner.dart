@@ -24,7 +24,7 @@ class CustomBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 92.w,
+      width: 93.w,
       height: 14.5.h,
       decoration: BoxDecoration(
         color: bannerColor,

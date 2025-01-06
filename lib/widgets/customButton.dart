@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
               onPressed:
                   isLoading ? null : onPressed, // Disable button when loading
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 236, 26, 11),
+                backgroundColor: const Color.fromARGB(255, 232, 15, 0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),

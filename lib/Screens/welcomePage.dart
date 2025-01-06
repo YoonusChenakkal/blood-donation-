@@ -1,5 +1,6 @@
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -27,77 +28,73 @@ class WelcomePage extends StatelessWidget {
                 child: SizedBox(
                   height: 55.h,
                   width: 100.w,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'When we ',
-                              style: TextStyle(
-                                  fontSize: 25.5.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                            Text(
-                              'donate',
-                              style: TextStyle(
-                                  fontSize: 25.5.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color.fromARGB(255, 255, 17, 0)),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'we connect ',
-                              style: TextStyle(
-                                fontSize: 24.5.sp,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('When we ',
+                              style: GoogleFonts.robotoSlab(
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'lives',
-                              style: TextStyle(
-                                  fontSize: 24.5.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blue),
-                            )
-                          ],
-                        ),
-                        Text(
-                          '"Be the reason someone smiles today"',
-                          style: TextStyle(
-                              fontSize: 16.sp,
+                              )),
+                          Text(
+                            'donate',
+                            style: GoogleFonts.robotoSlab(
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 255, 17, 0)),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('we connect ',
+                              style: GoogleFonts.robotoSlab(
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              )),
+                          Text('lives',
+                              style: GoogleFonts.robotoSlab(
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blue,
+                              ))
+                        ],
+                      ),
+                      Text('"Be the reason someone smiles today"',
+                          style: GoogleFonts.montserrat(
+                              fontSize: 14.5.sp,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 6.h,
-                        ),
-                        Center(
-                            child: CustomButton(
-                                text: 'Login',
-                                buttonType: ButtonType.Outlined,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/login');
-                                })),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        Center(
-                            child: CustomButton(
-                                text: 'Register',
-                                buttonType: ButtonType.Elevated,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/register');
-                                })),
-                      ],
-                    ),
+                              color: Colors.white,
+                              height: 2)),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Center(
+                          child: CustomButton(
+                              width: 60,
+                              text: 'Login',
+                              buttonType: ButtonType.Outlined,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/login');
+                              })),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      Center(
+                          child: CustomButton(
+                              width: 60,
+                              text: 'Register',
+                              buttonType: ButtonType.Elevated,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/register');
+                              })),
+                    ],
                   ),
                 ))
           ],

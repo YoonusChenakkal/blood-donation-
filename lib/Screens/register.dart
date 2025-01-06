@@ -4,6 +4,7 @@ import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -67,7 +68,7 @@ class Register extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Register',
-                        style: TextStyle(
+                        style: GoogleFonts.nunito(
                           fontSize: 23.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -76,6 +77,7 @@ class Register extends StatelessWidget {
                     ),
 
                     CustomTextfield(
+                      width: 85,
                       hintText: 'Enter Your Name',
                       keyboardType: TextInputType.name,
                       icon: Icons.person,
@@ -85,9 +87,10 @@ class Register extends StatelessWidget {
                       enabled: authProvider.showOtpField ? false : true,
                     ), // Name Textfield
                     SizedBox(
-                      height: 1.3.h,
+                      height: 1.h,
                     ),
                     CustomTextfield(
+                      width: 85,
                       hintText: 'Enter Your Email',
                       keyboardType: TextInputType.emailAddress,
                       icon: Icons.email,
@@ -97,7 +100,7 @@ class Register extends StatelessWidget {
                       },
                     ), // Email Textfield
                     SizedBox(
-                      height: 1.3.h,
+                      height: 1.h,
                     ),
                     // Blood Type Dropdown
                     Customdropdown(
@@ -107,9 +110,10 @@ class Register extends StatelessWidget {
                     // Show OTP field only if the response code was 201
                     if (authProvider.showOtpField) ...[
                       SizedBox(
-                        height: 3.h,
+                        height: 1.h,
                       ),
                       CustomTextfield(
+                        width: 85,
                         hintText: 'Enter OTP',
                         keyboardType: TextInputType.number,
                         icon: Icons.lock,
@@ -123,6 +127,7 @@ class Register extends StatelessWidget {
                     ),
                     // Submit Button
                     CustomButton(
+                      width: 60,
                       text: authProvider.showOtpField ? 'Register' : 'Submit',
                       isLoading: authProvider.isLoading,
                       onPressed: authProvider.showOtpField
@@ -134,11 +139,12 @@ class Register extends StatelessWidget {
                                       content: Text('Please Enter OTP')),
                                 );
                               } else {
-                                responseMessage = await authService.verifyRegisterOtp(
-                                    authProvider.email!,
-                                    authProvider.otp!,
-                                    context,
-                                    authProvider);
+                                responseMessage =
+                                    await authService.verifyRegisterOtp(
+                                        authProvider.email!,
+                                        authProvider.otp!,
+                                        context,
+                                        authProvider);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(responseMessage)),
                                 );

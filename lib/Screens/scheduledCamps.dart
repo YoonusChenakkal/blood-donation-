@@ -2,6 +2,7 @@ import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/widgets/campCard.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,10 +14,12 @@ class Scheduledcamps extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 8.h,
         backgroundColor: Colors.white,
         title: Text(
           'Camps',
-          style: TextStyle(fontSize: 23.sp, fontWeight: FontWeight.w600),
+          style:
+              GoogleFonts.aBeeZee(fontSize: 23.sp, fontWeight: FontWeight.w600),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -66,8 +69,8 @@ class Scheduledcamps extends StatelessWidget {
                     ),
                     CustomButton(
                         text: 'Refresh',
-                        buttonType: ButtonType.Outlined,                        isLoading: campsProvider.isLoading,
-
+                        buttonType: ButtonType.Outlined,
+                        isLoading: campsProvider.isLoading,
                         onPressed: () => campsProvider.fetchCamps(context))
                   ],
                 ),

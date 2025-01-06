@@ -230,9 +230,8 @@ class CampDetails extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context); 
+              Navigator.pop(context);
 
-           
               final campsProvider =
                   Provider.of<Campsprovider>(parentContext, listen: false);
 

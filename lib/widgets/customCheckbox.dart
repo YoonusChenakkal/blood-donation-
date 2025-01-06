@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomCheckbox extends StatelessWidget {
-  bool isChecked;
-  ValueChanged<bool?> onChanged; // Callback to notify changes
-  String title;
+  final bool isChecked;
+  final ValueChanged<bool?> onChanged; // Callback to notify changes
+  final String title;
 
   CustomCheckbox({
     Key? key,
@@ -16,24 +17,25 @@ class CustomCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        top: 1.5.h,
-        left: 18.w,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 2.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            title,
+            style: GoogleFonts.cabin(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.green),
+          ),
+          SizedBox(width: 1.5.w), // Adjusted space between text and checkbox
           Checkbox(
             value: isChecked,
             onChanged: onChanged,
-            activeColor: Colors.amber,
-          ),
-          SizedBox(
-            width: 2.w,
-          ),
-          Text(
-            title,
-            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+            activeColor: Colors.red,
+            materialTapTargetSize:
+                MaterialTapTargetSize.shrinkWrap, // Reduces checkbox padding
           ),
         ],
       ),
