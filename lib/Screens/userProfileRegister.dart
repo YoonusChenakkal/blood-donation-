@@ -55,7 +55,7 @@ class UserProfile extends StatelessWidget {
 
               CustomTextfield(
                 enabled: false,
-                hintText: authProvider.name ?? 'No Name',
+                hintText: authProvider.name ?? 'Name',
                 keyboardType: TextInputType.name,
                 icon: Icons.person_2_outlined,
                 onChanged: (value) {
@@ -94,23 +94,35 @@ class UserProfile extends StatelessWidget {
               SizedBox(
                 height: 1.3.h,
               ),
-              CustomIdProof(),
-              CustomCheckbox(
-                  title: 'Willing Donate Organ',
-                  isChecked: userProfileProvider.isChecked,
-                  onChanged: (value) {
-                    userProfileProvider.isChecked = value!;
-                  }),
+              const CustomIdProof(),
               SizedBox(
                 height: 1.3.h,
               ),
+              CustomCheckbox(
+                  title: 'Willing Donate Blood ',
+                  textColor: Colors.white,
+                  isChecked: userProfileProvider.isBloodChecked,
+                  onChanged: (value) {
+                    userProfileProvider.isBloodChecked = value!;
+                  }),
+
+              CustomCheckbox(
+                  title: 'Willing Donate Organ',
+                  textColor: Colors.white,
+                  isChecked: userProfileProvider.isOrganChecked,
+                  onChanged: (value) {
+                    userProfileProvider.isOrganChecked = value!;
+                  }),
+
               SizedBox(
                 height: 3.h,
               ),
               // Submit Button
               CustomButton(
                 text: 'Submit',
-                isLoading:userProfileProvider.isLoading ,
+                textColor: const Color.fromARGB(255, 230, 3, 3),
+                isLoading: userProfileProvider.isLoading,
+                color: const Color.fromARGB(255, 230, 3, 3),
                 onPressed: () {
                   if (userProfileProvider.address == null ||
                       userProfileProvider.address!.isEmpty) {

@@ -79,6 +79,7 @@ class WelcomePage extends StatelessWidget {
                           child: CustomButton(
                               width: 60,
                               text: 'Login',
+                              textColor: const Color.fromARGB(255, 230, 3, 3),
                               buttonType: ButtonType.Outlined,
                               onPressed: () {
                                 Navigator.pushNamed(context, '/login');

@@ -6,13 +6,15 @@ class CustomCheckbox extends StatelessWidget {
   final bool isChecked;
   final ValueChanged<bool?> onChanged; // Callback to notify changes
   final String title;
+  final Color textColor;
 
-  CustomCheckbox({
-    Key? key,
-    this.title = '',
-    required this.isChecked,
-    required this.onChanged,
-  }) : super(key: key);
+  CustomCheckbox(
+      {Key? key,
+      this.title = '',
+      required this.isChecked,
+      required this.onChanged,
+      this.textColor = Colors.blueGrey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,7 @@ class CustomCheckbox extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.cabin(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.green),
+                fontSize: 15.sp, fontWeight: FontWeight.w500, color: textColor),
           ),
           SizedBox(width: 1.5.w), // Adjusted space between text and checkbox
           Checkbox(

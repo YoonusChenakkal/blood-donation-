@@ -11,7 +11,7 @@ class CustomIdProof extends StatelessWidget {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
     return Container(
         height: 6.h,
-        width: 75.w,
+        width: 85.w,
         decoration: ShapeDecoration(
           color: const Color.fromARGB(255, 231, 231, 231),
           shape: RoundedRectangleBorder(
@@ -42,12 +42,9 @@ class CustomIdProof extends StatelessWidget {
                     style: const ButtonStyle(
                       padding: WidgetStatePropertyAll(EdgeInsets.zero),
                     ),
-                    child: Text(
-                      'Browse',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                      ),
-                    ),
+                    child: Text('Browse',
+                        style: TextStyle(
+                            fontSize: 16.sp, color: Color(0xFF5686E1))),
                   ),
                 ],
               )

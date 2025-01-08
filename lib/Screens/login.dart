@@ -128,6 +128,7 @@ class Login extends StatelessWidget {
                     CustomButton(
                       width: 60,
                       text: authProvider.showOtpField ? 'Login' : 'Submit',
+                      textColor: const Color.fromARGB(255, 230, 3, 3),
                       isLoading: authProvider.isLoading,
                       onPressed: () async {
                         if (authProvider.email == null ||

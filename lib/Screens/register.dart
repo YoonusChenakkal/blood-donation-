@@ -106,6 +106,10 @@ class Register extends StatelessWidget {
                     Customdropdown(
                       enabled: authProvider.showOtpField ? false : true,
                       hintText: 'Blood Group',
+                      selectedValue: authProvider.bloodGroup,
+                      onChanged: (value) {
+                        authProvider.bloodGroup = value;
+                      },
                     ),
                     // Show OTP field only if the response code was 201
                     if (authProvider.showOtpField) ...[
@@ -130,6 +134,7 @@ class Register extends StatelessWidget {
                       width: 60,
                       text: authProvider.showOtpField ? 'Register' : 'Submit',
                       isLoading: authProvider.isLoading,
+                      textColor: const Color.fromARGB(255, 230, 3, 3),
                       onPressed: authProvider.showOtpField
                           ? () async {
                               if (authProvider.otp!.isEmpty ||

@@ -17,7 +17,8 @@ import 'package:blood_donation/Screens/login.dart';
 import 'package:blood_donation/Screens/profile.dart';
 import 'package:blood_donation/Screens/register.dart';
 import 'package:blood_donation/Screens/hospitalChat.dart';
-import 'package:blood_donation/Screens/userProfile.dart';
+import 'package:blood_donation/Screens/userProfileEdit.dart';
+import 'package:blood_donation/Screens/userProfileRegister.dart';
 import 'package:blood_donation/Screens/welcomePage.dart';
 import 'package:blood_donation/Services/authService.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,7 @@ class MainApp extends StatelessWidget {
         '/userProfile': (context) => const UserProfile(),
         '/certificatePage': (context) => const CertificatePage(),
         '/campDetails': (context) => const CampDetails(),
+        '/userProfileEdit': (context) => const UserProfileEdit(),
       },
       // Use FutureBuilder to asynchronously set initial route based on uniqueId presence
       builder: (context, child) {
@@ -111,6 +113,7 @@ class MainApp extends StatelessWidget {
                   '/userProfile': (context) => const UserProfile(),
                   '/certificatePage': (context) => const CertificatePage(),
                   '/campDetails': (context) => const CampDetails(),
+                  '/userProfileEdit': (context) => const UserProfileEdit(),
                 },
               );
             }

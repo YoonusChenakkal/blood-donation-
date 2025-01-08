@@ -1,17 +1,22 @@
-import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class Customdropdown extends StatelessWidget {
-  bool enabled;
-  String hintText;
-  Customdropdown({super.key, this.enabled = true, required this.hintText});
+  final bool enabled;
+  final String hintText;
+  final String? selectedValue;
+  final Function(String?)? onChanged; // Add a callback function
+
+  Customdropdown({
+    super.key,
+    this.enabled = true,
+    required this.hintText,
+    this.selectedValue,
+    this.onChanged, // Accept the callback in the constructor
+  });
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-
     return Container(
       height: 6.h,
       width: 85.w,
@@ -32,19 +37,16 @@ class Customdropdown extends StatelessWidget {
           ),
           Expanded(
             child: DropdownButton<String>(
-              value: authProvider.bloodGroup,
+              value: selectedValue,
               hint: Text(
                 hintText,
                 style: TextStyle(
-                    fontSize: 15.sp,
-                    color: const Color.fromARGB(255, 102, 102, 102)),
+                  fontSize: 15.sp,
+                  color: const Color.fromARGB(255, 102, 102, 102),
+                ),
               ),
               isExpanded: true,
-              onChanged: enabled // Only allow changes if enabled is true
-                  ? (String? newValue) {
-                      authProvider.bloodGroup = newValue;
-                    }
-                  : null, // If disabled, onChanged is null (dropdown is read-only)
+              onChanged: enabled ? onChanged : null, // Use the passed callback
               items: bloodTypes.map<DropdownMenuItem<String>>(
                 (String value) {
                   return DropdownMenuItem<String>(
@@ -52,10 +54,11 @@ class Customdropdown extends StatelessWidget {
                     child: Text(
                       value,
                       style: TextStyle(
-                          fontSize: 17.sp,
-                          color: enabled
-                              ? Colors.black
-                              : const Color.fromARGB(255, 156, 156, 156)),
+                        fontSize: 17.sp,
+                        color: enabled
+                            ? Colors.black
+                            : const Color.fromARGB(255, 156, 156, 156),
+                      ),
                     ),
                   );
                 },
@@ -76,5 +79,5 @@ final List<String> bloodTypes = [
   'O+',
   'O-',
   'AB+',
-  'AB-'
+  'AB-',
 ];

@@ -33,10 +33,12 @@ class CertificatePage extends StatelessWidget {
           children: [
             const CertificatePreview(),
             CustomButton(
+              width: 50,
               text: certificateProvider.consentDate == null
                   ? 'e-Sign'
                   : 'Download',
               buttonType: ButtonType.Elevated,
+              textColor: Colors.white,
               isLoading: certificateProvider.isLoading,
               onPressed: () async {
                 if (certificateProvider.consentDate == null) {

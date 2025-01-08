@@ -8,6 +8,7 @@ import 'package:blood_donation/widgets/customCheckbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -49,7 +50,13 @@ class ProfilePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(
+                          context,
+                          userProfileProvider.profileData['id'] == null ||
+                                  userProfileProvider.profileData['email'] ==
+                                      null
+                              ? '/userProfile'
+                              : '/userProfileEdit'),
                       icon: Icon(
                         Icons.edit_outlined,
                         size: 23.sp,
@@ -63,10 +70,12 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 14.h),
-                    profilePicture(),
+                    profilePicture(userProfileProvider, context),
                     SizedBox(height: 2.h),
                     Text(
-                      userProfileProvider.profileData['name'],
+                      userProfileProvider.profileData['name'] ??
+                          userProfileProvider.name ??
+                          'Update Profile',
                       style: GoogleFonts.rubik(
                         color: Colors.white,
                         fontSize: 22.sp,
@@ -89,7 +98,7 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        userProfileProvider.profileData['email'],
+                        userProfileProvider.profileData['email'] ?? '',
                         style: GoogleFonts.roboto(
                           color: Colors.white70,
                           fontSize: 15.sp,
@@ -135,7 +144,8 @@ class ProfilePage extends StatelessWidget {
                                   children: [
                                     _buildLabelText('  User Id :   '),
                                     _buildValueText(userProfileProvider
-                                        .profileData['unique_id']),
+                                            .profileData['unique_id'] ??
+                                        'no id'),
                                   ],
                                 ),
                                 TableRow(
@@ -143,26 +153,31 @@ class ProfilePage extends StatelessWidget {
                                     _buildLabelText('   Blood  :   '),
                                     Row(
                                       children: [
-                                        Container(
-                                          margin: const EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            color: Colors.red,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: Text(
-                                              userProfileProvider
-                                                  .profileData['bloodGroup'],
-                                              style: GoogleFonts.roboto(
-                                                  fontSize: 19.sp,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w900),
-                                            ),
-                                          ),
-                                        ),
+                                        userProfileProvider.profileData.isEmpty
+                                            ? _buildValueText('not found')
+                                            : Container(
+                                                margin: const EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  color: Colors.red,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8.0),
+                                                  child: Text(
+                                                    userProfileProvider
+                                                            .profileData[
+                                                        'bloodGroup'],
+                                                    style: GoogleFonts.roboto(
+                                                        fontSize: 19.sp,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                ),
+                                              ),
                                       ],
                                     )
                                   ],
@@ -172,7 +187,8 @@ class ProfilePage extends StatelessWidget {
                                     _buildLabelText('   Phone :   '),
                                     _buildClickableLabelText(
                                         userProfileProvider
-                                            .profileData['phone'],
+                                                .profileData['phone'] ??
+                                            'update no',
                                         context)
                                   ],
                                 ),
@@ -181,7 +197,8 @@ class ProfilePage extends StatelessWidget {
                                     _buildLabelText('Address :   '),
                                     _buildValueText(
                                       userProfileProvider
-                                          .profileData['address'],
+                                              .profileData['address'] ??
+                                          'update address',
                                     ),
                                   ],
                                 ),
@@ -190,13 +207,15 @@ class ProfilePage extends StatelessWidget {
                             SizedBox(height: 1.3.h),
                             CustomCheckbox(
                               isChecked: userProfileProvider
-                                  .profileData['donateBlood'],
+                                      .profileData['donateBlood'] ??
+                                  false,
                               onChanged: (value) {},
                               title: ' Willing Donate to Blood ',
                             ),
                             CustomCheckbox(
                               isChecked: userProfileProvider
-                                  .profileData['donateOrgan'],
+                                      .profileData['donateOrgan'] ??
+                                  false,
                               onChanged: (value) {},
                               title: 'Willing Donate to organs ',
                             ),
@@ -207,6 +226,7 @@ class ProfilePage extends StatelessWidget {
                                 height: 4.2,
                                 width: 50,
                                 text: 'Log Out',
+                                textColor: Colors.red,
                                 buttonType: ButtonType.Outlined,
                                 onPressed: () => logout(context),
                               ),
@@ -283,26 +303,41 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget profilePicture() {
+  Widget profilePicture(
+      UserProfileProvider userProfileProvider, BuildContext context) {
     return SizedBox(
       width: 25.w,
       height: 25.w,
       child: Stack(
         children: [
           CircleAvatar(
-            backgroundColor: const Color.fromARGB(255, 234, 234, 234),
             radius: 15.w,
-            child: Icon(
-              Icons.camera_alt_outlined,
-              color: Colors.grey,
-              size: 30.sp,
-            ),
+            backgroundColor: Colors.white,
+            backgroundImage:
+                userProfileProvider.profileData['profileImage'] != null ||
+                        userProfileProvider.profileData['profileImage'] == ''
+                    ? NetworkImage(
+                        userProfileProvider.profileData['profileImage'],
+                      )
+                    : const AssetImage('assets/man.png'),
           ),
           Positioned(
             bottom: 0,
             right: 0,
             child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                await userProfileProvider.pickProfileImage();
+                if (userProfileProvider.profileImage != null) {
+                  final message =
+                      await userProfileProvider.updateProfilePicture(
+                          userProfileProvider.profileData['id'],
+                          userProfileProvider.profileImage);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(message),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              },
               child: CircleAvatar(
                 radius: 3.6.w,
                 backgroundColor: const Color(0xFF5686E1),

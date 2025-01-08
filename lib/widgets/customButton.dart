@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomButton extends StatelessWidget {
@@ -8,11 +9,15 @@ class CustomButton extends StatelessWidget {
   final double width;
   final double height;
   final bool isLoading;
+  final Color color;
+  final Color textColor;
   const CustomButton({
     required this.text,
     required this.buttonType,
     required this.onPressed,
     this.isLoading = false,
+    this.color = const Color.fromARGB(255, 230, 3, 3),
+    this.textColor = Colors.black,
     this.width = 40,
     this.height = 4.5,
   });
@@ -27,7 +32,7 @@ class CustomButton extends StatelessWidget {
               onPressed:
                   isLoading ? null : onPressed, // Disable button when loading
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 232, 15, 0),
+                backgroundColor: color,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -38,7 +43,10 @@ class CustomButton extends StatelessWidget {
                     ) // Show spinner while loading
                   : Text(
                       text,
-                      style: TextStyle(fontSize: 17.sp, color: Colors.black),
+                      style: GoogleFonts.nunito(
+                          fontSize: 17.sp,
+                          color: textColor,
+                          fontWeight: FontWeight.w700),
                     ),
             )
           : buttonType == ButtonType.Ovelshaped
@@ -61,8 +69,8 @@ class CustomButton extends StatelessWidget {
                         ) // Show spinner while loading
                       : Text(
                           text,
-                          style:
-                              TextStyle(fontSize: 10.sp, color: Colors.white),
+                          style: GoogleFonts.aBeeZee(
+                              fontSize: 10.sp, color: Colors.white),
                         ),
                 )
               : OutlinedButton(
@@ -70,11 +78,11 @@ class CustomButton extends StatelessWidget {
                       ? null
                       : onPressed, // Disable button when loading
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 255, 17, 0),
+                    side: BorderSide(
+                      color: color,
                       width: 1.5,
                     ),
-                    foregroundColor: const Color.fromARGB(255, 255, 17, 0),
+                    foregroundColor: Color.fromARGB(255, 255, 17, 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -86,7 +94,8 @@ class CustomButton extends StatelessWidget {
                         ) // Show spinner while loading
                       : Text(
                           text,
-                          style: TextStyle(fontSize: 17.sp),
+                          style: GoogleFonts.nunito(
+                              fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
                 ),
     );

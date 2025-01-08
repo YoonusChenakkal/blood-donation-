@@ -84,6 +84,7 @@ class AuthService {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', authProvider.name!);
+        
         Provider.of<CertificateProvider>(context, listen: false)
             .fetchCertificate();
         Provider.of<DonorCountProvider>(context, listen: false)

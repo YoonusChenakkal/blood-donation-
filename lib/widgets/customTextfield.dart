@@ -8,12 +8,14 @@ class CustomTextfield extends StatelessWidget {
   String hintText;
   IconData icon;
   TextInputType keyboardType;
+  TextEditingController? tc;
   Function(String) onChanged;
   CustomTextfield(
       {super.key,
       this.height = 6,
-      this.width = 75,
+      this.width = 85,
       this.hintText = '',
+      this.tc,
       this.enabled = true,
       required this.icon,
       required this.onChanged,
@@ -33,7 +35,7 @@ class CustomTextfield extends StatelessWidget {
       child: TextField(
         enabled: enabled,
         keyboardType: keyboardType,
-        // controller: tc,
+        controller: tc,
         onChanged: onChanged,
         style: TextStyle(fontSize: 17.sp),
         textAlignVertical: TextAlignVertical.center,

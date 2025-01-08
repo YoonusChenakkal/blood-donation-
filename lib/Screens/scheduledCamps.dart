@@ -25,7 +25,7 @@ class Scheduledcamps extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: EdgeInsets.only(top: 2.h),
         child: Consumer<Campsprovider>(
           builder: (context, campsProvider, child) {
             if (campsProvider.isLoading) {
@@ -83,7 +83,7 @@ class Scheduledcamps extends StatelessWidget {
                 itemCount: campsProvider.camp.length,
                 itemBuilder: (context, index) {
                   final camp = campsProvider.camp[index];
-                  return Campcard(camp: camp);
+                  return CampCard(camp: camp);
                 },
               ),
             );
