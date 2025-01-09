@@ -12,7 +12,9 @@ class CertificatePreview extends StatelessWidget {
     final certificateProvider = Provider.of<CertificateProvider>(context);
 
     if (certificateProvider.isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return SizedBox(
+        height: 38.h,
+      );
     }
     return Container(
       height: 31.h,

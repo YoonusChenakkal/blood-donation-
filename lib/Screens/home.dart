@@ -1,8 +1,12 @@
+import 'package:blood_donation/Providers/donorCountProvider.dart';
+import 'package:blood_donation/Providers/userProfileProvider.dart';
+import 'package:blood_donation/Screens/profile.dart';
 import 'package:blood_donation/widgets/customBanner.dart';
 import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,6 +20,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProfileProvider = Provider.of<UserProfileProvider>(context);
+    final donorCountProvider = Provider.of<DonorCountProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,7 +46,7 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Hello, $username',
                   style: GoogleFonts.archivo(
-                    fontSize: 18.sp,
+                    fontSize: 19.sp,
                     color: Colors.red,
                     fontWeight: FontWeight.bold,
                   ),
@@ -47,7 +54,7 @@ class HomePage extends StatelessWidget {
                 Text(
                   'welcome',
                   style: GoogleFonts.archivo(
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
@@ -57,22 +64,24 @@ class HomePage extends StatelessWidget {
           },
         ),
         backgroundColor: Colors.white,
-        toolbarHeight: 8.h,
+        toolbarHeight: 9.h,
         actions: [
           Container(
-            width: 5.3.h,
-            height: 5.3.h,
-            padding: const EdgeInsets.all(1.8),
+            width: 7.h,
+            padding: const EdgeInsets.all(1),
             margin: EdgeInsets.symmetric(horizontal: 3.w),
-            decoration: const BoxDecoration(
-              color: Colors.red,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red, width: 1.5),
+              color: Colors.white,
               shape: BoxShape.circle,
             ),
             child: ClipOval(
-              child: Image.network(
-                'https://c4.wallpaperflare.com/wallpaper/499/693/150/candice-swanepoel-women-blonde-face-wallpaper-preview.jpg',
-                fit: BoxFit.cover,
-              ),
+              child: userProfileProvider.profileData['profileImage'] == null ||
+                      userProfileProvider.profileData['profileImage'] == ''
+                  ? Image.asset('assets/man.png')
+                  : Image.network(
+                      userProfileProvider.profileData['profileImage'],
+                    ),
             ),
           ),
         ],
@@ -83,23 +92,47 @@ class HomePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: 2.h,
+              ),
               CustomBanner(
                 title1: 'Donate If You Can\nSave One Life',
                 title2: 'Make them happy',
                 textColor: Colors.white,
-                buttonText: 'View More',
+                buttonText: 'View',
                 onPressed: () {},
                 imageUrl:
                     'https://c0.wallpaperflare.com/preview/478/173/152/healthcare-hospital-lamp-light.jpg',
               ),
-              SizedBox(height: 1.5.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [CustomCard(), CustomCard(), CustomCard()],
+              SizedBox(height: 2.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 3.5.w),
+                child: Row(
+                  children: [
+                    CustomCard(
+                      title: 'Total\nDonors',
+                      count: donorCountProvider.donorCount,
+                    ),
+                    SizedBox(
+                      width: 6.w,
+                    ),
+                    const CustomCard(
+                      title: 'Total\nDonations',
+                      count: '46',
+                    ),
+                    SizedBox(
+                      width: 6.w,
+                    ),
+                    const CustomCard(
+                      title: 'Total\nSchedules',
+                      count: '20',
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 1.5.h,
+                  top: 2.h,
                   left: 3.5.w,
                   bottom: 1.h,
                 ),
@@ -118,7 +151,7 @@ class HomePage extends StatelessWidget {
                 title1: 'Marry Hospital',
                 title2:
                     'Your Donation Date has Scheduled We will inform you soon',
-                buttonText: 'Download',
+                buttonText: 'View',
                 textColor: Colors.black,
                 onPressed: () {},
               ),
@@ -141,61 +174,10 @@ class HomePage extends StatelessWidget {
               ),
               CustomBanner(
                 title1: 'Scheduled Donations',
-                title2: '',
+                title2: 'Your Donation Has Sheduled\nWe wil inform you soon',
                 buttonText: 'View',
                 textColor: Colors.black,
                 onPressed: () {},
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 1.5.h,
-                  left: 3.5.w,
-                  bottom: 1.h,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Update Your Schedule',
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 93.w,
-                height: 7.h,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 243, 243, 243),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: 60.w,
-                      child: Text(
-                        'You can update the donation month, date, and year',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14.5.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    CustomButton(
-                      height: 3,
-                      width: 20,
-                      text: 'Update',
-                      buttonType: ButtonType.Ovelshaped,
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/chats');
-                      },
-                    ),
-                  ],
-                ),
               ),
             ],
           ),

@@ -25,7 +25,9 @@ class CustomBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 93.w,
-      height: 14.5.h,
+      constraints: BoxConstraints(
+        minHeight: 16.h,
+      ),
       decoration: BoxDecoration(
         color: bannerColor,
         borderRadius: BorderRadius.circular(8),
@@ -50,7 +52,7 @@ class CustomBanner extends StatelessWidget {
                   Text(title1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: imageUrl.isEmpty ? 13.6.sp : 15.sp,
+                          fontSize: imageUrl.isEmpty ? 15.sp : 16.sp,
                           color: imageUrl.isEmpty ? Colors.black : Colors.white,
                           fontWeight: FontWeight.bold)),
                   Text(
@@ -58,7 +60,7 @@ class CustomBanner extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 13.sp,
+                        fontSize: 14.sp,
                         color: imageUrl.isEmpty ? Colors.black : Colors.white,
                         fontWeight: FontWeight.w400),
                   ),
@@ -66,10 +68,10 @@ class CustomBanner extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 1.h,
+              height: 1.5.h,
             ),
             CustomButton(
-                height: 3,
+                height: 3.7,
                 width: 21.1,
                 text: buttonText,
                 buttonType: ButtonType.Ovelshaped,

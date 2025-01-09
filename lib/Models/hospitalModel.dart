@@ -10,6 +10,7 @@ class HospitalModel {
   final bool isActive;
   final bool isStaff;
   final DateTime createdAt;
+  final String? image; // Added image field (nullable)
 
   HospitalModel({
     required this.id,
@@ -23,6 +24,7 @@ class HospitalModel {
     required this.isActive,
     required this.isStaff,
     required this.createdAt,
+    this.image, // Initialize the image field
   });
 
   // Factory method to create a HospitalModel from JSON
@@ -39,6 +41,7 @@ class HospitalModel {
       isActive: json['is_active'] as bool,
       isStaff: json['is_staff'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
+      image: json['image'] as String?, // Parse the image field
     );
   }
 
@@ -56,6 +59,7 @@ class HospitalModel {
       'is_active': isActive,
       'is_staff': isStaff,
       'created_at': createdAt.toIso8601String(),
+      'image': image, // Include the image field
     };
   }
 }

@@ -1,56 +1,50 @@
-import 'package:blood_donation/Providers/donorCountProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+  final String title;
+  final String? count;
+
+  const CustomCard({super.key, required this.title, required this.count});
 
   @override
   Widget build(BuildContext context) {
-    final donorCountProvider = Provider.of<DonorCountProvider>(context);
-
     return Container(
-      width: 10.5.h,
-      height: 10.5.h,
+      width: 27.w,
+      height: 12.h,
+      padding: const EdgeInsets.all(6.0),
       decoration: BoxDecoration(
-        color: Colors.red[50],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Total',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13.sp,
-                  color: Colors.black),
-            ),
-            Text(
-              'Donations',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13.sp),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  donorCountProvider.donorCount?? '0',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 19.sp),
-                ),
-                Icon(
-                  FontAwesomeIcons.hospital,
-                  color: Colors.blueAccent,
-                  size: 17.sp,
-                )
-              ],
-            )
-          ],
-        ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.red, width: 1.2)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                color: Colors.black),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                count ?? '0',
+                style: GoogleFonts.archivoBlack(
+                    fontWeight: FontWeight.w400, fontSize: 22.5.sp),
+              ),
+              Icon(
+                FontAwesomeIcons.hospital,
+                color: Colors.red,
+                size: 20.sp,
+              )
+            ],
+          )
+        ],
       ),
     );
   }

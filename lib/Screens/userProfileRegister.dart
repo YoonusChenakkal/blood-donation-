@@ -4,6 +4,7 @@ import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCheckbox.dart';
 import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customIdProof.dart';
+import 'package:blood_donation/widgets/customMultiSelect.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,12 +17,14 @@ class UserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
+
     return PopScope(
       onPopInvoked: (did) async {
         // Prevent back navigation
         await _showExitDialog(context);
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
         body: Container(
           height: 100.h,
@@ -38,123 +41,142 @@ class UserProfile extends StatelessWidget {
           child: SizedBox(
             height: 100.h,
             width: 100.w,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'User Profile',
-                  style: TextStyle(
-                    fontSize: 23.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Header
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'User Profile',
+                    style: TextStyle(
+                      fontSize: 23.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
 
-              CustomTextfield(
-                enabled: false,
-                hintText: authProvider.name ?? 'Name',
-                keyboardType: TextInputType.name,
-                icon: Icons.person_2_outlined,
-                onChanged: (value) {
-                  userProfileProvider.name = value.trim();
-                },
-              ),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              CustomTextfield(
-                hintText: 'Address',
-                keyboardType: TextInputType.streetAddress,
-                icon: Icons.place_outlined,
-                onChanged: (value) {
-                  userProfileProvider.address = value.trim();
-                },
-              ),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              CustomTextfield(
-                hintText: 'Phone',
-                keyboardType: TextInputType.number,
-                icon: Icons.phone_in_talk_outlined,
-                onChanged: (value) {
-                  userProfileProvider.phone = value.trim();
-                },
-              ),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              Customdropdown(
-                enabled: false,
-                hintText: authProvider.bloodGroup ?? 'Blood Group',
-              ),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              const CustomIdProof(),
-              SizedBox(
-                height: 1.3.h,
-              ),
-              CustomCheckbox(
-                  title: 'Willing Donate Blood ',
-                  textColor: Colors.white,
-                  isChecked: userProfileProvider.isBloodChecked,
+                // Name Textfield
+                CustomTextfield(
+                  enabled: false,
+                  hintText: authProvider.name ?? 'Name',
+                  keyboardType: TextInputType.name,
+                  icon: Icons.person_2_outlined,
                   onChanged: (value) {
-                    userProfileProvider.isBloodChecked = value!;
-                  }),
+                    userProfileProvider.name = value.trim();
+                  },
+                ),
+                SizedBox(height: 1.3.h),
 
-              CustomCheckbox(
-                  title: 'Willing Donate Organ',
+                // Address Textfield
+                CustomTextfield(
+                  hintText: 'Address',
+                  keyboardType: TextInputType.streetAddress,
+                  icon: Icons.place_outlined,
+                  onChanged: (value) {
+                    userProfileProvider.address = value.trim();
+                  },
+                ),
+                SizedBox(height: 1.3.h),
+
+                // Phone Textfield
+                CustomTextfield(
+                  hintText: 'Phone',
+                  keyboardType: TextInputType.number,
+                  icon: Icons.phone_in_talk_outlined,
+                  onChanged: (value) {
+                    userProfileProvider.phone = value.trim();
+                  },
+                ),
+                SizedBox(height: 1.3.h),
+
+                // Blood Group Dropdown
+                Customdropdown(
+                  enabled: false,
+                  hintText: authProvider.bloodGroup ?? 'Blood Group',
+                ),
+                SizedBox(height: 1.3.h),
+
+                // ID Proof Widget
+                const CustomIdProof(),
+                SizedBox(height: 1.3.h),
+                CustomCheckbox(
+                  title: 'Willing to Donate Organ',
                   textColor: Colors.white,
                   isChecked: userProfileProvider.isOrganChecked,
                   onChanged: (value) {
                     userProfileProvider.isOrganChecked = value!;
-                  }),
+                  },
+                ),
+                if (userProfileProvider.isOrganChecked)
+                  CustomMultiSelectDropdown(
+                    title: 'Select Organs to Donate',
+                    options: ['Heart', 'Liver', 'Kidney', 'Lungs', 'Eyes'],
+                    selectedItems: userProfileProvider.organsToDonate,
+                    onChanged: (selected) {
+                      userProfileProvider.updateOrgansToDonate(selected);
+                    },
+                  ),
+                SizedBox(height: 1.3.h),
 
-              SizedBox(
-                height: 3.h,
-              ),
-              // Submit Button
-              CustomButton(
-                text: 'Submit',
-                textColor: const Color.fromARGB(255, 230, 3, 3),
-                isLoading: userProfileProvider.isLoading,
-                color: const Color.fromARGB(255, 230, 3, 3),
-                onPressed: () {
-                  if (userProfileProvider.address == null ||
-                      userProfileProvider.address!.isEmpty) {
-                    // Show error message if any field is empty
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please enter Address.')),
-                    );
-                  } else if (userProfileProvider.phone == null ||
-                      userProfileProvider.phone!.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Please enter Phone Number')),
-                    );
-                  } else if (userProfileProvider.idProofImage == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Please select Id Proof Photo')));
-                  } else {
-                    // Proceed with Register User Profile
-                    userProfileProvider.registerUserPofile(
+                // Willing to Donate Blood Checkbox
+                CustomCheckbox(
+                  title: 'Willing to Donate Blood',
+                  textColor: Colors.white,
+                  isChecked: userProfileProvider.isBloodChecked,
+                  onChanged: (value) {
+                    userProfileProvider.isBloodChecked = value!;
+                  },
+                ),
+
+                // Willing to Donate Organ Checkbox
+
+                SizedBox(height: 3.h),
+
+                // Submit Button
+                CustomButton(
+                  text: 'Submit',
+                  textColor: const Color.fromARGB(255, 230, 3, 3),
+                  isLoading: userProfileProvider.isLoading,
+                  color: const Color.fromARGB(255, 230, 3, 3),
+                  onPressed: () {
+                    if (userProfileProvider.address == null ||
+                        userProfileProvider.address!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please enter Address.')),
+                      );
+                    } else if (userProfileProvider.phone == null ||
+                        userProfileProvider.phone!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please enter Phone Number')),
+                      );
+                    } else if (userProfileProvider.idProofImage == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Please select Id Proof Photo')));
+                    } else if ((userProfileProvider.isOrganChecked &&
+                        (userProfileProvider.organsToDonate as List).isEmpty)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Select organs')),
+                      );
+                    } else {
+                      userProfileProvider.registerUserPofile(
                         context,
                         userProfileProvider.address,
                         userProfileProvider.phone,
-                        userProfileProvider.idProofImage);
-                  }
-                },
-                buttonType: ButtonType.Outlined,
-              ),
+                        userProfileProvider.idProofImage,
+                        userProfileProvider.organsToDonate,
+                      );
+                    }
+                  },
+                  buttonType: ButtonType.Outlined,
+                ),
 
-              SizedBox(
-                height: 2.h,
-              ),
-            ]),
+                SizedBox(height: 2.h),
+              ],
+            ),
           ),
         ),
       ),

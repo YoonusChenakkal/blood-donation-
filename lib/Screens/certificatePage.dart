@@ -30,6 +30,7 @@ class CertificatePage extends StatelessWidget {
         height: 100.h,
         width: 100.w,
         child: Column(
+        
           children: [
             const CertificatePreview(),
             CustomButton(

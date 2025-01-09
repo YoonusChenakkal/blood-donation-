@@ -3,6 +3,7 @@ import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCheckbox.dart';
 import 'package:blood_donation/widgets/customDropdown.dart';
 import 'package:blood_donation/widgets/customIdProof.dart';
+import 'package:blood_donation/widgets/customMultiSelect.dart';
 import 'package:blood_donation/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class UserProfileEdit extends StatelessWidget {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: Container(
         height: 100.h,
@@ -111,6 +113,26 @@ class UserProfileEdit extends StatelessWidget {
                       height: 1.3.h,
                     ),
                     CustomCheckbox(
+                        title: 'Willing Donate to Organs',
+                        textColor: Colors.white,
+                        isChecked: userProfileProvider.isOrganChecked,
+                        onChanged: (value) {
+                          userProfileProvider.isOrganChecked = value!;
+                        }),
+                    if (userProfileProvider.isOrganChecked)
+                      CustomMultiSelectDropdown(
+                        title: 'Select Organs to Donate',
+                        options: ['Heart', 'Liver', 'Kidney', 'Lungs', 'Eyes'],
+                        selectedItems: userProfileProvider.editedOrgansToDonate,
+                        onChanged: (selected) {
+                          userProfileProvider
+                              .updateEditedOrgansToDonate(selected);
+                        },
+                      ),
+                    SizedBox(
+                      height: 1.3.h,
+                    ),
+                    CustomCheckbox(
                         title: 'Willing Donate to Blood ',
                         textColor: Colors.white,
                         isChecked: userProfileProvider.isBloodChecked,
@@ -118,13 +140,7 @@ class UserProfileEdit extends StatelessWidget {
                           userProfileProvider.isBloodChecked = value!;
                           print(userProfileProvider.isBloodChecked);
                         }),
-                    CustomCheckbox(
-                        title: 'Willing Donate to Organs',
-                        textColor: Colors.white,
-                        isChecked: userProfileProvider.isOrganChecked,
-                        onChanged: (value) {
-                          userProfileProvider.isOrganChecked = value!;
-                        }),
+
                     SizedBox(
                       height: 1.3.h,
                     ),
@@ -142,6 +158,12 @@ class UserProfileEdit extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Profile Not Found')),
                           );
+                        } else if ((userProfileProvider.isOrganChecked &&
+                            (userProfileProvider.editedOrgansToDonate as List)
+                                .isEmpty)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Select organs')),
+                          );
                         } else {
                           // Proceed with Register User Profile
                           userProfileProvider.updateUserProfile(
@@ -151,6 +173,7 @@ class UserProfileEdit extends StatelessWidget {
                               userProfileProvider.editedPhone,
                               userProfileProvider.idProofImage,
                               userProfileProvider.editedBloodGroup,
+                              userProfileProvider.editedOrgansToDonate,
                               userProfileProvider.isBloodChecked,
                               userProfileProvider.isOrganChecked);
                         }

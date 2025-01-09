@@ -60,8 +60,6 @@ class CustomButton extends StatelessWidget {
                   ),
                   child: isLoading
                       ? SizedBox(
-                          height: height.h - .5.h,
-                          width: height.h - .5.h,
                           child: const CircularProgressIndicator(
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(Colors.white),
@@ -70,7 +68,7 @@ class CustomButton extends StatelessWidget {
                       : Text(
                           text,
                           style: GoogleFonts.aBeeZee(
-                              fontSize: 10.sp, color: Colors.white),
+                              fontSize: 13.sp, color: Colors.white),
                         ),
                 )
               : OutlinedButton(

@@ -9,6 +9,7 @@ import 'package:blood_donation/Providers/tabIndexNotifier.dart';
 import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:blood_donation/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
 import 'package:blood_donation/Screens/CampDetails.dart';
+import 'package:blood_donation/Screens/Splash%20Screen/splashScreen.dart';
 import 'package:blood_donation/Screens/certificateDetails.dart';
 import 'package:blood_donation/Screens/certificatePage.dart';
 import 'package:blood_donation/Screens/chat.dart';
@@ -62,9 +63,7 @@ class MainApp extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     String? user = prefs.getString('username');
     // If uniqueId exists, return '/home' (i.e., Bottom Navigation Bar), otherwise '/welcomePage'
-    return user != null && user.isNotEmpty
-        ? '/bottomNavigationBar'
-        : '/welcomePage';
+    return user != null && user.isNotEmpty ? '/splashScreen' : '/welcomePage';
   }
 
   @override
@@ -74,6 +73,7 @@ class MainApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/welcomePage': (context) => const WelcomePage(),
+        '/splashScreen': (context) => SplashScreen(),
         '/register': (context) => const Register(),
         '/login': (context) => const Login(),
         '/home': (context) => const HomePage(),
@@ -100,6 +100,7 @@ class MainApp extends StatelessWidget {
                 initialRoute: snapshot.data,
                 routes: {
                   '/welcomePage': (context) => const WelcomePage(),
+                  '/splashScreen': (context) => SplashScreen(),
                   '/register': (context) => const Register(),
                   '/login': (context) => const Login(),
                   '/home': (context) => const HomePage(),

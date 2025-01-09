@@ -4,6 +4,7 @@ import 'package:blood_donation/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -34,8 +35,8 @@ class ChatsPage extends StatelessWidget {
               onChanged: (query) =>
                   Provider.of<HospitalProvider>(context, listen: false)
                       .searchhospitals(query),
-              backgroundColor: WidgetStatePropertyAll(
-                  const Color.fromARGB(255, 243, 243, 243)),
+              backgroundColor: const WidgetStatePropertyAll(
+                  Color.fromARGB(255, 243, 243, 243)),
               leading: const Icon(Icons.search),
               hintText: 'Search',
               shape: WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -135,13 +136,25 @@ class ChatsPage extends StatelessWidget {
                       final hospital =
                           hospitalProvider.filteredhospitals[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
                         child: ListTile(
                           tileColor: const Color.fromARGB(255, 255, 255, 255),
-                          leading: CircleAvatar(
-                            radius: 25,
-                            backgroundImage: NetworkImage(
-                                'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg'),
+                          leading: Container(
+                            height: 13.w,
+                            width: 13.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: hospital.image != null
+                                    ? NetworkImage(
+                                        hospital.image!,
+                                      )
+                                    : const AssetImage(
+                                        'assets/hospital.png',
+                                      ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           title: Text(
                             hospital.name,

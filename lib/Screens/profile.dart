@@ -8,7 +8,6 @@ import 'package:blood_donation/widgets/customCheckbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -19,6 +18,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
+    print(userProfileProvider.profileData['donateOrgan']);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -69,7 +69,9 @@ class ProfilePage extends StatelessWidget {
               child: SizedBox(
                 child: Column(
                   children: [
-                    SizedBox(height: 14.h),
+                    SizedBox(
+                      height: 12.h,
+                    ),
                     profilePicture(userProfileProvider, context),
                     SizedBox(height: 2.h),
                     Text(
@@ -112,7 +114,7 @@ class ProfilePage extends StatelessWidget {
                       height: 4.h,
                     ),
                     Container(
-                      height: 48.h,
+                      height: 52.h,
                       width: 85.w,
                       padding: EdgeInsets.all(6.w),
                       decoration: BoxDecoration(
@@ -132,6 +134,9 @@ class ProfilePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Aligned Details Section
+                            SizedBox(
+                              height: 1.5.h,
+                            ),
                             Table(
                               columnWidths: const {
                                 0: IntrinsicColumnWidth(), // Automatically sizes the label column
@@ -205,28 +210,76 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: 1.3.h),
+                            const Text(
+                              'Organs to Donate:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 8),
+                            userProfileProvider.profileData['donateOrgan'] !=
+                                        null &&
+                                    userProfileProvider
+                                        .profileData['donateOrgan'] is List &&
+                                    userProfileProvider
+                                        .profileData['donateOrgan'].isNotEmpty
+                                ? Row(
+                                    children: userProfileProvider
+                                        .profileData['donateOrgan']
+                                        .map<Widget>((organ) => Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 6,
+                                                      vertical: 4),
+                                              margin: const EdgeInsets.only(
+                                                  right: 7),
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                border: Border.all(
+                                                    color: Colors.red),
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                              ),
+                                              child: Text(
+                                                organ,
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.red),
+                                              ),
+                                            ))
+                                        .toList(),
+                                  )
+                                : Text(
+                                    'No Organs Selected',
+                                    style: TextStyle(
+                                      color:
+                                          const Color.fromARGB(221, 78, 78, 78),
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 1.3.h,
+                            ),
                             CustomCheckbox(
+                              textColor: const Color.fromARGB(255, 0, 0, 0),
                               isChecked: userProfileProvider
-                                      .profileData['donateBlood'] ??
+                                      .profileData['willingDonateBlood'] ??
                                   false,
                               onChanged: (value) {},
                               title: ' Willing Donate to Blood ',
                             ),
-                            CustomCheckbox(
-                              isChecked: userProfileProvider
-                                      .profileData['donateOrgan'] ??
-                                  false,
-                              onChanged: (value) {},
-                              title: 'Willing Donate to organs ',
-                            ),
+                            // CustomCheckbox(
+                            //   isChecked: userProfileProvider
+                            //           .profileData['willingDonateOrgan'] ??
+                            //       false,
+                            //   onChanged: (value) {},
+                            //   title: 'Willing Donate to organs ',
+                            // ),
 
-                            SizedBox(height: 4.h),
+                            SizedBox(height: 3.h),
                             Center(
                               child: CustomButton(
                                 height: 4.2,
                                 width: 50,
                                 text: 'Log Out',
-                                textColor: Colors.red,
                                 buttonType: ButtonType.Outlined,
                                 onPressed: () => logout(context),
                               ),
@@ -306,20 +359,20 @@ class ProfilePage extends StatelessWidget {
   Widget profilePicture(
       UserProfileProvider userProfileProvider, BuildContext context) {
     return SizedBox(
-      width: 25.w,
-      height: 25.w,
+      width: 12.5.h,
+      height: 12.h,
       child: Stack(
         children: [
           CircleAvatar(
-            radius: 15.w,
+            radius: 12.5.h,
             backgroundColor: Colors.white,
             backgroundImage:
-                userProfileProvider.profileData['profileImage'] != null ||
+                userProfileProvider.profileData['profileImage'] == null ||
                         userProfileProvider.profileData['profileImage'] == ''
-                    ? NetworkImage(
+                    ? const AssetImage('assets/man.png')
+                    : NetworkImage(
                         userProfileProvider.profileData['profileImage'],
-                      )
-                    : const AssetImage('assets/man.png'),
+                      ),
           ),
           Positioned(
             bottom: 0,

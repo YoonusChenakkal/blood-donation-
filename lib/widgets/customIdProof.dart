@@ -22,7 +22,7 @@ class CustomIdProof extends StatelessWidget {
             ? Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                    padding: EdgeInsets.only(left: 2.w, right: 4.w),
                     child: Icon(
                       Icons.upload_file_outlined,
                       color: const Color.fromARGB(255, 102, 102, 102),

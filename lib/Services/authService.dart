@@ -190,7 +190,7 @@ class AuthService {
 
         Navigator.pushNamedAndRemoveUntil(
           context,
-          '/bottomNavigationBar',
+          '/splashScreen',
           (route) => false,
         );
         return message;
