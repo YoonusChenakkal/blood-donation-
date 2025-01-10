@@ -6,8 +6,13 @@ import 'package:sizer/sizer.dart';
 class CustomCard extends StatelessWidget {
   final String title;
   final String? count;
+  final Image image;
 
-  const CustomCard({super.key, required this.title, required this.count});
+  const CustomCard(
+      {super.key,
+      required this.title,
+      required this.count,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,9 @@ class CustomCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.red, width: 1.2)),
+          border: Border.all(
+            color: Colors.red,
+          )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,14 +41,10 @@ class CustomCard extends StatelessWidget {
             children: [
               Text(
                 count ?? '0',
-                style: GoogleFonts.archivoBlack(
-                    fontWeight: FontWeight.w400, fontSize: 22.5.sp),
+                style: GoogleFonts.dosis(
+                    fontWeight: FontWeight.w800, fontSize: 22.sp),
               ),
-              Icon(
-                FontAwesomeIcons.hospital,
-                color: Colors.red,
-                size: 20.sp,
-              )
+              image
             ],
           )
         ],

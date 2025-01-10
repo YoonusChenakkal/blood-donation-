@@ -1,8 +1,8 @@
+import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/Providers/donorCountProvider.dart';
+import 'package:blood_donation/Providers/hospitalProvider.dart';
 import 'package:blood_donation/Providers/userProfileProvider.dart';
-import 'package:blood_donation/Screens/profile.dart';
 import 'package:blood_donation/widgets/customBanner.dart';
-import 'package:blood_donation/widgets/customButton.dart';
 import 'package:blood_donation/widgets/customCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +22,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
     final donorCountProvider = Provider.of<DonorCountProvider>(context);
+    final hospitaProvider = Provider.of<HospitalProvider>(context);
+    final campProvider = Provider.of<Campsprovider>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -112,20 +114,32 @@ class HomePage extends StatelessWidget {
                     CustomCard(
                       title: 'Total\nDonors',
                       count: donorCountProvider.donorCount,
+                      image: Image.asset(
+                        'assets/donors.png',
+                        height: 3.h,
+                      ),
                     ),
                     SizedBox(
                       width: 6.w,
                     ),
-                    const CustomCard(
-                      title: 'Total\nDonations',
-                      count: '46',
+                    CustomCard(
+                      title: 'Total\nHospitals',
+                      count: hospitaProvider.hospitals.length.toString(),
+                      image: Image.asset(
+                        'assets/hospital-1.png',
+                        height: 4.h,
+                      ),
                     ),
                     SizedBox(
                       width: 6.w,
                     ),
-                    const CustomCard(
-                      title: 'Total\nSchedules',
-                      count: '20',
+                    CustomCard(
+                      title: 'Total\nCamps',
+                      count: campProvider.camp.length.toString(),
+                      image: Image.asset(
+                        'assets/camp.png',
+                        height: 4.h,
+                      ),
                     )
                   ],
                 ),
