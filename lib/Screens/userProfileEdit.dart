@@ -192,40 +192,40 @@ class UserProfileEdit extends StatelessWidget {
     );
   }
 
-  _showExitDialog(BuildContext context) async {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirm Exit'),
-        content: const Text('Are you sure you want to exit?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, false); // Close dialog
-            },
-            child: const Text(
-              'Cancel',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 211, 211, 211),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/welcomPage', (route) => false);
-            },
-            child: const Text(
-              'Exit',
-              style: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // _showExitDialog(BuildContext context) async {
+  //   return showDialog<bool>(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Confirm Exit'),
+  //       content: const Text('Are you sure you want to exit?'),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.pop(context, false); // Close dialog
+  //           },
+  //           child: const Text(
+  //             'Cancel',
+  //             style: TextStyle(
+  //                 color: Color.fromARGB(255, 211, 211, 211),
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.w600),
+  //           ),
+  //         ),
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.pushNamedAndRemoveUntil(
+  //                 context, '/welcomPage', (route) => false);
+  //           },
+  //           child: const Text(
+  //             'Exit',
+  //             style: TextStyle(
+  //                 color: Colors.redAccent,
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.w600),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

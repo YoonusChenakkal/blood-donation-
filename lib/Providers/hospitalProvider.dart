@@ -19,7 +19,7 @@ class HospitalProvider extends ChangeNotifier {
 
     try {
       final response = await http.get(
-        Uri.parse('https://lifeproject.pythonanywhere.com/hospital/hospital/'),
+        Uri.parse('https://lifeproject.pythonanywhere.com/hospital/hospitals/'),
       );
 
       if (response.statusCode == 200) {

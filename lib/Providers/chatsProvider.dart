@@ -37,7 +37,7 @@ class ChatsProvider extends ChangeNotifier {
     }
   }
 
-  sendMessage(int?id,String? hospitalName, String? content) async {
+  sendMessage(int? id, String? hospitalName, String? content) async {
     errorMessage = null;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
@@ -56,6 +56,8 @@ class ChatsProvider extends ChangeNotifier {
           'content': content,
         }),
       );
+      print(username);
+      print(hospitalName);
       if (response.statusCode == 201) {
         fetchChats(id);
         return 'Sent';

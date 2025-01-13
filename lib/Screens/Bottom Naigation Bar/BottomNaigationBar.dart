@@ -64,7 +64,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.schedule,
+                        Icons.message_outlined,
                         size: 20.sp,
                       ),
                       label: 'Chat',

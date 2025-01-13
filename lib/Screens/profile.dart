@@ -18,7 +18,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
-    print(userProfileProvider.profileData['donateOrgan']);
 
     return Scaffold(
       backgroundColor: Colors.white,

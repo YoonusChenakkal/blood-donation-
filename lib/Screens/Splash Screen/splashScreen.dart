@@ -24,11 +24,6 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 3), () {
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => UserProfile(),
-      //     ));
       Navigator.pushReplacementNamed(context, '/bottomNavigationBar');
     });
   }
@@ -47,9 +42,10 @@ class _SplashScreenState extends State<SplashScreen>
         opacity: _animation,
         child: Center(
             child: Text(
-          'Blood Donation App',
-          style: GoogleFonts.pacifico(
-            fontSize: 23.sp,
+         'Life Connect',
+          style: GoogleFonts.novaSquare(
+            fontSize: 26.sp,
+            fontWeight: FontWeight.w700,
             color: const Color.fromARGB(255, 236, 26, 11),
           ),
         )),

@@ -70,9 +70,9 @@ class CampDetails extends StatelessWidget {
             Hero(
               tag: camp.id ?? 'unknown_id',
               child: Container(
+                width: 100.w,
                 margin: EdgeInsets.all(4.w),
                 padding: EdgeInsets.all(4.w),
-                constraints: BoxConstraints(minWidth: 80.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   gradient: const LinearGradient(
@@ -176,7 +176,7 @@ class CampDetails extends StatelessWidget {
     return GestureDetector(
       onTap: isInteractive ? onTap : null,
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+        margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: .5.h),
         elevation: 6,
         shadowColor: Colors.black45,
         shape: RoundedRectangleBorder(

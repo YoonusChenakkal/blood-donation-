@@ -4,6 +4,8 @@ import 'package:sizer/sizer.dart';
 class CustomTextfield extends StatelessWidget {
   double height;
   double width;
+  int? maxLines;
+  int? minLines;
   bool enabled;
   String hintText;
   IconData icon;
@@ -14,6 +16,8 @@ class CustomTextfield extends StatelessWidget {
       {super.key,
       this.height = 6,
       this.width = 85,
+      this.minLines = null,
+      this.maxLines = 1,
       this.hintText = '',
       this.tc,
       this.enabled = true,
@@ -37,22 +41,27 @@ class CustomTextfield extends StatelessWidget {
         keyboardType: keyboardType,
         controller: tc,
         onChanged: onChanged,
+        maxLines: maxLines,
+        minLines: minLines,
         style: TextStyle(fontSize: 17.sp),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(
-              fontSize: 16.sp, color: const Color.fromARGB(255, 102, 102, 102)),
+          hintStyle: const TextStyle(
+              fontSize: 14, color: Color.fromARGB(255, 102, 102, 102)),
           counterText: '', // Hides the counter (char limit), if you have one
           errorStyle: TextStyle(fontSize: 10.sp),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 13),
+          contentPadding: EdgeInsets.only(
+            right: 2.w,
+            left: 2.w,
+          ),
           prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 2.w),
+            padding: EdgeInsets.only(left: .5.w, right: 2.w),
             child: Icon(
               icon,
               color: const Color.fromARGB(255, 102, 102, 102),
-              size: 20.sp,
+              size: 20,
             ),
           ),
         ),

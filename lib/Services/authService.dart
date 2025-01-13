@@ -4,6 +4,7 @@ import 'package:blood_donation/Providers/campsProvider.dart';
 import 'package:blood_donation/Providers/certificateProvider.dart';
 import 'package:blood_donation/Providers/donorCountProvider.dart';
 import 'package:blood_donation/Providers/hospitalProvider.dart';
+import 'package:blood_donation/Providers/userProfileProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,13 +85,15 @@ class AuthService {
 
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', authProvider.name!);
-        
+
         Provider.of<CertificateProvider>(context, listen: false)
             .fetchCertificate();
         Provider.of<DonorCountProvider>(context, listen: false)
             .loadDonorCount();
         Provider.of<Campsprovider>(context, listen: false).fetchCamps(context);
         Provider.of<HospitalProvider>(context, listen: false).fetchHospitals();
+        
+
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -186,11 +189,12 @@ class AuthService {
         Provider.of<Campsprovider>(context, listen: false).fetchCamps(context);
         Provider.of<DonorCountProvider>(context, listen: false)
             .loadDonorCount();
-        Provider.of<HospitalProvider>(context, listen: false).fetchHospitals();
+        Provider.of<HospitalProvider>(context, listen: false).fetchHospitals();   await      Provider.of<UserProfileProvider>(context, listen: false).fetchUserProfile();
+
 
         Navigator.pushNamedAndRemoveUntil(
           context,
-          '/splashScreen',
+          '/bottomNavigationBar',
           (route) => false,
         );
         return message;

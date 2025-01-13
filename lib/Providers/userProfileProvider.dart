@@ -160,7 +160,6 @@ class UserProfileProvider extends ChangeNotifier {
         isBloodChecked = profileData['willingDonateBlood'];
         isOrganChecked = profileData['willingDonateOrgan'];
         organsToDonate = profileData['donateOrgan'];
-        // print('organsToDonate : $organsToDonate');
         notifyListeners();
       } else {
         throw Exception(
@@ -223,10 +222,10 @@ class UserProfileProvider extends ChangeNotifier {
           duration: Duration(seconds: 2),
         ));
         idProofImage = null;
-        fetchUserProfile();
+        await fetchUserProfile();
         Navigator.pushNamedAndRemoveUntil(
           ctx,
-          '/splashScreen',
+          '/bottomNavigationBar',
           (route) => false,
         );
       } else {

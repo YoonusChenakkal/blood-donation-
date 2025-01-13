@@ -73,18 +73,20 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(1),
             margin: EdgeInsets.symmetric(horizontal: 3.w),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.red, width: 1.5),
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: userProfileProvider.profileData['profileImage'] == null ||
-                      userProfileProvider.profileData['profileImage'] == ''
-                  ? Image.asset('assets/man.png')
-                  : Image.network(
-                      userProfileProvider.profileData['profileImage'],
-                    ),
-            ),
+                border: Border.all(color: Colors.red, width: 1.5),
+                color: Colors.white,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: userProfileProvider.profileData['profileImage'] ==
+                                null ||
+                            userProfileProvider.profileData['profileImage'] ==
+                                ''
+                        ? const AssetImage('assets/man.png')
+                        : NetworkImage(
+                            userProfileProvider.profileData['profileImage'],
+                          ),
+                    fit: BoxFit.cover)),
+          
           ),
         ],
       ),

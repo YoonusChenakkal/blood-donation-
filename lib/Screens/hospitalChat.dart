@@ -85,64 +85,12 @@ class HospitalChat extends StatelessWidget {
         width: 100.w,
         child: Column(
           children: [
-            // Container(
-            //   height: 10.h,
-            //   width: 100.w,
-            //   decoration: const BoxDecoration(
-            //     color: Colors.black,
-            //   ),
-            //   child: Align(
-            //     alignment: AlignmentDirectional.bottomCenter,
-            //     child: ListTile(
-            //       leading: Row(
-            //         mainAxisSize: MainAxisSize.min,
-            //         children: [
-            //           IconButton(
-            //             onPressed: () => Navigator.pop(context),
-            //             icon: const Icon(
-            //               Icons.arrow_back_ios,
-            //               color: Colors.white,
-            //             ),
-            //           ),
-            //           const CircleAvatar(
-            //             backgroundImage: NetworkImage(
-            //               'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg',
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //       title: Text(
-            //         hospital.name,
-            //         style: GoogleFonts.actor(
-            //             fontSize: 17.sp,
-            //             fontWeight: FontWeight.w600,
-            //             color: Colors.white),
-            //       ),
-            //       titleAlignment: ListTileTitleAlignment.center,
-            //       subtitle: Text(
-            //         '3 weeks ago',
-            //         style: TextStyle(
-            //           fontSize: 14.sp,
-            //           color: Colors.white,
-            //           fontWeight: FontWeight.w400,
-            //         ),
-            //       ),
-            //       trailing: IconButton(
-            //         onPressed: () {},
-            //         icon: Icon(
-            //           Icons.info_outline,
-            //           size: 21.5.sp,
-            //           color: Colors.amber,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+        
             Expanded(
               child: Consumer<ChatsProvider>(
                 builder: (context, chatProvider, _) {
                   if (chatProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: Colors.red,));
                   }
 
                   if (chatProvider.errorMessage != null) {
