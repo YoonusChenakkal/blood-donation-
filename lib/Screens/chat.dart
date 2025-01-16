@@ -1,10 +1,9 @@
-import 'package:blood_donation/Providers/chatsProvider.dart';
-import 'package:blood_donation/Providers/hospitalProvider.dart';
-import 'package:blood_donation/widgets/customButton.dart';
+import 'package:Life_Connect/Providers/chatsProvider.dart';
+import 'package:Life_Connect/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 

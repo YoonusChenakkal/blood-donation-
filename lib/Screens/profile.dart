@@ -1,10 +1,10 @@
-import 'package:blood_donation/Providers/authProvider.dart';
-import 'package:blood_donation/Providers/campsProvider.dart';
-import 'package:blood_donation/Providers/certificateProvider.dart';
-import 'package:blood_donation/Providers/tabIndexNotifier.dart';
-import 'package:blood_donation/Providers/userProfileProvider.dart';
-import 'package:blood_donation/widgets/customButton.dart';
-import 'package:blood_donation/widgets/customCheckbox.dart';
+import 'package:Life_Connect/Providers/authProvider.dart';
+import 'package:Life_Connect/Providers/campsProvider.dart';
+import 'package:Life_Connect/Providers/certificateProvider.dart';
+import 'package:Life_Connect/Providers/tabIndexNotifier.dart';
+import 'package:Life_Connect/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
+import 'package:Life_Connect/widgets/customCheckbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';

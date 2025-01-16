@@ -1,9 +1,9 @@
-import 'package:blood_donation/Providers/campsProvider.dart';
-import 'package:blood_donation/Providers/donorCountProvider.dart';
-import 'package:blood_donation/Providers/hospitalProvider.dart';
-import 'package:blood_donation/Providers/userProfileProvider.dart';
-import 'package:blood_donation/widgets/customBanner.dart';
-import 'package:blood_donation/widgets/customCard.dart';
+import 'package:Life_Connect/Providers/campsProvider.dart';
+import 'package:Life_Connect/Providers/donorCountProvider.dart';
+import 'package:Life_Connect/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/widgets/customBanner.dart';
+import 'package:Life_Connect/widgets/customCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +86,6 @@ class HomePage extends StatelessWidget {
                             userProfileProvider.profileData['profileImage'],
                           ),
                     fit: BoxFit.cover)),
-          
           ),
         ],
       ),
@@ -105,8 +104,7 @@ class HomePage extends StatelessWidget {
                 textColor: Colors.white,
                 buttonText: 'View',
                 onPressed: () {},
-                imageUrl:
-                    'https://c0.wallpaperflare.com/preview/478/173/152/healthcare-hospital-lamp-light.jpg',
+                imageUrl: 'assets/bg_surgery.jpg',
               ),
               SizedBox(height: 2.h),
               Padding(

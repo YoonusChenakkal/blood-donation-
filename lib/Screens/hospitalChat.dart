@@ -1,5 +1,5 @@
-import 'package:blood_donation/Models/hospitalModel.dart';
-import 'package:blood_donation/Providers/chatsProvider.dart';
+import 'package:Life_Connect/Models/hospitalModel.dart';
+import 'package:Life_Connect/Providers/chatsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

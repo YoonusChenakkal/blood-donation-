@@ -1,4 +1,4 @@
-import 'package:blood_donation/widgets/customButton.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -15,8 +15,7 @@ class WelcomePage extends StatelessWidget {
         width: 100.w,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-                'https://media.istockphoto.com/id/1373258655/photo/happy-nurse-at-hospital.jpg?s=612x612&w=0&k=20&c=mt8_LDMnWZHxAVm64SjmqBqbsTnrmDI3DlCq-jv3afA='),
+            image: AssetImage('assets/bg_nurse.jpg'),
             fit: BoxFit.cover,
             opacity: 0.3,
           ),

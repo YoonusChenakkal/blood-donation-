@@ -1,4 +1,4 @@
-import 'package:blood_donation/widgets/customButton.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -36,7 +36,7 @@ class CustomBanner extends StatelessWidget {
             : DecorationImage(
                 fit: BoxFit.cover,
                 opacity: 0.9,
-                image: NetworkImage(imageUrl),
+                image: AssetImage(imageUrl),
               ),
       ),
       child: Padding(

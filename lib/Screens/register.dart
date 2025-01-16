@@ -1,8 +1,8 @@
-import 'package:blood_donation/Providers/authProvider.dart';
-import 'package:blood_donation/Services/authService.dart';
-import 'package:blood_donation/widgets/customButton.dart';
-import 'package:blood_donation/widgets/customDropdown.dart';
-import 'package:blood_donation/widgets/customTextfield.dart';
+import 'package:Life_Connect/Providers/authProvider.dart';
+import 'package:Life_Connect/Services/authService.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
+import 'package:Life_Connect/widgets/customDropdown.dart';
+import 'package:Life_Connect/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -33,8 +33,8 @@ class Register extends StatelessWidget {
           width: 100.w,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                  'https://img.freepik.com/free-photo/portrait-hospitalized-sick-girl-child-patient-holding-teddy-bear-resting-bed-medical-co_482257-12229.jpg'),
+              image: AssetImage(
+                  'assets/bg_child.png'),
               fit: BoxFit.cover,
               opacity: 0.3,
             ),

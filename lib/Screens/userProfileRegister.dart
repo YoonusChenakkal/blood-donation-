@@ -1,11 +1,11 @@
-import 'package:blood_donation/Providers/authProvider.dart';
-import 'package:blood_donation/Providers/userProfileProvider.dart';
-import 'package:blood_donation/widgets/customButton.dart';
-import 'package:blood_donation/widgets/customCheckbox.dart';
-import 'package:blood_donation/widgets/customDropdown.dart';
-import 'package:blood_donation/widgets/customIdProof.dart';
-import 'package:blood_donation/widgets/customMultiSelect.dart';
-import 'package:blood_donation/widgets/customTextfield.dart';
+import 'package:Life_Connect/Providers/authProvider.dart';
+import 'package:Life_Connect/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
+import 'package:Life_Connect/widgets/customCheckbox.dart';
+import 'package:Life_Connect/widgets/customDropdown.dart';
+import 'package:Life_Connect/widgets/customIdProof.dart';
+import 'package:Life_Connect/widgets/customMultiSelect.dart';
+import 'package:Life_Connect/widgets/customTextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -31,8 +31,8 @@ class UserProfile extends StatelessWidget {
           width: 100.w,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                'https://c1.wallpaperflare.com/preview/910/704/36/guardian-angel-doctor-health-angel.jpg',
+              image: AssetImage(
+                'assets/bg_nurse2.jpg',
               ),
               fit: BoxFit.cover,
               opacity: 0.3,

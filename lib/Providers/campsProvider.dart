@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:blood_donation/Providers/authProvider.dart';
 import 'package:http/http.dart' as http;
-import 'package:blood_donation/Models/campsModel.dart';
+import 'package:Life_Connect/Models/campsModel.dart';
 import 'package:flutter/material.dart';
 
 class Campsprovider extends ChangeNotifier {

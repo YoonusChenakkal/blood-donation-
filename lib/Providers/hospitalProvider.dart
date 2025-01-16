@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:blood_donation/Models/hospitalModel.dart';
+import 'package:Life_Connect/Models/hospitalModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

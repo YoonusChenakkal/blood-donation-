@@ -1,6 +1,6 @@
-import 'package:blood_donation/Providers/certificateProvider.dart';
-import 'package:blood_donation/widgets/certificatePreview.dart';
-import 'package:blood_donation/widgets/customButton.dart';
+import 'package:Life_Connect/Providers/certificateProvider.dart';
+import 'package:Life_Connect/widgets/certificatePreview.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:signature/signature.dart';
 import 'package:flutter/material.dart';

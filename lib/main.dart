@@ -1,27 +1,26 @@
 import 'dart:async';
-import 'package:blood_donation/Providers/authProvider.dart';
-import 'package:blood_donation/Providers/campsProvider.dart';
-import 'package:blood_donation/Providers/certificateProvider.dart';
-import 'package:blood_donation/Providers/chatsProvider.dart';
-import 'package:blood_donation/Providers/donorCountProvider.dart';
-import 'package:blood_donation/Providers/hospitalProvider.dart';
-import 'package:blood_donation/Providers/tabIndexNotifier.dart';
-import 'package:blood_donation/Providers/userProfileProvider.dart';
-import 'package:blood_donation/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
-import 'package:blood_donation/Screens/CampDetails.dart';
-import 'package:blood_donation/Screens/Splash%20Screen/splashScreen.dart';
-import 'package:blood_donation/Screens/certificateDetails.dart';
-import 'package:blood_donation/Screens/certificatePage.dart';
-import 'package:blood_donation/Screens/chat.dart';
-import 'package:blood_donation/Screens/home.dart';
-import 'package:blood_donation/Screens/login.dart';
-import 'package:blood_donation/Screens/profile.dart';
-import 'package:blood_donation/Screens/register.dart';
-import 'package:blood_donation/Screens/hospitalChat.dart';
-import 'package:blood_donation/Screens/userProfileEdit.dart';
-import 'package:blood_donation/Screens/userProfileRegister.dart';
-import 'package:blood_donation/Screens/welcomePage.dart';
-import 'package:blood_donation/Services/authService.dart';
+import 'package:Life_Connect/Providers/authProvider.dart';
+import 'package:Life_Connect/Providers/campsProvider.dart';
+import 'package:Life_Connect/Providers/certificateProvider.dart';
+import 'package:Life_Connect/Providers/chatsProvider.dart';
+import 'package:Life_Connect/Providers/donorCountProvider.dart';
+import 'package:Life_Connect/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/Providers/tabIndexNotifier.dart';
+import 'package:Life_Connect/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
+import 'package:Life_Connect/Screens/CampDetails.dart';
+import 'package:Life_Connect/Screens/Splash%20Screen/splashScreen.dart';
+import 'package:Life_Connect/Screens/certificatePage.dart';
+import 'package:Life_Connect/Screens/chat.dart';
+import 'package:Life_Connect/Screens/home.dart';
+import 'package:Life_Connect/Screens/login.dart';
+import 'package:Life_Connect/Screens/profile.dart';
+import 'package:Life_Connect/Screens/register.dart';
+import 'package:Life_Connect/Screens/hospitalChat.dart';
+import 'package:Life_Connect/Screens/userProfileEdit.dart';
+import 'package:Life_Connect/Screens/userProfileRegister.dart';
+import 'package:Life_Connect/Screens/welcomePage.dart';
+import 'package:Life_Connect/Services/authService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -81,7 +80,6 @@ class MainApp extends StatelessWidget {
         '/hospitalChat': (context) => const HospitalChat(),
         '/profile': (context) => const ProfilePage(),
         '/bottomNavigationBar': (context) => const CustomBottomNavigationBar(),
-        '/certificateDetails': (context) => const CertificateDetails(),
         '/userProfile': (context) => const UserProfile(),
         '/certificatePage': (context) => const CertificatePage(),
         '/campDetails': (context) => const CampDetails(),
@@ -109,8 +107,6 @@ class MainApp extends StatelessWidget {
                   '/profile': (context) => const ProfilePage(),
                   '/bottomNavigationBar': (context) =>
                       const CustomBottomNavigationBar(),
-                  '/certificateDetails': (context) =>
-                      const CertificateDetails(),
                   '/userProfile': (context) => const UserProfile(),
                   '/certificatePage': (context) => const CertificatePage(),
                   '/campDetails': (context) => const CampDetails(),

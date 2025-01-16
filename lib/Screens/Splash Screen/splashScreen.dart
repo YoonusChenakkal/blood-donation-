@@ -1,4 +1,3 @@
-import 'package:blood_donation/Screens/userProfileRegister.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -40,15 +39,45 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: Colors.white,
       body: FadeTransition(
         opacity: _animation,
-        child: Center(
-            child: Text(
-         'Life Connect',
-          style: GoogleFonts.novaSquare(
-            fontSize: 26.sp,
-            fontWeight: FontWeight.w700,
-            color: const Color.fromARGB(255, 236, 26, 11),
+        child: SizedBox(
+          height: 100.h,
+          width: 100.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/iconbg.png',
+                height: 20.h,
+                width: 20.h,
+              ),
+              SizedBox(
+                height: 1.h,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: 'Life ', // "Life" part
+                  style: GoogleFonts.cairoPlay(
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black, // Black color for "Life"
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Connect', // "Connect" part
+                      style: GoogleFonts.novaSquare(
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color.fromARGB(
+                            255, 236, 26, 11), // Red color for "Connect"
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        )),
+        ),
       ),
     );
   }

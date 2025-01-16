@@ -1,6 +1,6 @@
-import 'package:blood_donation/Providers/campsProvider.dart';
-import 'package:blood_donation/widgets/campCard.dart';
-import 'package:blood_donation/widgets/customButton.dart';
+import 'package:Life_Connect/Providers/campsProvider.dart';
+import 'package:Life_Connect/widgets/campCard.dart';
+import 'package:Life_Connect/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

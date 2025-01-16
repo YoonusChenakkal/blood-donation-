@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:blood_donation/Providers/authProvider.dart';
-import 'package:blood_donation/Providers/campsProvider.dart';
-import 'package:blood_donation/Providers/certificateProvider.dart';
-import 'package:blood_donation/Providers/donorCountProvider.dart';
-import 'package:blood_donation/Providers/hospitalProvider.dart';
-import 'package:blood_donation/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/Providers/authProvider.dart';
+import 'package:Life_Connect/Providers/campsProvider.dart';
+import 'package:Life_Connect/Providers/certificateProvider.dart';
+import 'package:Life_Connect/Providers/donorCountProvider.dart';
+import 'package:Life_Connect/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/Providers/userProfileProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

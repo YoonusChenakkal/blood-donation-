@@ -1,4 +1,4 @@
-import 'package:blood_donation/Providers/certificateProvider.dart';
+import 'package:Life_Connect/Providers/certificateProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

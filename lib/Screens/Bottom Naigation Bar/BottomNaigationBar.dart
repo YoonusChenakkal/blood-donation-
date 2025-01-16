@@ -1,9 +1,9 @@
-import 'package:blood_donation/Providers/tabIndexNotifier.dart';
-import 'package:blood_donation/Screens/certificatePage.dart';
-import 'package:blood_donation/Screens/chat.dart';
-import 'package:blood_donation/Screens/home.dart';
-import 'package:blood_donation/Screens/profile.dart';
-import 'package:blood_donation/Screens/scheduledCamps.dart';
+import 'package:Life_Connect/Providers/tabIndexNotifier.dart';
+import 'package:Life_Connect/Screens/certificatePage.dart';
+import 'package:Life_Connect/Screens/chat.dart';
+import 'package:Life_Connect/Screens/home.dart';
+import 'package:Life_Connect/Screens/profile.dart';
+import 'package:Life_Connect/Screens/scheduledCamps.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
