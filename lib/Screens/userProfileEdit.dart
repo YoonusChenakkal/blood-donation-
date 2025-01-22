@@ -89,6 +89,7 @@ class UserProfileEdit extends StatelessWidget {
                     ),
                     CustomTextfield(
                       hintText: userProfileProvider.phone ?? 'Phone',
+                      maxLength: 10,
                       keyboardType: TextInputType.number,
                       icon: Icons.phone_in_talk_outlined,
                       onChanged: (value) {
@@ -164,6 +165,12 @@ class UserProfileEdit extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Select organs')),
                           );
+                        } else if ((userProfileProvider.editedPhone != null &&
+                                userProfileProvider.editedPhone!.isNotEmpty) &&
+                            userProfileProvider.editedPhone!.length < 10) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Number must be 10 digits')));
                         } else {
                           // Proceed with Register User Profile
                           userProfileProvider.updateUserProfile(

@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextfield extends StatelessWidget {
-  double height;
-  double width;
-  int? maxLines;
-  int? minLines;
-  bool enabled;
-  String hintText;
-  IconData icon;
-  TextInputType keyboardType;
-  TextEditingController? tc;
-  Function(String) onChanged;
-  CustomTextfield(
+  final double height;
+  final double width;
+  final int? maxLines;
+  final int? minLines;
+  final int? maxLength;
+  final bool enabled;
+  final String hintText;
+  final IconData icon;
+  final TextInputType keyboardType;
+  final TextEditingController? tc;
+  final Function(String) onChanged;
+  const CustomTextfield(
       {super.key,
       this.height = 6,
       this.width = 85,
       this.minLines = null,
       this.maxLines = 1,
       this.hintText = '',
+      this.maxLength,
       this.tc,
       this.enabled = true,
       required this.icon,
@@ -43,6 +45,7 @@ class CustomTextfield extends StatelessWidget {
         onChanged: onChanged,
         maxLines: maxLines,
         minLines: minLines,
+        maxLength :maxLength,
         style: TextStyle(fontSize: 17.sp),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(

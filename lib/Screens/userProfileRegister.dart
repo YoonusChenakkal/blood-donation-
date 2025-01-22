@@ -17,7 +17,6 @@ class UserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
-
     return PopScope(
       onPopInvoked: (did) async {
         // Prevent back navigation
@@ -61,7 +60,8 @@ class UserProfile extends StatelessWidget {
                 // Name Textfield
                 CustomTextfield(
                   enabled: false,
-                  hintText: authProvider.name ?? 'Name',
+                  hintText:
+                      authProvider.name ?? userProfileProvider.name ?? 'Name',
                   keyboardType: TextInputType.name,
                   icon: Icons.person_2_outlined,
                   onChanged: (value) {
@@ -86,6 +86,7 @@ class UserProfile extends StatelessWidget {
                   hintText: 'Phone',
                   keyboardType: TextInputType.number,
                   icon: Icons.phone_in_talk_outlined,
+                  maxLength: 10,
                   onChanged: (value) {
                     userProfileProvider.phone = value.trim();
                   },
@@ -94,8 +95,14 @@ class UserProfile extends StatelessWidget {
 
                 // Blood Group Dropdown
                 Customdropdown(
-                  enabled: false,
+                  enabled: userProfileProvider.bloodGroup == null ||
+                          userProfileProvider.bloodGroup!.isEmpty
+                      ? true
+                      : false,
                   hintText: authProvider.bloodGroup ?? 'Blood Group',
+                  onChanged: (value) {
+                    authProvider.bloodGroup = value;
+                  },
                 ),
                 SizedBox(height: 1.3.h),
 
@@ -161,6 +168,9 @@ class UserProfile extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Select organs')),
                       );
+                    } else if (userProfileProvider.phone!.length < 10) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Number must be 10 digits')));
                     } else {
                       userProfileProvider.registerUserPofile(
                         context,

@@ -47,17 +47,9 @@ class HospitalChat extends StatelessWidget {
                 Text(
                   hospital.name,
                   style: GoogleFonts.actor(
-                    fontSize: 17.sp,
+                    fontSize: 19.5.sp,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                  ),
-                ),
-                Text(
-                  '3 weeks ago',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
@@ -85,12 +77,14 @@ class HospitalChat extends StatelessWidget {
         width: 100.w,
         child: Column(
           children: [
-        
             Expanded(
               child: Consumer<ChatsProvider>(
                 builder: (context, chatProvider, _) {
                   if (chatProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator(color: Colors.red,));
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.red,
+                    ));
                   }
 
                   if (chatProvider.errorMessage != null) {
@@ -104,65 +98,78 @@ class HospitalChat extends StatelessWidget {
                   }
 
                   if (chatProvider.chats.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'No Chat Available',
-                        style: TextStyle(fontSize: 17.sp),
-                      ),
+                    return Column(
+                      children: [
+                        _chatHeaderText(),
+                        SizedBox(
+                          height: 23.h,
+                        ),
+                        Text(
+                          'No Chat Available',
+                          style: TextStyle(fontSize: 17.sp),
+                        ),
+                      ],
                     );
                   }
 
                   return ListView.builder(
-                    itemCount: chatProvider.chats.length,
+                    itemCount: chatProvider.chats.length + 1,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _chatHeaderText();
                       }
+                      if (index == 0) {
+                        // Return the header for the first item
+                        return _chatHeaderText();
+                      } // Adjust index to account for the header
+                      final chatIndex = index - 1;
                       chatProvider.chats
                           .sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
-                      final chat = chatProvider.chats[index];
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: chat.senderType == 'hospital'
-                                ? const EdgeInsets.only(left: 15)
-                                : const EdgeInsets.only(right: 15),
-                            child: Row(
-                              mainAxisAlignment: chat.senderType == 'hospital'
-                                  ? MainAxisAlignment.start
-                                  : MainAxisAlignment.end,
-                              children: [
-                                const CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg',
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onLongPress: () {},
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                        maxWidth: 75.w, minWidth: 13.w),
-                                    margin: const EdgeInsets.all(4),
-                                    padding: const EdgeInsets.all(9),
-                                    decoration: BoxDecoration(
-                                      color: chat.senderType == 'hospital'
-                                          ? Colors.red[50]
-                                          : Colors.blue[50],
-                                      borderRadius: BorderRadius.circular(22),
-                                    ),
-                                    child: Text(
-                                      chat.content,
-                                      style:
-                                          GoogleFonts.roboto(fontSize: 15.5.sp),
+                      if (chatIndex < chatProvider.chats.length) {
+                        final chat = chatProvider.chats[chatIndex];
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: chat.senderType == 'hospital'
+                                  ? const EdgeInsets.only(left: 15)
+                                  : const EdgeInsets.only(right: 15),
+                              child: Row(
+                                mainAxisAlignment: chat.senderType == 'hospital'
+                                    ? MainAxisAlignment.start
+                                    : MainAxisAlignment.end,
+                                children: [
+                                  const CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      'https://c1.wallpaperflare.com/preview/811/653/259/hospital-emergency-entrance-architecture-building-doctor.jpg',
                                     ),
                                   ),
-                                ),
-                              ],
+                                  GestureDetector(
+                                    onLongPress: () {},
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: 75.w, minWidth: 13.w),
+                                      margin: const EdgeInsets.all(4),
+                                      padding: const EdgeInsets.all(9),
+                                      decoration: BoxDecoration(
+                                        color: chat.senderType == 'hospital'
+                                            ? Colors.red[50]
+                                            : Colors.blue[50],
+                                        borderRadius: BorderRadius.circular(22),
+                                      ),
+                                      child: Text(
+                                        chat.content,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 15.5.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
+                          ],
+                        );
+                      }
                     },
                   );
                 },

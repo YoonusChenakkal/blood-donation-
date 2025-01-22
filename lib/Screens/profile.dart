@@ -49,13 +49,17 @@ class ProfilePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
-                      onPressed: () => Navigator.pushNamed(
-                          context,
-                          userProfileProvider.profileData['id'] == null ||
-                                  userProfileProvider.profileData['email'] ==
-                                      null
-                              ? '/userProfile'
-                              : '/userProfileEdit'),
+                      onPressed: userProfileProvider.profileData['id'] ==
+                                  null ||
+                              userProfileProvider.profileData['email'] == null
+                          ? () async {
+                           await   userProfileProvider.reset();
+                             await userProfileProvider.fetchUserName();
+                              Navigator.pushNamed(context, '/userProfile');
+                            }
+                          : () {
+                              Navigator.pushNamed(context, '/userProfileEdit');
+                            },
                       icon: Icon(
                         Icons.edit_outlined,
                         size: 23.sp,
@@ -412,11 +416,9 @@ class ProfilePage extends StatelessWidget {
     Provider.of<Campsprovider>(context, listen: false).camp.clear();
     await Provider.of<CertificateProvider>(context, listen: false).reset();
     await Provider.of<TabIndexNotifier>(context, listen: false).reset();
-    
 
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('username');
-
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/welcomePage',

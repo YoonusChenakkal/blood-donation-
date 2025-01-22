@@ -104,9 +104,16 @@ class UserProfileProvider extends ChangeNotifier {
   }
 
   reset() {
+    name = null;
+    bloodGroup = null;
     address = null;
     idProofImage = null;
     phone = null;
+    profileData = {};
+    isBloodChecked = false;
+    isOrganChecked = false;
+    organsToDonate = [];
+    _profileImage = null;
   }
 
   resetEdited() {
@@ -115,17 +122,23 @@ class UserProfileProvider extends ChangeNotifier {
     editedBloodGroup = null;
   }
 
+  fetchUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    name = prefs.getString('username');
+    notifyListeners();
+  }
+
   fetchUserProfile() async {
     isLoading = true;
     final prefs = await SharedPreferences.getInstance();
-    final _name = prefs.getString('username');
+    name = prefs.getString('username');
 
     notifyListeners();
 
     try {
       final response = await http.get(
         Uri.parse(
-            'https://lifeproject.pythonanywhere.com/donor/profiles/?user=${_name}'),
+            'https://lifeproject.pythonanywhere.com/donor/profiles/?user=${name}'),
       );
       print("Response Status Code: ${response.statusCode}");
       print("Response Body: ${response.body}");
@@ -177,6 +190,7 @@ class UserProfileProvider extends ChangeNotifier {
   registerUserPofile(BuildContext ctx, String? address, String? phone,
       File? idProofImage, List<String>? organsToDonate) async {
     final authProvider = Provider.of<AuthProvider>(ctx, listen: false);
+    fetchUserName();
     final url =
         Uri.parse('https://lifeproject.pythonanywhere.com/donor/user-profile/');
 
@@ -188,7 +202,7 @@ class UserProfileProvider extends ChangeNotifier {
       var request = http.MultipartRequest('POST', url);
 
       // Add form fields
-      request.fields['user'] = authProvider.name ?? '';
+      request.fields['user'] = authProvider.name ?? name ?? '';
       request.fields['contact_number'] = phone ?? '';
       request.fields['address'] = address ?? '';
       request.fields['blood_group'] = authProvider.bloodGroup ?? '';
@@ -212,6 +226,10 @@ class UserProfileProvider extends ChangeNotifier {
       // Send the request
       var response = await request.send();
       final responseString = await response.stream.bytesToString();
+      print(response.statusCode);
+      print(response);
+
+      print(responseString);
 
       // Check if the request was successful
       if (response.statusCode == 201) {
@@ -244,7 +262,7 @@ class UserProfileProvider extends ChangeNotifier {
 
         ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
           content: Text(errorMessage),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ));
       }
     } catch (e) {
@@ -363,9 +381,15 @@ class UserProfileProvider extends ChangeNotifier {
 
       // Add form fields
       request.fields['user'] = name ?? '';
-      if (phone != null) request.fields['contact_number'] = phone.toString();
-      if (address != null) request.fields['address'] = address;
-      if (bloodGroup != null) request.fields['blood_group'] = bloodGroup;
+      if (phone != null && phone.isNotEmpty) {
+        request.fields['contact_number'] = phone.toString();
+      }
+      if (address != null && address.isNotEmpty) {
+        request.fields['address'] = address;
+      }
+      if (bloodGroup != null && bloodGroup.isNotEmpty) {
+        request.fields['blood_group'] = bloodGroup;
+      }
       if (organsToDonate.isNotEmpty) {
         request.fields['organs_to_donate'] = jsonEncode(organsToDonate);
       }
@@ -373,13 +397,6 @@ class UserProfileProvider extends ChangeNotifier {
           isBloodChecked ? 'true' : 'false';
       request.fields['willing_to_donate_organ'] =
           isOrganChecked ? 'true' : 'false';
-      print('id: $id');
-      print(name);
-      print('addrss $address');
-      print("phone :$phone");
-      print('Willing to BLood : $isBloodChecked');
-      print('wiilimg to Organ:  $isOrganChecked');
-      print('Blood Group :$bloodGroup');
 
       // If there is an image, add it to the request
       if (idProofImage != null) {
