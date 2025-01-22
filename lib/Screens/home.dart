@@ -1,14 +1,17 @@
 import 'package:Life_Connect/Providers/campsProvider.dart';
 import 'package:Life_Connect/Providers/donorCountProvider.dart';
 import 'package:Life_Connect/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/Providers/tabIndexNotifier.dart';
 import 'package:Life_Connect/Providers/userProfileProvider.dart';
 import 'package:Life_Connect/widgets/customBanner.dart';
 import 'package:Life_Connect/widgets/customCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -24,6 +27,7 @@ class HomePage extends StatelessWidget {
     final donorCountProvider = Provider.of<DonorCountProvider>(context);
     final hospitaProvider = Provider.of<HospitalProvider>(context);
     final campProvider = Provider.of<Campsprovider>(context);
+    final tabIndexProvider = Provider.of<TabIndexNotifier>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -103,7 +107,7 @@ class HomePage extends StatelessWidget {
                 title2: 'Make them happy',
                 textColor: Colors.white,
                 buttonText: 'View',
-                onPressed: () {},
+                onPressed: () => showDonationDialog(context),
                 imageUrl: 'assets/bg_surgery.jpg',
               ),
               SizedBox(height: 2.h),
@@ -162,12 +166,16 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               CustomBanner(
-                title1: 'Marry Hospital',
-                title2:
-                    'Your Donation Date has Scheduled We will inform you soon',
+                title1: campProvider.camp.isNotEmpty
+                    ? DateFormat('MMMM dd')
+                        .format(campProvider.camp.last.date ?? DateTime.now())
+                    : 'No Recent Camp',
+                title2: campProvider.camp.isNotEmpty
+                    ? '${campProvider.camp.last.description.toString()}\nLocation : ${campProvider.camp.last.location.toString()}'
+                    : 'There are no recent camps available at the moment.',
                 buttonText: 'View',
                 textColor: Colors.black,
-                onPressed: () {},
+                onPressed: () => tabIndexProvider.setIndex(1),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -187,16 +195,164 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               CustomBanner(
-                title1: 'Scheduled Donations',
-                title2: 'Your Donation Has Sheduled\nWe wil inform you soon',
+                title1: 'Graphical Analystics',
+                title2: 'Analytics of Donors and Hospitals',
+                textColor: Colors.white,
                 buttonText: 'View',
-                textColor: Colors.black,
-                onPressed: () {},
+                onPressed: () {
+                  showPieChart(context, donorCountProvider, hospitaProvider);
+                },
+                imageUrl: 'assets/bg_graph.jpg',
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  showPieChart(BuildContext context, DonorCountProvider donorCountProvider,
+      HospitalProvider hospitalProvider) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final donorCount =
+            double.tryParse(donorCountProvider.donorCount!) ?? 0.0;
+        final hospitalCount = hospitalProvider.hospitals.length.toDouble();
+        final total = hospitalCount + donorCount;
+
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(8),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Donor and Hospital Ratio',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              SizedBox(
+                height: 20.h,
+                width: 60.w,
+                child: SfCircularChart(
+                  series: <PieSeries>[
+                    PieSeries<dynamic, String>(
+                      dataSource: [
+                        {'category': 'Hospitals', 'value': hospitalCount},
+                        {'category': 'Donors', 'value': donorCount},
+                      ],
+                      xValueMapper: (data, _) => data['category'] as String,
+                      yValueMapper: (data, _) => data['value'] as double,
+                      dataLabelMapper: (data, _) =>
+                          '${((data['value'] as double) / total * 100).toStringAsFixed(1)}%',
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      pointColorMapper: (data, _) {
+                        if (data['category'] == 'Hospitals') {
+                          return Colors.redAccent;
+                        } else {
+                          return Colors.blueAccent;
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 2.w,
+                        height: 2.w,
+                        color: Colors.redAccent,
+                      ),
+                      SizedBox(width: 2.w),
+                      Text(
+                        'Hospitals',
+                        style: TextStyle(fontSize: 12.sp),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 2.w,
+                        height: 2.w,
+                        color: Colors.blueAccent,
+                      ),
+                      SizedBox(width: 2.w),
+                      Text(
+                        'Donors',
+                        style: TextStyle(fontSize: 12.sp),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  showDonationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: Container(
+            padding: EdgeInsets.all(4.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Donate If You Can Save One Life',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  'Every donation can change a life! You have the power to save lives and make a positive impact on the community. Every drop counts!',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 2.h),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+                  ),
+                  child: Text(
+                    'Close',
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

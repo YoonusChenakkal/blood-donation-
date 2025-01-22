@@ -1,4 +1,4 @@
-import 'package:Life_Connect/Models/campsModel.dart';
+import 'package:Life_Connect/Models/campModel.dart';
 import 'package:Life_Connect/Providers/campsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
