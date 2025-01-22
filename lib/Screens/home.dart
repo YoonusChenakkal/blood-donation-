@@ -157,7 +157,7 @@ class HomePage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'New Message',
+                    'Recent Camp',
                     style: TextStyle(
                       fontSize: 13.4.sp,
                       fontWeight: FontWeight.bold,
@@ -167,15 +167,14 @@ class HomePage extends StatelessWidget {
               ),
               CustomBanner(
                 title1: campProvider.camp.isNotEmpty
-                    ? DateFormat('MMMM dd')
-                        .format(campProvider.camp.last.date ?? DateTime.now())
+                    ? campProvider.camp.last.hospital.toString()
                     : 'No Recent Camp',
                 title2: campProvider.camp.isNotEmpty
-                    ? '${campProvider.camp.last.description.toString()}\nLocation : ${campProvider.camp.last.location.toString()}'
+                    ? '${DateFormat('MMMM dd').format(campProvider.camp.last.date ?? DateTime.now())}\nLocation : ${campProvider.camp.last.location.toString()}'
                     : 'There are no recent camps available at the moment.',
                 buttonText: 'View',
                 textColor: Colors.black,
-                onPressed: () => tabIndexProvider.setIndex(1),
+                onPressed: () => tabIndexProvider.setIndex(2),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -186,7 +185,7 @@ class HomePage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Certificate',
+                    'Graphical Analytics',
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
