@@ -25,33 +25,40 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(
-    Sizer(
-      builder: (context, orientation, deviceType) {
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => AuthProvider()),
-            ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
-            ChangeNotifierProvider(
-                create: (_) => UserProfileProvider()..fetchUserProfile()),
-            ChangeNotifierProvider(create: (_) => ChatsProvider()),
-            ChangeNotifierProvider(
-                create: (_) => CertificateProvider()..fetchCertificate()),
-            ChangeNotifierProvider(
-                create: (_) => HospitalProvider()..fetchHospitals()),
-            ChangeNotifierProvider(
-                create: (_) => DonorCountProvider()..loadDonorCount()),
-            ChangeNotifierProvider(
-                create: (_) => Campsprovider()..fetchCamps(context)),
-            Provider(create: (_) => AuthService()),
-          ],
-          child: const MainApp(), // Wrap the MainApp with Sizer
-        );
-      },
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  // Lock orientation to portrait
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      Sizer(
+        builder: (context, orientation, deviceType) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => AuthProvider()),
+              ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
+              ChangeNotifierProvider(
+                  create: (_) => UserProfileProvider()..fetchUserProfile()),
+              ChangeNotifierProvider(create: (_) => ChatsProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => CertificateProvider()..fetchCertificate()),
+              ChangeNotifierProvider(
+                  create: (_) => HospitalProvider()..fetchHospitals()),
+              ChangeNotifierProvider(
+                  create: (_) => DonorCountProvider()..loadDonorCount()),
+              ChangeNotifierProvider(
+                  create: (_) => Campsprovider()..fetchCamps(context)),
+              Provider(create: (_) => AuthService()),
+            ],
+            child: const MainApp(),
+          );
+        },
+      ),
+    );
+  });
 }
 
 class MainApp extends StatelessWidget {
