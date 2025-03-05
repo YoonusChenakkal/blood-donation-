@@ -1,30 +1,48 @@
-import 'dart:async';
-import 'package:Life_Connect/Providers/authProvider.dart';
-import 'package:Life_Connect/Providers/campsProvider.dart';
-import 'package:Life_Connect/Providers/certificateProvider.dart';
-import 'package:Life_Connect/Providers/chatsProvider.dart';
-import 'package:Life_Connect/Providers/donorCountProvider.dart';
-import 'package:Life_Connect/Providers/hospitalProvider.dart';
-import 'package:Life_Connect/Providers/tabIndexNotifier.dart';
-import 'package:Life_Connect/Providers/userProfileProvider.dart';
-import 'package:Life_Connect/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
-import 'package:Life_Connect/Screens/CampDetails.dart';
-import 'package:Life_Connect/Screens/Splash%20Screen/splashScreen.dart';
-import 'package:Life_Connect/Screens/certificatePage.dart';
-import 'package:Life_Connect/Screens/chat.dart';
-import 'package:Life_Connect/Screens/home.dart';
-import 'package:Life_Connect/Screens/login.dart';
-import 'package:Life_Connect/Screens/profile.dart';
-import 'package:Life_Connect/Screens/register.dart';
-import 'package:Life_Connect/Screens/hospitalChat.dart';
-import 'package:Life_Connect/Screens/userProfileEdit.dart';
-import 'package:Life_Connect/Screens/userProfileRegister.dart';
-import 'package:Life_Connect/Screens/welcomePage.dart';
-import 'package:Life_Connect/Services/authService.dart';
+import 'package:Life_Connect/Splash%20Screen/splashScreen.dart';
+import 'package:Life_Connect/hospital%20side/Providers/authProvider.dart';
+import 'package:Life_Connect/hospital%20side/Providers/campaignProvider.dart';
+import 'package:Life_Connect/hospital%20side/Providers/chatsProvider.dart';
+import 'package:Life_Connect/hospital%20side/Providers/donorProvider.dart';
+import 'package:Life_Connect/hospital%20side/Providers/hosptalCountProvider.dart';
+import 'package:Life_Connect/hospital%20side/Providers/profileProvider.dart';
+import 'package:Life_Connect/hospital%20side/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
+import 'package:Life_Connect/hospital%20side/Screens/campDetails.dart';
+import 'package:Life_Connect/hospital%20side/Screens/donorChat.dart';
+import 'package:Life_Connect/hospital%20side/Screens/donorDetails.dart';
+import 'package:Life_Connect/hospital%20side/Screens/donorList.dart';
+import 'package:Life_Connect/hospital%20side/Screens/editCampDetails.dart';
+import 'package:Life_Connect/hospital%20side/Screens/editProfileDetails.dart';
+import 'package:Life_Connect/hospital%20side/Screens/home.dart';
+import 'package:Life_Connect/hospital%20side/Screens/login.dart';
+import 'package:Life_Connect/hospital%20side/Screens/profile.dart';
+import 'package:Life_Connect/hospital%20side/Screens/register.dart';
+import 'package:Life_Connect/hospital%20side/Screens/registerCampaign.dart';
+import 'package:Life_Connect/hospital%20side/Screens/shedule.dart';
+import 'package:Life_Connect/hospital%20side/Services/authService.dart';
+import 'package:Life_Connect/user side/Providers/authProvider.dart';
+import 'package:Life_Connect/user side/Providers/campsProvider.dart';
+import 'package:Life_Connect/user side/Providers/certificateProvider.dart';
+import 'package:Life_Connect/user side/Providers/chatsProvider.dart';
+import 'package:Life_Connect/user side/Providers/donorCountProvider.dart';
+import 'package:Life_Connect/user side/Providers/hospitalProvider.dart';
+import 'package:Life_Connect/tabIndexNotifier.dart';
+import 'package:Life_Connect/user side/Providers/userProfileProvider.dart';
+import 'package:Life_Connect/user side/Screens/Bottom%20Naigation%20Bar/BottomNaigationBar.dart';
+import 'package:Life_Connect/user side/Screens/CampDetails.dart';
+import 'package:Life_Connect/user side/Screens/certificatePage.dart';
+import 'package:Life_Connect/user side/Screens/chat.dart';
+import 'package:Life_Connect/user side/Screens/home.dart';
+import 'package:Life_Connect/user side/Screens/login.dart';
+import 'package:Life_Connect/user side/Screens/profile.dart';
+import 'package:Life_Connect/user side/Screens/register.dart';
+import 'package:Life_Connect/user side/Screens/hospitalChat.dart';
+import 'package:Life_Connect/user side/Screens/userProfileEdit.dart';
+import 'package:Life_Connect/user side/Screens/userProfileRegister.dart';
+import 'package:Life_Connect/welcomePage.dart';
+import 'package:Life_Connect/user side/Services/authService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -38,6 +56,7 @@ void main() {
         builder: (context, orientation, deviceType) {
           return MultiProvider(
             providers: [
+              // user Side ----------------->
               ChangeNotifierProvider(create: (_) => AuthProvider()),
               ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
               ChangeNotifierProvider(
@@ -52,6 +71,23 @@ void main() {
               ChangeNotifierProvider(
                   create: (_) => Campsprovider()..fetchCamps(context)),
               Provider(create: (_) => AuthService()),
+
+              // Hospital Side ----------------->
+
+              ChangeNotifierProvider(create: (_) => HospitalAuthProvider()),
+              ChangeNotifierProvider(create: (_) => TabIndexNotifier()),
+              ChangeNotifierProvider(create: (_) => HospitalChatsProvider()),
+              ChangeNotifierProvider(
+                  create: (_) => HospitalCountProvider()..loadHospitalCount()),
+              ChangeNotifierProvider(
+                  create: (_) =>
+                      HospitalProfileProvider()..fetchHospitalProfile()),
+              ChangeNotifierProvider(
+                  create: (_) =>
+                      HospitalCampaignProvider()..fetchCamps(context)),
+              Provider(create: (_) => HospitalAuthService()),
+              ChangeNotifierProvider(
+                  create: (_) => HospitalDonorProvider()..loadDonors()),
             ],
             child: const MainApp(),
           );
@@ -64,20 +100,12 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // Function to check whether uniqueId is present in SharedPreferences
-  Future<String> checkInitialRoute() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? user = prefs.getString('username');
-    // If uniqueId exists, return '/home' (i.e., Bottom Navigation Bar), otherwise '/welcomePage'
-    return user != null && user.isNotEmpty ? '/splashScreen' : '/welcomePage';
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Use FutureBuilder to check if uniqueId exists
-      initialRoute: '/',
+      initialRoute: '/splashScreen',
       routes: {
+        // user Side ----------->
         '/welcomePage': (context) => const WelcomePage(),
         '/splashScreen': (context) => SplashScreen(),
         '/register': (context) => const Register(),
@@ -91,39 +119,22 @@ class MainApp extends StatelessWidget {
         '/certificatePage': (context) => const CertificatePage(),
         '/campDetails': (context) => const CampDetails(),
         '/userProfileEdit': (context) => const UserProfileEdit(),
-      },
-      // Use FutureBuilder to asynchronously set initial route based on uniqueId presence
-      builder: (context, child) {
-        return FutureBuilder<String>(
-          future: checkInitialRoute(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasData) {
-              return MaterialApp(
-                initialRoute: snapshot.data,
-                routes: {
-                  '/welcomePage': (context) => const WelcomePage(),
-                  '/splashScreen': (context) => SplashScreen(),
-                  '/register': (context) => const Register(),
-                  '/login': (context) => const Login(),
-                  '/home': (context) => const HomePage(),
-                  '/chats': (context) => const ChatsPage(),
-                  '/hospitalChat': (context) => const HospitalChat(),
-                  '/profile': (context) => const ProfilePage(),
-                  '/bottomNavigationBar': (context) =>
-                      const CustomBottomNavigationBar(),
-                  '/userProfile': (context) => const UserProfile(),
-                  '/certificatePage': (context) => const CertificatePage(),
-                  '/campDetails': (context) => const CampDetails(),
-                  '/userProfileEdit': (context) => const UserProfileEdit(),
-                },
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        );
+        
+        // hospital Side 
+        '/hospitalBottomBar' : (context)=> const HospitalCustomBottomNavigationBar(),
+        '/hospitalRegister': (context) => const HospitalRegister(),
+        '/hospitalLogin': (context) => const HospitalLogin(),
+        '/hospitalHome': (context) => const HospitalHomePage(),
+        '/hospitalShedule': (context) => const HospitalShedulePage(),
+        '/hospitalDonorChat': (context) => const HospitalDonorChat(),
+        '/hospitalProfile': (context) => const HospitalProfilePage(),
+        '/hospitalDonorList': (context) => const HospitalDonorListPage(),
+        '/hospitalSheduledCamp': (context) => const HospitalRegisterCampaign(),
+        '/hospitalCampDetails': (context) => const HospitalCampDetails(),
+        'hospitalEditCampDetails': (context) => const HospitalEditCampDetails(),
+        '/hospitalEditProfileDetails': (context) => const HospitalEditProfileDetails(),
+        '/hospitalDonorDetails': (context) => const HospitalDonordetails(),
+
       },
     );
   }
