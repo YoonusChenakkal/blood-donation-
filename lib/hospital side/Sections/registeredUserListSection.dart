@@ -21,7 +21,7 @@ class _userRegisteredListSectionState extends State<userRegisteredListSection> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<HospitalCampaignProvider>(context)
+    Provider.of<HospitalCampaignProvider>(context,listen: false)
         .fetchRegistrations(widget.filteredCamp.id, context);
   }
 
