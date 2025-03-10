@@ -104,10 +104,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/splashScreen',
-      routes: {
+      routes: {        '/splashScreen': (context) => SplashScreen(),
+
         // user Side ----------->
         '/welcomePage': (context) => const WelcomePage(),
-        '/splashScreen': (context) => SplashScreen(),
         '/register': (context) => const Register(),
         '/login': (context) => const Login(),
         '/home': (context) => const HomePage(),

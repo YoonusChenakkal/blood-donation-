@@ -1,3 +1,5 @@
+import 'package:Life_Connect/hospital%20side/Models/campRegistrationsModel.dart';
+import 'package:Life_Connect/hospital%20side/Models/campsModel.dart';
 import 'package:Life_Connect/hospital%20side/Providers/campaignProvider.dart';
 import 'package:Life_Connect/hospital%20side/widgets/customButton.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class userRegisteredListSection extends StatelessWidget {
+class userRegisteredListSection extends StatefulWidget {
   const userRegisteredListSection({super.key, required this.filteredCamp});
-  final filteredCamp;
+  final CampsModel filteredCamp;
+
+  @override
+  State<userRegisteredListSection> createState() =>
+      _userRegisteredListSectionState();
+}
+
+class _userRegisteredListSectionState extends State<userRegisteredListSection> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<HospitalCampaignProvider>(context)
+        .fetchRegistrations(widget.filteredCamp.id, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +52,7 @@ class userRegisteredListSection extends StatelessWidget {
                       buttonType: ButtonType.Outlined,
                       isLoading: campsProvider.isLoading,
                       onPressed: () => campsProvider.fetchRegistrations(
-                          filteredCamp.id, context))
+                          widget.filteredCamp.id, context))
                 ],
               ),
             );
@@ -59,7 +75,7 @@ class userRegisteredListSection extends StatelessWidget {
                       buttonType: ButtonType.Outlined,
                       isLoading: campsProvider.isLoading,
                       onPressed: () => campsProvider.fetchRegistrations(
-                          filteredCamp.id, context))
+                          widget.filteredCamp.id, context))
                 ],
               ),
             );
@@ -67,7 +83,8 @@ class userRegisteredListSection extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-              await campsProvider.fetchRegistrations(filteredCamp.id, context);
+              await campsProvider.fetchRegistrations(
+                  widget.filteredCamp.id, context);
             },
             child: Column(
               children: [

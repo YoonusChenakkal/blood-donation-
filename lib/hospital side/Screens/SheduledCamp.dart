@@ -26,7 +26,7 @@ class HospitalScheduledcamps extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.red,
-        onPressed: () => Navigator.pushNamed(context, '/sheduledCamp'),
+        onPressed: () => Navigator.pushNamed(context, '/hospitalSheduledCamp'),
         child: const Icon(
           Icons.add,
           color: Colors.white,

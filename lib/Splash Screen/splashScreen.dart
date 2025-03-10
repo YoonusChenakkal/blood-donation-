@@ -32,21 +32,30 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  checkInitialRoute() async {
-    final prefs = await SharedPreferences.getInstance();
-    final user = prefs.getString('username');
-    final userType = prefs.getString('user_type');
+ checkInitialRoute() async {
+  final prefs = await SharedPreferences.getInstance();
+  final userType = prefs.getString('user_type');
 
-    if (user != null) {
-      if (userType == 'hospital') {
+  if (userType != null) {
+    if (userType == 'hospital') {
+      // Check for hospital-specific entry
+      final hospitalName = prefs.getString('hospitalName');
+      if (hospitalName != null) {
         Navigator.pushReplacementNamed(context, '/hospitalBottomBar');
-      } else {
-        Navigator.pushReplacementNamed(context, '/bottomNavigationBar');
+        return;
       }
     } else {
-      Navigator.pushReplacementNamed(context, '/welcomePage');
+      // Check for user-specific entry
+      final username = prefs.getString('username');
+      if (username != null) {
+        Navigator.pushReplacementNamed(context, '/bottomNavigationBar');
+        return;
+      }
     }
   }
+  // If no valid session found
+  Navigator.pushReplacementNamed(context, '/welcomePage');
+}
 
   @override
   Widget build(BuildContext context) {

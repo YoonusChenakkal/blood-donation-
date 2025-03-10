@@ -31,7 +31,7 @@ class CampCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
-        '/campDetails',
+        '/hospitalCampDetails',
         arguments: filteredCamp,
       ),
       child: Container(
