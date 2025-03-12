@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:Life_Connect/user side/Models/hospitalModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +24,7 @@ class HospitalProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         final data = jsonDecode(response.body);
         hospitals = List<HospitalModel>.from(
             data.map((x) => HospitalModel.fromJson(x)));
@@ -33,6 +35,7 @@ class HospitalProvider extends ChangeNotifier {
             'Failed to load hospitals. Server returned ${response.statusCode}');
       }
     } catch (error) {
+      print(error);
       errorMessage = 'Failed to fetch hospitals: ${error.toString()}';
     } finally {
       _isLoading = false;

@@ -59,14 +59,13 @@ class ChatsPage extends StatelessWidget {
                           style: TextStyle(color: Colors.red, fontSize: 16.sp),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
+                        SizedBox(height: 2.h),
                         CustomButton(
-                            text: 'Refresh',
-                            buttonType: ButtonType.Outlined,
-                            isLoading: hospitalProvider.isLoading,
-                            onPressed: () => hospitalProvider.fetchHospitals())
+                          text: 'Refresh',
+                          buttonType: ButtonType.Outlined,
+                          isLoading: hospitalProvider.isLoading,
+                          onPressed: () => hospitalProvider.fetchHospitals(),
+                        )
                       ],
                     ),
                   );
@@ -81,14 +80,13 @@ class ChatsPage extends StatelessWidget {
                           'No Chat Available',
                           style: TextStyle(fontSize: 17.sp),
                         ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
+                        SizedBox(height: 2.h),
                         CustomButton(
-                            text: 'Refresh',
-                            buttonType: ButtonType.Outlined,
-                            isLoading: hospitalProvider.isLoading,
-                            onPressed: () => hospitalProvider.fetchHospitals())
+                          text: 'Refresh',
+                          buttonType: ButtonType.Outlined,
+                          isLoading: hospitalProvider.isLoading,
+                          onPressed: () => hospitalProvider.fetchHospitals(),
+                        )
                       ],
                     ),
                   );
@@ -103,14 +101,13 @@ class ChatsPage extends StatelessWidget {
                           "No chat match your search.",
                           style: TextStyle(fontSize: 17.sp),
                         ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
+                        SizedBox(height: 2.h),
                         CustomButton(
-                            text: 'Refresh',
-                            buttonType: ButtonType.Outlined,
-                            isLoading: hospitalProvider.isLoading,
-                            onPressed: () => hospitalProvider.fetchHospitals())
+                          text: 'Refresh',
+                          buttonType: ButtonType.Outlined,
+                          isLoading: hospitalProvider.isLoading,
+                          onPressed: () => hospitalProvider.fetchHospitals(),
+                        )
                       ],
                     ),
                   );
@@ -122,14 +119,12 @@ class ChatsPage extends StatelessWidget {
                   },
                   child: ListView.separated(
                     padding: EdgeInsets.only(top: 2.h),
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        indent: 21.w,
-                        color: const Color.fromARGB(255, 179, 179, 179),
-                        thickness: .4,
-                        height: 0,
-                      );
-                    },
+                    separatorBuilder: (context, index) => Divider(
+                      indent: 21.w,
+                      color: const Color.fromARGB(255, 179, 179, 179),
+                      thickness: .4,
+                      height: 0,
+                    ),
                     itemCount: hospitalProvider.filteredhospitals.length,
                     itemBuilder: (context, index) {
                       final hospital =
@@ -137,39 +132,41 @@ class ChatsPage extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 1),
                         child: ListTile(
-                          tileColor: const Color.fromARGB(255, 255, 255, 255),
+                          tileColor: Colors.white,
                           leading: Container(
                             height: 13.w,
                             width: 13.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: hospital.image != null
-                                    ? NetworkImage(
-                                        hospital.image!,
-                                      )
-                                    : const AssetImage(
-                                        'assets/hospital.png',
-                                      ),
+                                image: hospital.image?.isNotEmpty == true
+                                    ? NetworkImage(hospital.image!)
+                                    : const AssetImage('assets/hospital.png')
+                                        as ImageProvider,
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           title: Text(
-                            hospital.name,
+                            hospital.name ?? 'Unknown Hospital',
                             style: GoogleFonts.actor(
                                 fontSize: 17.sp, fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
-                            DateFormat('dd-MM-yyyy').format(hospital.createdAt),
+                            hospital.createdAt != null
+                                ? DateFormat('dd-MM-yyyy')
+                                    .format(hospital.createdAt!)
+                                : 'Date Not Available',
                             style: TextStyle(
                                 fontSize: 15.sp, fontWeight: FontWeight.w400),
                           ),
                           onTap: () {
-                            Provider.of<ChatsProvider>(context, listen: false)
-                                .fetchChats(hospital.id);
-                            Navigator.pushNamed(context, '/hospitalChat',
-                                arguments: hospital);
+                            if (hospital.id != null) {
+                              Provider.of<ChatsProvider>(context, listen: false)
+                                  .fetchChats(hospital.id!);
+                              Navigator.pushNamed(context, '/hospitalChat',
+                                  arguments: hospital);
+                            }
                           },
                         ),
                       );

@@ -49,8 +49,9 @@ class HospitalAuthService {
         );
       } else if (response.statusCode == 400) {
         final data = jsonDecode(response.body);
-        String errorMessage =
-            data['email']?.first ?? data['contact_number']?.first;
+        String errorMessage = data['name']?.first ??
+            data['email']?.first ??
+            data['contact_number']?.first;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(errorMessage),
           duration: const Duration(seconds: 2),

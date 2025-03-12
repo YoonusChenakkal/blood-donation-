@@ -5,12 +5,12 @@ class HospitalModel {
   final String contactNumber;
   final String address;
   final String? otp;
-  final DateTime otpGeneratedAt;
+  final DateTime? otpGeneratedAt;
   final bool isVerified;
   final bool isActive;
   final bool isStaff;
   final DateTime createdAt;
-  final String? image; // Added image field (nullable)
+  final String image;
 
   HospitalModel({
     required this.id,
@@ -19,12 +19,12 @@ class HospitalModel {
     required this.contactNumber,
     required this.address,
     this.otp,
-    required this.otpGeneratedAt,
+    this.otpGeneratedAt,
     required this.isVerified,
     required this.isActive,
     required this.isStaff,
     required this.createdAt,
-    this.image, // Initialize the image field
+    this.image = '', // Default empty string for null images
   });
 
   // Factory method to create a HospitalModel from JSON
@@ -36,16 +36,18 @@ class HospitalModel {
       contactNumber: json['contact_number'] as String,
       address: json['address'] as String,
       otp: json['otp'] as String?,
-      otpGeneratedAt: DateTime.parse(json['otp_generated_at'] as String),
+      otpGeneratedAt: json['otp_generated_at'] != null
+          ? DateTime.tryParse(json['otp_generated_at'] as String)
+          : null,
       isVerified: json['is_verified'] as bool,
       isActive: json['is_active'] as bool,
       isStaff: json['is_staff'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
-      image: json['image'] as String?, // Parse the image field
+      image: json['image'] ?? '', // Handle null images properly
     );
   }
 
-  // Method to convert a HospitalModel instance to JSON
+  // Convert a HospitalModel instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -54,12 +56,12 @@ class HospitalModel {
       'contact_number': contactNumber,
       'address': address,
       'otp': otp,
-      'otp_generated_at': otpGeneratedAt.toIso8601String(),
+      'otp_generated_at': otpGeneratedAt?.toIso8601String(),
       'is_verified': isVerified,
       'is_active': isActive,
       'is_staff': isStaff,
       'created_at': createdAt.toIso8601String(),
-      'image': image, // Include the image field
+      'image': image.isNotEmpty ? image : null, // Avoid sending empty strings
     };
   }
 }
